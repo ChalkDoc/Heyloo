@@ -117,7 +117,7 @@ export class HostComponent {
   }
 
   thirtySeconds(){
-    this.time = 2;
+    this.time = 30;
     var interval = setInterval(data => {
       // console.log(this.time);
       if(this.time != 0){

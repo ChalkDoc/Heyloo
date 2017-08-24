@@ -29,7 +29,7 @@
   font-size: 30px;
 }
 
-#timer {
+.timer {
   font-family: 'Bowlby One', cursive;
   font-size: 30px;
 }
@@ -64,4 +64,9 @@
 
 .players {
   font-size: 18px;
+}
+
+.room-code {
+  font-family: 'Acme', sans-serif;
+  text-align: right;
 }

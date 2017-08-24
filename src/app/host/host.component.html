@@ -1,5 +1,10 @@
 <html class='host'>
 	<div class="container host">
+
+		<div class='room-code' *ngIf='currentGame'>
+			<h3>Room Code: {{currentGame?.id}}</h3>
+		</div>
+
 		<div class="row starting" *ngIf="currentGame?.game_state == 'starting' ">
 			<div class="jumbotron">
 				<h1><span class="heyloo">Heyloo!</span></h1>
@@ -37,6 +42,9 @@
 					{{currentQuestion?.prompt}}
 				</div>
 			</div>
+			<div class="col-md-12">
+				<span class='timer'>{{time}}</span>
+			</div>
 			<button class="btn" type="button" (click)='gameStateLeaderboard()'>Skip question</button>
 		</div>
 
@@ -57,7 +65,7 @@
 				</div>
 			</div>
 			<div class="col-md-12">
-				<span id='timer'>{{time}}</span>
+				<span class='timer'>{{time}}</span>
 			</div>
 				<div class="row">
 					<div class="col-md-6" id="answer1">
