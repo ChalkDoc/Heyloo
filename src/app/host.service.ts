@@ -34,7 +34,11 @@ export class HostService {
         thisGame = this.getGame(this.subGames[i]['$key']);
       }
     }
-    return thisGame;
+    if (thisGame != undefined) {
+      return thisGame;
+    } else {
+      alert('There\'s no game with that code. Please try again!');
+    }
   }
 
   getGameKey(game){

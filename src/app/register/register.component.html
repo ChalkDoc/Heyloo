@@ -7,9 +7,8 @@
       <br>
       <label>Room code:</label>
       <input type="number" #roomcode>
-
       <br>
-      <button type="button" (click)="register(username.value, roomcode.value)">Register</button>
+      <button type="button" (click)="register(username.value, roomcode.value); roomcode.value=''">Register</button>
     </form>
   </div>
 </div>
