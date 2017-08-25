@@ -3,7 +3,7 @@
     <button type="button" (click)="createGame()">Test creating game</button>
     <div class="row" *ngFor="let game of games | async">
       <div>
-        <h5 (click)='startGame(game)'>{{game.id}}</h5>
+        <span (click)='startGame(game)'>{{game.id}}</span>
       </div>
     </div>
   </div>
