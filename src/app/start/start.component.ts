@@ -13,7 +13,7 @@ import { HostService } from '../host.service';
   providers: [HostService]
 })
 export class StartComponent implements OnInit {
-  games:FirebaseListObservable<any[]>;
+  games: FirebaseListObservable<any[]>;
   questions: Question[];
 
   constructor(private router: Router, private hostService: HostService) { }

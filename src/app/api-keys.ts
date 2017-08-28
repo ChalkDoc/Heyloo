@@ -1,8 +1,8 @@
 export var masterFirebaseConfig = {
-  apiKey: "AIzaSyB70Eeu9hMeemsmO5jLmLcXu8XJCLxF62I",
-  authDomain: "heyloo-e0dc9.firebaseapp.com",
-  databaseURL: "https://heyloo-e0dc9.firebaseio.com",
-  projectId: "heyloo-e0dc9",
-  storageBucket: "heyloo-e0dc9.appspot.com",
-  messagingSenderId: "486800379241"
+  apiKey: "AIzaSyBwv4SaqtzgMsGT87pTSQp40ltm8JmZimM",
+  authDomain: "heyloo-ced60.firebaseapp.com",
+  databaseURL: "https://heyloo-ced60.firebaseio.com",
+  projectId: "heyloo-ced60",
+  storageBucket: "heyloo-ced60.appspot.com",
+  messagingSenderId: "99951326333"
 };
