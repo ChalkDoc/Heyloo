@@ -26,6 +26,7 @@ export class StartComponent implements OnInit {
   startGame(clickedGame){
     this.router.navigate(['host', clickedGame.id]);
   }
+
   randomId(){
     return Math.floor(Math.random()*90000) + 10000;
   }

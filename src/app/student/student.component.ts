@@ -66,7 +66,6 @@ export class StudentComponent implements OnInit {
     this.hostService.updatePlayerChoice(this.questions, this.subGame);
     this.endTime = new Date().getTime();
     this.answered = true;
-    // console.log(this.answered, "set answered to true");
     if(answer == this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }

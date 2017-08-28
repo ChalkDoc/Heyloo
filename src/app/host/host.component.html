@@ -3,6 +3,7 @@
 
 		<div class='room-code' *ngIf='currentGame'>
 			<h3>Room Code: {{currentGame?.id}}</h3>
+			<h4>Game State: {{currentGame?.game_state}}</h4>
 		</div>
 
 		<div class="row starting" *ngIf="currentGame?.game_state == 'starting' ">

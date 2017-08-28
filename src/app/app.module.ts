@@ -15,6 +15,7 @@ import { HostService } from './host.service';
 import { StudentService } from './student.service';
 import { BarGraphComponent } from './bar-graph/bar-graph.component';
 import { ChartsModule } from 'ng2-charts';
+import { HomeComponent } from './home/home.component';
 
 export const firebaseConfig = {
   apiKey: masterFirebaseConfig.apiKey,
@@ -30,7 +31,8 @@ export const firebaseConfig = {
     StudentComponent,
     RegisterComponent,
     StartComponent,
-    BarGraphComponent
+    BarGraphComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

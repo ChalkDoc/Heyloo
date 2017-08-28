@@ -65,6 +65,7 @@ export class HostComponent {
     this.hostService.editGameState('countdown', this.currentGame);
     this.fiveSeconds();
   }
+
   gameStatePreQuestion(){
     var substring;
     this.hostService.editGameState('prequestion', this.currentGame);
@@ -89,7 +90,7 @@ export class HostComponent {
   }
 
   fiveSeconds(){
-    this.time = 5;
+    this.time = 3;
     var interval = setInterval(data => {
       if(this.time != 0){
       // console.log(this.time);
@@ -103,7 +104,7 @@ export class HostComponent {
   }
 
   preQuestionCountdown(){
-    this.time = 10;
+    this.time = 3;
     var interval = setInterval(data => {
       if(this.time != 0){
       // console.log(this.time);
@@ -117,7 +118,7 @@ export class HostComponent {
   }
 
   thirtySeconds(){
-    this.time = 2;
+    this.time = 10;
     var interval = setInterval(data => {
       // console.log(this.time);
       if(this.time != 0){
