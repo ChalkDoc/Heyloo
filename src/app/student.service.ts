@@ -41,10 +41,10 @@ export class StudentService {
       // console.log(data);
     })
     if(correct == true){
-      student.update({points: + score, correct: + 1});
+      student.update({points: + score, correct: + 1, questionPoints: score});
     }
     else if(correct == false){
-      student.update({wrong: + 1});
+      student.update({wrong: + 1, questionPoints: score});
     }
   }
 }

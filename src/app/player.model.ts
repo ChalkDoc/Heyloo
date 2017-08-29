@@ -1,6 +1,7 @@
 export class Player {
   public ratio: number = 0;
-  public points: number;
+  public points: number = 0;
+  public questionPoints: number = 0;
   constructor(public name: string, public correct: number, public wrong: number, public id: number){
     if(correct != 0 && wrong != 0){
       this.ratio = (correct/wrong);
@@ -11,6 +12,5 @@ export class Player {
     else {
       this.ratio = 0;
     }
-    this.points = 0;
   }
 }
