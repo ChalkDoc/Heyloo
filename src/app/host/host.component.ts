@@ -51,7 +51,6 @@ export class HostComponent {
         gameKey = data['$key'];
         this.currentQuestion = data['question_list'][data['current_question']];
       })
-      console.log(this.currentGame.player_list)
   }
 
   getPlayerList(gameId: number){

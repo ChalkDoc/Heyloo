@@ -68,16 +68,20 @@ export class StudentComponent implements OnInit {
     this.endTime = new Date().getTime();
     this.answered = true;
     // console.log(this.answered, "set answered to true");
-    //David's code
+
+    //David's code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     console.log(Object.keys(this.subGame.player_list),"inside getStudentAnswer()")
     for(let i=0;i<Object.keys(this.subGame.player_list).length;i++){
-      console.log(this.subGame.player_list[0]);
+      console.log(this.subGame.player_list[Object.keys(this.subGame.player_list).length],"undefined?");
       console.log(this.studentId);
       if(this.subGame.player_list[i].id==this.studentId){
         this.subGame.player_list[i].answered=true;
       }
     }
-    //David's Code
+
+    //David's Code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     if(answer == this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
@@ -87,15 +91,6 @@ export class StudentComponent implements OnInit {
     this.startTime = 0;
     this.endTime = 0;
   }
-
-  // checkAllAnswered(){
-  //   for(let i=0;i<this.studentService.subPlayers.length;i++){
-  //     if(this.studentService.subPlayers){
-  //
-  //     }
-  //   }
-  //
-  // }
 
   scoringAlgorithm(end, start){
     var dif = (end - start) / 1000
