@@ -51,6 +51,7 @@ export class HostComponent {
         gameKey = data['$key'];
         this.currentQuestion = data['question_list'][data['current_question']];
       })
+      console.log(this.currentGame.player_list)
   }
 
   getPlayerList(gameId: number){
@@ -83,6 +84,7 @@ export class HostComponent {
   }
 
   gameStateLeaderboard(){
+    console.log(this)
     this.hostService.nextQuestion(this.currentGame);
     this.getLeaderboard();
     this.hostService.editGameState('leaderboard', this.currentGame);
@@ -103,7 +105,8 @@ export class HostComponent {
   }
 
   preQuestionCountdown(){
-    this.time = 10;
+    // this.time = 10;
+    this.time = 5
     var interval = setInterval(data => {
       if(this.time != 0){
       // console.log(this.time);
@@ -117,10 +120,23 @@ export class HostComponent {
   }
 
   thirtySeconds(){
-    this.time = 2;
+    console.log(this);
+    this.time = 15;
     var interval = setInterval(data => {
       // console.log(this.time);
       if(this.time != 0){
+        //David's code
+        for(let i=0;i<Object.keys(this.currentGame.player_list).length;i++){
+          var counter = 0
+          if(this.currentGame.player_list[i].answered===true){
+            counter += 1
+          }
+          if(counter === Object.keys(this.currentGame.player_list).length){
+            clearInterval(interval);
+            this.gameStateAnswer();
+          }
+        }
+        //David's Code
         this.time --;
       }
       else {

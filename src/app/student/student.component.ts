@@ -23,6 +23,8 @@ export class StudentComponent implements OnInit {
   endTime;
   answered: boolean;
   subStudent;
+  studentId;
+
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
@@ -31,13 +33,13 @@ export class StudentComponent implements OnInit {
     var studentId;
     this.route.params.forEach(urlParameters => {
       this.currentGame = this.hostService.getGameFromCode(urlParameters['roomcode']);
-      studentId = urlParameters['studentid'];
+      this.studentId = urlParameters['studentid'];
     })
     this.currentGame.subscribe(data => {
       currentGameKey = data['$key'];
       this.currentQuestion = data['question_list'][data['current_question']];
     })
-    this.currentStudent = this.studentService.getStudentGameKeyAndId(currentGameKey, studentId);
+    this.currentStudent = this.studentService.getStudentGameKeyAndId(currentGameKey, this.studentId);
     this.questions = this.hostService.getQuestions();
     this.currentGame.subscribe(data => {
       this.subGame = data;
@@ -45,7 +47,6 @@ export class StudentComponent implements OnInit {
     this.answered = false;
     this.startTime = 0;
     this.endTime = 0;
-    // console.log(this.answered);
   }
 
   ngDoCheck(){
@@ -67,6 +68,16 @@ export class StudentComponent implements OnInit {
     this.endTime = new Date().getTime();
     this.answered = true;
     // console.log(this.answered, "set answered to true");
+    //David's code
+    console.log(Object.keys(this.subGame.player_list),"inside getStudentAnswer()")
+    for(let i=0;i<Object.keys(this.subGame.player_list).length;i++){
+      console.log(this.subGame.player_list[0]);
+      console.log(this.studentId);
+      if(this.subGame.player_list[i].id==this.studentId){
+        this.subGame.player_list[i].answered=true;
+      }
+    }
+    //David's Code
     if(answer == this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
@@ -76,6 +87,15 @@ export class StudentComponent implements OnInit {
     this.startTime = 0;
     this.endTime = 0;
   }
+
+  // checkAllAnswered(){
+  //   for(let i=0;i<this.studentService.subPlayers.length;i++){
+  //     if(this.studentService.subPlayers){
+  //
+  //     }
+  //   }
+  //
+  // }
 
   scoringAlgorithm(end, start){
     var dif = (end - start) / 1000
