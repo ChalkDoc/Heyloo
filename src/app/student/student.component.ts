@@ -42,6 +42,9 @@ export class StudentComponent implements OnInit {
     this.currentGame.subscribe(data => {
       this.subGame = data;
     })
+    this.currentStudent.subscribe(data => {
+      this.subStudent = data;
+    })
     this.answered = false;
     this.startTime = 0;
     this.endTime = 0;

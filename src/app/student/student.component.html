@@ -36,8 +36,18 @@
 </div><!-- Game State: Question -->
 
 <div class="" *ngIf="subGame?.game_state == 'answer'">
-  <div class="">
-    {{subStudent?.points}}
+  <div>
+    <h3>{{subStudent?.name}}</h3>
+    <div>
+      <h5>Correct!</h5>
+      <h5>Points earned: </h5>
+    </div>
+    <div>
+      <h5>Incorrect. You answered ; the correct answer was </h5>
+    </div>
+    <h3>Overall Progress</h3>
+    <h5>Total points: {{subStudent?.points}}</h5>
+    <h5>Leaderboard Position: </h5>
   </div>
 <div class="answered" *ngIf="answered == true">
   answered the question
