@@ -148,6 +148,7 @@ export class HostComponent {
     this.hostService.gameOver(this.currentGame);
     this.gameStateLeaderboard();
   }
+  
   getLeaderboard(){
     var leaderboard = [];
     var players;

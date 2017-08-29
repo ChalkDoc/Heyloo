@@ -36,15 +36,19 @@ export class StudentService {
   }
 
   editStudentPoints(student, correct, score){
-    // console.log(score);
+    var totalPoints;
+    var totalCorrect;
+    var totalWrong;
     student.subscribe(data => {
-      // console.log(data);
+      totalPoints = data.points;
+      totalCorrect = data.correct;
+      totalWrong = data.wrong;
     })
     if(correct == true){
-      student.update({points: + score, correct: + 1, questionPoints: score});
+      student.update({points: (totalPoints + score), correct: (totalCorrect + 1), questionPoints: score});
     }
     else if(correct == false){
-      student.update({wrong: + 1, questionPoints: score});
+      student.update({wrong: (totalWrong + 1), questionPoints: score});
     }
   }
 }
