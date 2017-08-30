@@ -23,6 +23,8 @@ export class StudentComponent implements OnInit {
   endTime;
   answered: boolean;
   subStudent;
+  studentId;
+
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
@@ -31,13 +33,13 @@ export class StudentComponent implements OnInit {
     var studentId;
     this.route.params.forEach(urlParameters => {
       this.currentGame = this.hostService.getGameFromCode(urlParameters['roomcode']);
-      studentId = urlParameters['studentid'];
+      this.studentId = urlParameters['studentid'];
     })
     this.currentGame.subscribe(data => {
       currentGameKey = data['$key'];
       this.currentQuestion = data['question_list'][data['current_question']];
     })
-    this.currentStudent = this.studentService.getStudentGameKeyAndId(currentGameKey, studentId);
+    this.currentStudent = this.studentService.getStudentGameKeyAndId(currentGameKey, this.studentId);
     this.questions = this.hostService.getQuestions();
     this.currentGame.subscribe(data => {
       this.subGame = data;
@@ -48,7 +50,6 @@ export class StudentComponent implements OnInit {
     this.answered = false;
     this.startTime = 0;
     this.endTime = 0;
-    // console.log(this.answered);
   }
 
   ngDoCheck(){
@@ -69,7 +70,16 @@ export class StudentComponent implements OnInit {
     this.hostService.updatePlayerChoice(this.questions, this.subGame);
     this.endTime = new Date().getTime();
     this.answered = true;
-    if(answer == this.currentQuestion.answer){
+
+    for (let key of Object.keys(this.subGame.player_list)) {
+    let playerInfo = this.subGame.player_list[key]
+    console.log(playerInfo.id,this.studentId)
+    if(playerInfo.id==this.studentId){
+      playerInfo.answered=true;
+      console.log(playerInfo)
+    };
+  }
+    if(answer=== this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{
