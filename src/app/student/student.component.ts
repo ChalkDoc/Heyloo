@@ -71,18 +71,20 @@ export class StudentComponent implements OnInit {
 
     //David's code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    console.log(Object.keys(this.subGame.player_list),"inside getStudentAnswer()")
-    for(let i=0;i<Object.keys(this.subGame.player_list).length;i++){
-      console.log(this.subGame.player_list[Object.keys(this.subGame.player_list).length],"undefined?");
-      console.log(this.studentId);
-      if(this.subGame.player_list[i].id==this.studentId){
-        this.subGame.player_list[i].answered=true;
-      }
-    }
+  for (let key of Object.keys(this.subGame.player_list)) {
+    let playerInfo = this.subGame.player_list[key]
+    console.log(playerInfo.id,this.studentId)
+    if(playerInfo.id==this.studentId){
+      playerInfo.answered=true;
+      console.log(playerInfo)
+    };
+  }
+
+
 
     //David's Code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    if(answer == this.currentQuestion.answer){
+    if(answer === this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{

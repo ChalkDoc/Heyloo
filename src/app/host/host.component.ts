@@ -125,17 +125,18 @@ export class HostComponent {
       // console.log(this.time);
       if(this.time != 0){
         //David's code
-        for(let i=0;i<Object.keys(this.currentGame.player_list).length;i++){
-          var counter = 0
-          if(this.currentGame.player_list[i].answered===true){
+        let counter = 0;
+        for (let key of Object.keys(this.currentGame.player_list)) {
+          let playerInfo = this.currentGame.player_list[key]
+          if(playerInfo.answered==true){
             counter += 1
-          }
-          if(counter === Object.keys(this.currentGame.player_list).length){
-            clearInterval(interval);
-            this.gameStateAnswer();
-          }
+          };
         }
-        //David's Code
+        if(counter === Object.keys(this.currentGame.player_list).length){
+        clearInterval(interval);
+        this.gameStateAnswer();
+      }
+        // David's Code
         this.time --;
       }
       else {
