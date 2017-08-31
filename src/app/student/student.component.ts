@@ -60,10 +60,13 @@ export class StudentComponent implements OnInit {
       // console.log('game state now question')
       this.setAnsweredToFalse();
       this.setStartTime();
+    }else if(this.subGame['game_state'] == 'leaderboard'){
+      this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
     }
   }
 
   getStudentAnswer(answer: number){
+    console.log(this.studentService)
     var questionAnswer;
     this.currentQuestion.student_choices[answer] ++;
     this.questions[this.subGame.current_question] = this.currentQuestion;
@@ -71,12 +74,9 @@ export class StudentComponent implements OnInit {
     this.endTime = new Date().getTime();
     this.answered = true;
 
-    for (let key of Object.keys(this.subGame.player_list)) {
-    let playerInfo = this.subGame.player_list[key]
-    if(playerInfo.id==this.studentId){
-      playerInfo.update({answered: true})
-    };
-  }
+  //   for (let key of Object.keys(this.subGame.player_list)) {
+  //   let playerInfo = this.subGame.player_list[key]
+  // }
     if(answer=== this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
