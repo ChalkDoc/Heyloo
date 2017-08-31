@@ -84,6 +84,7 @@ export class HostComponent {
   }
 
   gameStateLeaderboard(){
+    console.log(this)
     this.hostService.nextQuestion(this.currentGame);
     this.getLeaderboard();
     this.hostService.editGameState('leaderboard', this.currentGame);
@@ -122,6 +123,21 @@ export class HostComponent {
     var interval = setInterval(data => {
       // console.log(this.time);
       if(this.time != 0){
+        //David's code
+        let counter = 0;
+        for (let key of Object.keys(this.currentGame.player_list)) {
+          let playerInfo = this.currentGame.player_list[key]
+          console.log(playerInfo)
+          if(playerInfo.answered===true){
+            counter += 1
+          };
+        }
+        console.log(counter,Object.keys(this.currentGame.player_list).length);
+        if(counter === Object.keys(this.currentGame.player_list).length){
+        clearInterval(interval);
+        this.gameStateAnswer();
+      }
+        // David's Code
         this.time --;
       }
       else {
@@ -148,7 +164,7 @@ export class HostComponent {
     this.hostService.gameOver(this.currentGame);
     this.gameStateLeaderboard();
   }
-  
+
   getLeaderboard(){
     var leaderboard = [];
     var players;

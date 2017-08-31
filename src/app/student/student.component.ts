@@ -24,7 +24,7 @@ export class StudentComponent implements OnInit {
   endTime;
   answered: boolean;
   subStudent;
-  rankings;
+  studentId;
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
@@ -32,12 +32,13 @@ export class StudentComponent implements OnInit {
     var studentId;
     this.route.params.forEach(urlParameters => {
       this.currentGame = this.hostService.getGameFromCode(urlParameters['roomcode']);
-      studentId = urlParameters['studentid'];
+      this.studentId = urlParameters['studentid'];
     })
     this.currentGame.subscribe(data => {
       this.currentGameKey = data['$key'];
       this.currentQuestion = data['question_list'][data['current_question']];
     })
+
     this.currentStudent = this.studentService.getStudentGameKeyAndId(this.currentGameKey, studentId);
     this.questions = this.hostService.getQuestions();
     this.currentGame.subscribe(data => {
@@ -58,17 +59,24 @@ export class StudentComponent implements OnInit {
       // console.log('game state now question')
       this.setAnsweredToFalse();
       this.setStartTime();
+    }else if(this.subGame['game_state'] == 'leaderboard'){
+      this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
     }
   }
 
   getStudentAnswer(answer: number){
+    console.log(this.studentService)
     var questionAnswer;
     this.currentQuestion.student_choices[answer] ++;
     this.questions[this.subGame.current_question] = this.currentQuestion;
     this.hostService.updatePlayerChoice(this.questions, this.subGame);
     this.endTime = new Date().getTime();
     this.answered = true;
-    if(answer == this.currentQuestion.answer){
+
+  //   for (let key of Object.keys(this.subGame.player_list)) {
+  //   let playerInfo = this.subGame.player_list[key]
+  // }
+    if(answer=== this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{

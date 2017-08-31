@@ -1,8 +1,11 @@
 export class Player {
   public ratio: number = 0;
+
   public points: number = 0;
   public questionPoints: number = 0;
-  constructor(public name: string, public correct: number, public wrong: number, public id: number){
+
+  constructor(public name: string, public correct: number, public wrong: number, public id: number, public answered: boolean){
+
     if(correct != 0 && wrong != 0){
       this.ratio = (correct/wrong);
     }
