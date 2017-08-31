@@ -3,7 +3,6 @@
 
 		<div class='room-code' *ngIf='currentGame'>
 			<h3>Room Code: {{currentGame?.id}}</h3>
-			<h4>Game State: {{currentGame?.game_state}}</h4>
 		</div>
 
 		<div class="row starting" *ngIf="currentGame?.game_state == 'starting' ">
@@ -127,7 +126,7 @@
 			<div class="" *ngIf="currentGame?.game_over == true">
 				<h1>Final Scores:</h1>
 				<div class="col-md-12" *ngFor='let player of playerList | async'>
-					{{player.points}}
+					{{player.name}} - {{player.points}}
 				</div>
 			</div>
 		</div>

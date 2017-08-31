@@ -18,26 +18,27 @@ export class StudentComponent implements OnInit {
   currentStudent: FirebaseObjectObservable<any[]>;
   questions: Question[];
   currentQuestion: Question;
+  currentGameKey;
   subGame;
   startTime;
   endTime;
   answered: boolean;
   subStudent;
+  rankings;
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
   ngOnInit() {
-    var currentGameKey;
     var studentId;
     this.route.params.forEach(urlParameters => {
       this.currentGame = this.hostService.getGameFromCode(urlParameters['roomcode']);
       studentId = urlParameters['studentid'];
     })
     this.currentGame.subscribe(data => {
-      currentGameKey = data['$key'];
+      this.currentGameKey = data['$key'];
       this.currentQuestion = data['question_list'][data['current_question']];
     })
-    this.currentStudent = this.studentService.getStudentGameKeyAndId(currentGameKey, studentId);
+    this.currentStudent = this.studentService.getStudentGameKeyAndId(this.currentGameKey, studentId);
     this.questions = this.hostService.getQuestions();
     this.currentGame.subscribe(data => {
       this.subGame = data;
@@ -48,12 +49,10 @@ export class StudentComponent implements OnInit {
     this.answered = false;
     this.startTime = 0;
     this.endTime = 0;
-    // console.log(this.answered);
   }
 
   ngDoCheck(){
     if(this.subGame['game_state'] == "answer"){
-      // console.log('game state now answer')
       this.updateGame();
     }else if(this.subGame['game_state'] == 'question'){
       // console.log('game state now question')
