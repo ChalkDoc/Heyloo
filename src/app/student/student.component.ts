@@ -69,20 +69,12 @@ export class StudentComponent implements OnInit {
     this.answered = true;
     // console.log(this.answered, "set answered to true");
 
-    //David's code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
   for (let key of Object.keys(this.subGame.player_list)) {
     let playerInfo = this.subGame.player_list[key]
-    console.log(playerInfo.id,this.studentId)
     if(playerInfo.id==this.studentId){
-      playerInfo.answered=true;
-      console.log(playerInfo)
+      playerInfo.update({answered: true})
     };
   }
-
-
-
-    //David's Code~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     if(answer === this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
