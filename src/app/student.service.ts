@@ -45,9 +45,11 @@ export class StudentService {
       totalWrong = data.wrong;
     })
     if(correct == true){
+      console.log("editPointsTrue")
       student.update({points: (totalPoints + score), correct: (totalCorrect + 1), questionPoints: score, answered: true});
     }
     else if(correct == false){
+      console.log("editPointsFalse")
       student.update({wrong: (totalWrong + 1), questionPoints: score, answered: true});
     }
   }
@@ -55,4 +57,5 @@ export class StudentService {
   changeStudentsAnsweredToFalse(student){
     student.update({answered: false})
   }
+
 }

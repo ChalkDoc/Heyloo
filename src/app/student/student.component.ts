@@ -39,7 +39,7 @@ export class StudentComponent implements OnInit {
       this.currentQuestion = data['question_list'][data['current_question']];
     })
 
-    this.currentStudent = this.studentService.getStudentGameKeyAndId(this.currentGameKey, studentId);
+    this.currentStudent = this.studentService.getStudentGameKeyAndId(this.currentGameKey, this.studentId);
     this.questions = this.hostService.getQuestions();
     this.currentGame.subscribe(data => {
       this.subGame = data;
@@ -76,7 +76,8 @@ export class StudentComponent implements OnInit {
   //   for (let key of Object.keys(this.subGame.player_list)) {
   //   let playerInfo = this.subGame.player_list[key]
   // }
-    if(answer=== this.currentQuestion.answer){
+  console.log(answer, this.currentQuestion.answer,this.currentStudent)
+    if(answer === this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{
