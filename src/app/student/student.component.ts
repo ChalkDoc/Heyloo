@@ -18,7 +18,7 @@ export class StudentComponent implements OnInit {
   currentStudent: FirebaseObjectObservable<any[]>;
   questions: Question[];
   currentQuestion: Question;
-  currentGameKey;
+  currentGameKey: string;
   subGame;
   startTime;
   endTime;
@@ -38,8 +38,7 @@ export class StudentComponent implements OnInit {
       this.currentGameKey = data['$key'];
       this.currentQuestion = data['question_list'][data['current_question']];
     })
-
-    this.currentStudent = this.studentService.getStudentGameKeyAndId(this.currentGameKey, studentId);
+    this.currentStudent = this.studentService.getStudentGameKeyAndId(this.currentGameKey, this.studentId);
     this.questions = this.hostService.getQuestions();
     this.currentGame.subscribe(data => {
       this.subGame = data;
@@ -55,28 +54,25 @@ export class StudentComponent implements OnInit {
   ngDoCheck(){
     if(this.subGame['game_state'] == "answer"){
       this.updateGame();
+      console.log('subStudent', this.subStudent);
+      console.log('currentStudent', this.currentStudent);
     }else if(this.subGame['game_state'] == 'question'){
-      // console.log('game state now question')
       this.setAnsweredToFalse();
       this.setStartTime();
+      console.log('answer', this.currentQuestion.answer)
     }else if(this.subGame['game_state'] == 'leaderboard'){
       this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
     }
   }
 
   getStudentAnswer(answer: number){
-    console.log(this.studentService)
     var questionAnswer;
     this.currentQuestion.student_choices[answer] ++;
     this.questions[this.subGame.current_question] = this.currentQuestion;
     this.hostService.updatePlayerChoice(this.questions, this.subGame);
     this.endTime = new Date().getTime();
     this.answered = true;
-
-  //   for (let key of Object.keys(this.subGame.player_list)) {
-  //   let playerInfo = this.subGame.player_list[key]
-  // }
-    if(answer=== this.currentQuestion.answer){
+    if(answer == this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{

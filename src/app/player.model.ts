@@ -1,6 +1,5 @@
 export class Player {
   public ratio: number = 0;
-
   public points: number = 0;
   public questionPoints: number = 0;
 

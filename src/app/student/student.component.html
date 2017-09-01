@@ -5,7 +5,7 @@
 </div>
 
 <div class="row" *ngIf="subGame?.game_state == 'question'">
-  <!-- <div *ngIf="answered == false"> -->
+  <div *ngIf="subStudent?.answered == false">
     <div class="row">
       <div class="col-md-6">
         <input type="hidden" #inputPostion0 value="0">
@@ -26,11 +26,11 @@
         <i class="fa fa-rocket fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion3.value)'></i>
       </div>
     </div>
-  <!-- </div> -->
+  </div>
 
-  <!-- <div *ngIf="answered == true">
+  <div class='container' *ngIf="subStudent?.answered == true">
     <h3>Your response has been recorded.</h3>
-  </div> -->
+  </div>
 </div>
 
 <div class="" *ngIf="subGame?.game_state == 'answer' || subGame?.game_state == 'leaderboard'">

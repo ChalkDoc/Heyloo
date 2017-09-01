@@ -48,7 +48,7 @@ export class StudentService {
       student.update({points: (totalPoints + score), correct: (totalCorrect + 1), questionPoints: score, answered: true});
     }
     else if(correct == false){
-      student.update({wrong: (totalWrong + 1), questionPoints: score, answered: true});
+      student.update({wrong: (totalWrong + 1), questionPoints: 0, answered: true});
     }
   }
 
