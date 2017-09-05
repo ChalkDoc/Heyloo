@@ -25,6 +25,7 @@ export class StudentComponent implements OnInit {
   answered: boolean;
   subStudent;
   studentId;
+  allPlayers;
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
@@ -54,8 +55,8 @@ export class StudentComponent implements OnInit {
   ngDoCheck(){
     if(this.subGame['game_state'] == "answer"){
       this.updateGame();
-      console.log('subStudent', this.subStudent);
-      console.log('currentStudent', this.currentStudent);
+      // console.log('subStudent', this.subStudent);
+      // console.log('currentStudent', this.currentStudent);
     }else if(this.subGame['game_state'] == 'question'){
       this.setAnsweredToFalse();
       this.setStartTime();
@@ -94,6 +95,7 @@ export class StudentComponent implements OnInit {
     this.currentGame.subscribe(data => {
       this.subGame = data;
     })
+    this.getLeaderboard();
   }
 
   setAnsweredToFalse(){
@@ -107,4 +109,10 @@ export class StudentComponent implements OnInit {
       this.startTime = new Date().getTime();
     }
   }
+
+  getLeaderboard(){
+    this.allPlayers = this.studentService.subPlayers;
+    // loop through this.allPlayers and compare points
+  }
+
 }
