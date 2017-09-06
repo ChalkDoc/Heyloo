@@ -26,6 +26,10 @@ export class StudentComponent implements OnInit {
   subStudent;
   studentId;
   allPlayers;
+  sortedPlayers = [];
+  currentPosition;
+  totalPositions;
+  positionChange;
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
@@ -60,7 +64,6 @@ export class StudentComponent implements OnInit {
     }else if(this.subGame['game_state'] == 'question'){
       this.setAnsweredToFalse();
       this.setStartTime();
-      console.log('answer', this.currentQuestion.answer)
     }else if(this.subGame['game_state'] == 'leaderboard'){
       this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
     }
@@ -96,6 +99,7 @@ export class StudentComponent implements OnInit {
       this.subGame = data;
     })
     this.getLeaderboard();
+    // this.getLeaderboardChange();
   }
 
   setAnsweredToFalse(){
@@ -110,9 +114,41 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  getLeaderboard(){
+  getLeaderboard() {
     this.allPlayers = this.studentService.subPlayers;
-    // loop through this.allPlayers and compare points
+    this.sortedPlayers = this.allPlayers.slice().sort(function(a, b) {
+      return b.points - a.points;
+    });
+    for (var i = 0; i < this.sortedPlayers.length; i++) {
+      if (this.sortedPlayers[i].id == this.subStudent.id) {
+        this.currentPosition = i+1;
+      }
+    }
+    this.totalPositions = this.sortedPlayers.length
   }
+
+  // getLeaderboardChange() {
+  //   var playersArray = [];
+  //   var previousPosition;
+  //   var change;
+  //   for (var i = 0; i < this.sortedPlayers.length; i++) {
+  //     var playerObject = {id: this.sortedPlayers[i].id, previousPoints: this.sortedPlayers[i].points - this.sortedPlayers[i].questionPoints}
+  //     playersArray.push(playerObject);
+  //   }
+  //   playersArray.sort(function(a, b) {
+  //     return b.previousPoints - a.previousPoints;
+  //   })
+  //   for (var i = 0; i < playersArray.length; i++) {
+  //     if (playersArray[i].id == this.subStudent.id) {
+  //       previousPosition = i+1;
+  //     }
+  //   }
+  //   change = this.currentPosition - previousPosition;
+  //   if (change > 0) {
+  //     this.positionChange = '+' + change;
+  //   } else {
+  //     this.positionChange = change;
+  //   }
+  // }
 
 }
