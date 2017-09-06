@@ -58,4 +58,12 @@ export class StudentService {
     student.update({answered: false})
   }
 
+  editSkipPoints(student,totalPoints,score){
+    console.log("This works")
+    student.update({points: (totalPoints - score), answered: false});
+    student.subscribe(data => {
+      console.log(data);
+    })
+    console.log("this updated")
+  }
 }
