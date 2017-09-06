@@ -85,9 +85,13 @@ export class HostComponent {
   }
 
   gameStateLeaderboard(){
-    this.subGame.subscribe(data => {
-      console.log(data)
-    })
+    this.editStudentPointsIfAnswered()
+    this.hostService.nextQuestion(this.currentGame);
+    this.getLeaderboard();
+    this.hostService.editGameState('leaderboard', this.currentGame);
+  }
+
+  editStudentPointsIfAnswered(){
     var player
     var gameKey
     this.subGame.subscribe(data => {
@@ -96,17 +100,14 @@ export class HostComponent {
     for (let key of Object.keys(player)) {
       let playerInfo = player[key]
       if(playerInfo.answered){
-          this.subGame.subscribe(data => {
-            gameKey=data["$key"]
-          })
-          var student = this.studentService.getStudent(key,gameKey)
-          this.studentService.editSkipPoints(student,playerInfo.points,playerInfo.questionPoints)
-        }
+        this.subGame.subscribe(data => {
+          gameKey=data["$key"]
+        })
+        var student = this.studentService.getStudent(key,gameKey)
+        this.studentService.editSkipPoints(student,playerInfo.points,playerInfo.questionPoints)
       }
-      this.hostService.nextQuestion(this.currentGame);
-      this.getLeaderboard();
-      this.hostService.editGameState('leaderboard', this.currentGame);
     }
+  }
 
   fiveSeconds(){
     this.time = 3;
