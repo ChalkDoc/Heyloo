@@ -85,7 +85,6 @@ export class HostComponent {
   }
 
   gameStateLeaderboard(){
-    this.editStudentPointsIfAnswered()
     this.hostService.nextQuestion(this.currentGame);
     this.getLeaderboard();
     this.hostService.editGameState('leaderboard', this.currentGame);
@@ -107,6 +106,7 @@ export class HostComponent {
         this.studentService.editSkipPoints(student,playerInfo.points,playerInfo.questionPoints)
       }
     }
+      this.gameStateLeaderboard()
   }
 
   fiveSeconds(){

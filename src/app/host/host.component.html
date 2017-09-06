@@ -45,7 +45,7 @@
 			<div class="col-md-12">
 				<span class='timer'>{{time}}</span>
 			</div>
-			<button class="btn" type="button" (click)='gameStateLeaderboard()'>Skip question</button>
+			<button class="btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
 		</div>
 
 		<div class="row questions" *ngIf="currentGame?.game_state == 'question' ">
@@ -67,7 +67,7 @@
 			<div class="col-md-12">
 				<span class='timer'>{{time}}</span>
 				<br>
-				<button class="btn" type="button" (click)='gameStateLeaderboard()'>Skip question</button>
+				<button class="btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
 			</div>
 				<div class="row">
 					<div class="col-md-6" id="answer1">
