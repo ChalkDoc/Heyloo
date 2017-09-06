@@ -5,13 +5,14 @@ import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/d
 import { HostService} from '../host.service';
 import { Question } from '../question.model';
 import { Game } from '../game.model';
+import { StudentService } from '../student.service';
 
 
 @Component({
   selector: 'host-component',
   templateUrl: './host.component.html',
   styleUrls: ['./host.component.css'],
-  providers: [HostService]
+  providers: [HostService,StudentService]
 })
 export class HostComponent {
   games: FirebaseListObservable<any[]>;
@@ -27,7 +28,7 @@ export class HostComponent {
   private hideBarGraph = true;
   currentQuestionSubstring;
 
-  constructor(private route: ActivatedRoute, private hostService: HostService, private router: Router, private location: Location) {
+  constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
    }
 
   ngOnInit() {
@@ -84,10 +85,28 @@ export class HostComponent {
   }
 
   gameStateLeaderboard(){
-    console.log(this)
+    this.editStudentPointsIfAnswered()
     this.hostService.nextQuestion(this.currentGame);
     this.getLeaderboard();
     this.hostService.editGameState('leaderboard', this.currentGame);
+  }
+
+  editStudentPointsIfAnswered(){
+    var player
+    var gameKey
+    this.subGame.subscribe(data => {
+      player = data["player_list"]
+    })
+    for (let key of Object.keys(player)) {
+      let playerInfo = player[key]
+      if(playerInfo.answered){
+        this.subGame.subscribe(data => {
+          gameKey=data["$key"]
+        })
+        var student = this.studentService.getStudent(key,gameKey)
+        this.studentService.editSkipPoints(student,playerInfo.points,playerInfo.questionPoints)
+      }
+    }
   }
 
   fiveSeconds(){
@@ -108,7 +127,6 @@ export class HostComponent {
     this.time = 3;
     var interval = setInterval(data => {
       if(this.time != 0){
-      // console.log(this.time);
         this.time --;
       }
       else {
@@ -119,7 +137,8 @@ export class HostComponent {
   }
 
   thirtySeconds(){
-    this.time = 10;
+    console.log(this.currentGame)
+    this.time = 15;
     var interval = setInterval(data => {
       if(this.time != 0){
         //David's code
