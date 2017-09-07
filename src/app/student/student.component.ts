@@ -22,13 +22,13 @@ export class StudentComponent implements OnInit {
   subGame;
   startTime;
   endTime;
-  answered: boolean;
   subStudent;
   studentId;
   allPlayers;
   sortedPlayers = [];
   currentPosition;
   totalPositions;
+  previousPosition;
   positionChange;
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
@@ -51,21 +51,18 @@ export class StudentComponent implements OnInit {
     this.currentStudent.subscribe(data => {
       this.subStudent = data;
     })
-    this.answered = false;
-    this.startTime = 0;
-    this.endTime = 0;
+    // this.startTime = 0;
+    // this.endTime = 0;
   }
 
   ngDoCheck(){
     if(this.subGame['game_state'] == "answer"){
       this.updateGame();
-      // console.log('subStudent', this.subStudent);
-      // console.log('currentStudent', this.currentStudent);
     }else if(this.subGame['game_state'] == 'question'){
-      this.setAnsweredToFalse();
       this.setStartTime();
     }else if(this.subGame['game_state'] == 'leaderboard'){
       this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
+      this.previousPosition = this.currentPosition;
     }
   }
 
@@ -75,20 +72,21 @@ export class StudentComponent implements OnInit {
     this.questions[this.subGame.current_question] = this.currentQuestion;
     this.hostService.updatePlayerChoice(this.questions, this.subGame);
     this.endTime = new Date().getTime();
-    this.answered = true;
     if(answer == this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{
       this.studentService.editStudentPoints(this.currentStudent, false, 0);
     }
-    this.startTime = 0;
-    this.endTime = 0;
+    // this.startTime = 0;
+    // this.endTime = 0;
   }
 
   scoringAlgorithm(end, start){
     var dif = (end - start) / 1000
+    console.log('end:', end, 'start:', start, 'dif:', dif);
     var score = (-150 * Math.log(30/(-dif + 30))) + 1000
+    console.log('score', score);
     // var score = (((1 / 2) * Math.log(-(dif-60))) * 500) + 500;
     // console.log(end, start, dif, score);
     return score;
@@ -99,19 +97,11 @@ export class StudentComponent implements OnInit {
       this.subGame = data;
     })
     this.getLeaderboard();
-    // this.getLeaderboardChange();
-  }
-
-  setAnsweredToFalse(){
-    if(this.endTime == 0){
-      this.answered = false;
-    }
+    this.getLeaderboardChange();
   }
 
   setStartTime(){
-    if (this.startTime == 0){
-      this.startTime = new Date().getTime();
-    }
+    this.startTime = new Date().getTime();
   }
 
   getLeaderboard() {
@@ -124,31 +114,23 @@ export class StudentComponent implements OnInit {
         this.currentPosition = i+1;
       }
     }
-    this.totalPositions = this.sortedPlayers.length
+    this.totalPositions = this.sortedPlayers.length;
   }
 
-  // getLeaderboardChange() {
-  //   var playersArray = [];
-  //   var previousPosition;
-  //   var change;
-  //   for (var i = 0; i < this.sortedPlayers.length; i++) {
-  //     var playerObject = {id: this.sortedPlayers[i].id, previousPoints: this.sortedPlayers[i].points - this.sortedPlayers[i].questionPoints}
-  //     playersArray.push(playerObject);
-  //   }
-  //   playersArray.sort(function(a, b) {
-  //     return b.previousPoints - a.previousPoints;
-  //   })
-  //   for (var i = 0; i < playersArray.length; i++) {
-  //     if (playersArray[i].id == this.subStudent.id) {
-  //       previousPosition = i+1;
-  //     }
-  //   }
-  //   change = this.currentPosition - previousPosition;
-  //   if (change > 0) {
-  //     this.positionChange = '+' + change;
-  //   } else {
-  //     this.positionChange = change;
-  //   }
-  // }
+  getLeaderboardChange() {
+    var change;
+    if (this.previousPosition == undefined) {
+      this.positionChange = 'N/A'
+    } else {
+      change = this.previousPosition - this.currentPosition;
+      if ( change > 0) {
+        this.positionChange = 'You advanced ' + Math.abs(change) + ' position(s). Good job!';
+      } else if ( change < 0 ){
+        this.positionChange = 'You dropped ' + Math.abs(change) + ' position(s). Try again next round!';
+      } else if ( change == 0 ){
+        this.positionChange = 'Your ranking hasn\'t changed.';
+      }
+    }
+  }
 
 }

@@ -1,13 +1,11 @@
 <div class="container">
-  <div class="">
-    <form class="" action="index.html" method="post">
-      <label>Name:</label>
-      <input type="text" #username>
-      <br>
-      <label>Room code:</label>
-      <input type="number" #roomcode>
-      <br>
-      <button type="button" (click)="register(username.value, roomcode.value); roomcode.value=''">Register</button>
-    </form>
-  </div>
+  <form class="" action="index.html" method="post">
+    <label>Name:</label>
+    <input type="text" #username>
+    <br>
+    <label>Room code:</label>
+    <input type="number" #roomcode>
+    <br>
+    <button type="button" (click)="register(username.value, roomcode.value); roomcode.value=''">Register</button>
+  </form>
 </div>

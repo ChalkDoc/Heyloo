@@ -54,7 +54,7 @@ export class StudentService {
   }
 
   changeStudentsAnsweredToFalse(student){
-    student.update({answered: false})
+    student.update({answered: false, questionPoints: 0})
   }
 
   editSkipPoints(student,totalPoints,score){
