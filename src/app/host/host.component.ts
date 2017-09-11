@@ -113,7 +113,6 @@ export class HostComponent {
     this.time = 3;
     var interval = setInterval(data => {
       if(this.time != 0){
-      // console.log(this.time);
         this.time --;
       }
       else {
@@ -137,7 +136,6 @@ export class HostComponent {
   }
 
   thirtySeconds(){
-    console.log(this.currentGame)
     this.time = 15;
     var interval = setInterval(data => {
       if(this.time != 0){

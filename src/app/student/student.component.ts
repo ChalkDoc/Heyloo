@@ -51,15 +51,13 @@ export class StudentComponent implements OnInit {
     this.currentStudent.subscribe(data => {
       this.subStudent = data;
     })
-    // this.startTime = 0;
-    // this.endTime = 0;
   }
 
   ngDoCheck(){
-    if(this.subGame['game_state'] == "answer"){
-      this.updateGame();
-    }else if(this.subGame['game_state'] == 'question'){
+    if(this.subGame['game_state'] == 'question'){
       this.setStartTime();
+    }else if(this.subGame['game_state'] == "answer"){
+      this.updateGame();
     }else if(this.subGame['game_state'] == 'leaderboard'){
       this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
       this.previousPosition = this.currentPosition;
@@ -78,18 +76,14 @@ export class StudentComponent implements OnInit {
     else{
       this.studentService.editStudentPoints(this.currentStudent, false, 0);
     }
-    // this.startTime = 0;
-    // this.endTime = 0;
   }
 
   scoringAlgorithm(end, start){
     var dif = (end - start) / 1000
-    console.log('end:', end, 'start:', start, 'dif:', dif);
     var score = (-150 * Math.log(30/(-dif + 30))) + 1000
-    console.log('score', score);
     // var score = (((1 / 2) * Math.log(-(dif-60))) * 500) + 500;
     // console.log(end, start, dif, score);
-    return score;
+    return Math.round(score);
   }
 
   updateGame(){
