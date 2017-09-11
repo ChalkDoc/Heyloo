@@ -1,10 +1,10 @@
 <div class="question-holder" *ngIf="subGame?.game_state == 'starting' ">
-  <div class="row container">
+  <div class="container">
     <h3>Game will start soon.</h3>
   </div>
 </div>
 
-<div class="row" *ngIf="subGame?.game_state == 'question'">
+<div class="container" *ngIf="subGame?.game_state == 'question'">
   <div *ngIf="subStudent?.answered == false">
     <div class="row">
       <div class="col-md-6">
@@ -33,7 +33,7 @@
   </div>
 </div>
 
-<div class="" *ngIf="subGame?.game_state == 'answer' || subGame?.game_state == 'leaderboard'">
+<div class="container" *ngIf="subGame?.game_state == 'answer' || subGame?.game_state == 'leaderboard'">
   <div>
     <h3>{{subStudent?.name}}</h3>
     <h5 *ngIf="subStudent?.questionPoints !== 0">Correct!</h5>
