@@ -5,9 +5,7 @@
     <button class="btn btn-primary" (click)="createGame()">Create Room</button>
     <br>
     <div id="roomIds" style="overflow-y:hidden;" class="row" *ngFor="let game of games | async">
-      <span (click)='startGame(game)'>{{game.id}}</span>
-      <br>
-      <br>    
+      <h5><span (click)='startGame(game)'>{{game.id}}</span></h5>
     </div>
   </div>
 </body>
