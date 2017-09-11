@@ -5,3 +5,25 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
 }
+
+.heyloo {
+  font-family: 'Frijole', cursive;
+  text-align: center;
+}
+
+button {
+  display: block;
+  margin: auto;
+}
+
+h1 {
+  font-size: 70px;
+}
+
+p {
+  text-align: center;
+}
+
+#roomIds {
+  text-align: center;
+}

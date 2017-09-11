@@ -70,3 +70,12 @@
   font-family: 'Acme', sans-serif;
   text-align: right;
 }
+
+#removeStudentButton {
+  margin-left: 10px;
+}
+
+#answer1, #answer2, #answer3, #answer4 {
+  display: block;
+  margin: auto;
+}

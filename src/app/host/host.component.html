@@ -15,9 +15,10 @@
 			<div class="col-md-12">
 				<h3>Who's here:</h3>
 				<div class="player-list" *ngFor='let player of playerList | async'>
-					<div class="names" (click)='deleteStudent(player)'>
-						<span class='players'>{{player.name}}</span>
-					</div>
+					<span class='players'>{{player.name}}</span>
+					<button id="removeStudentButton" class="btn btn-sm btn-danger" (click)='deleteStudent(player)'>Remove</button>
+					<br>
+					<br>
 				</div>
 			</div>
 		</div>
@@ -47,7 +48,6 @@
 			</div>
 			<button class="btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
 		</div>
-
 		<div class="row questions" *ngIf="currentGame?.game_state == 'question' ">
 			<div class="jumbotron">
 				<div class="row">
@@ -68,29 +68,32 @@
 				<span class='timer'>{{time}}</span>
 				<br>
 				<button class="btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+				<br>
+				<br>
 			</div>
-				<div class="row">
-					<div class="col-md-6" id="answer1">
-						<i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-						<img src="{{currentQuestion?.choices[0]}}">
-					</div>
-					<div class="col-md-6" id="answer2">
-						<i class="fa fa-star fa-5x" aria-hidden="true"></i>
-						<img src="{{currentQuestion?.choices[1]}}">
-					</div>
+			<div class="row">
+				<div class="col-md-6" id="answer1">
+					<i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
+					<img src="{{currentQuestion?.choices[0]}}">
 				</div>
-				<div class="row">
-					<div class="col-md-6" id="answer3">
-						<i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-						<img src="{{currentQuestion?.choices[2]}}">
-					</div>
-					<div class="col-md-6" id="answer4">
-						<i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-						<img src="{{currentQuestion?.choices[3]}}">
-					</div>
+				<div class="col-md-6" id="answer2">
+					<i class="fa fa-star fa-5x" aria-hidden="true"></i>
+					<img src="{{currentQuestion?.choices[1]}}">
 				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" id="answer3">
+					<i class="fa fa-heart fa-5x" aria-hidden="true"></i>
+					<img src="{{currentQuestion?.choices[2]}}">
+				</div>
+				<div class="col-md-6" id="answer4">
+					<i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
+					<img src="{{currentQuestion?.choices[3]}}">
+				</div>
+			</div>
+			<br>
+			<br>
 		</div>
-
 		<div class="row answer" *ngIf="currentGame?.game_state == 'answer' ">
 			<button (click)="showQuestion=!showQuestion" (click)="hideBarGraph=!hideBarGraph">{{showQuestion ? 'Hide' : 'Show Question'}}</button>
 			The correct answer was

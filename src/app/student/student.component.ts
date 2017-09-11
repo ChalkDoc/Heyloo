@@ -84,9 +84,7 @@ export class StudentComponent implements OnInit {
 
   scoringAlgorithm(end, start){
     var dif = (end - start) / 1000
-    console.log('end:', end, 'start:', start, 'dif:', dif);
     var score = (-150 * Math.log(30/(-dif + 30))) + 1000
-    console.log('score', score);
     // var score = (((1 / 2) * Math.log(-(dif-60))) * 500) + 500;
     // console.log(end, start, dif, score);
     return score;
@@ -132,5 +130,4 @@ export class StudentComponent implements OnInit {
       }
     }
   }
-
 }

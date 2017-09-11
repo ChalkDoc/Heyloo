@@ -62,6 +62,7 @@ export class HostComponent {
   return this.playerList;
 }
 
+  //switching between the 5 game phases (start)
   gameStateCountdown(){
     this.hostService.editGameState('countdown', this.currentGame);
     this.fiveSeconds();
@@ -89,7 +90,9 @@ export class HostComponent {
     this.getLeaderboard();
     this.hostService.editGameState('leaderboard', this.currentGame);
   }
+  //switching between the 5 game phases (end)
 
+  //Skip button. If students answer before teacher skips, it will reset their points.
   editStudentPointsIfAnswered(){
     var player
     var gameKey
@@ -113,7 +116,6 @@ export class HostComponent {
     this.time = 3;
     var interval = setInterval(data => {
       if(this.time != 0){
-      // console.log(this.time);
         this.time --;
       }
       else {
@@ -136,12 +138,11 @@ export class HostComponent {
     }, 1000);
   }
 
+  //If all students answer during question phase, gameStateAnswer() will run
   thirtySeconds(){
-    console.log(this.currentGame)
     this.time = 15;
     var interval = setInterval(data => {
       if(this.time != 0){
-        //David's code
         let counter = 0;
         for (let key of Object.keys(this.currentGame.player_list)) {
           let playerInfo = this.currentGame.player_list[key]
@@ -153,7 +154,6 @@ export class HostComponent {
         clearInterval(interval);
         this.gameStateAnswer();
       }
-        // David's Code
         this.time --;
       }
       else {

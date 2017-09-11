@@ -1,10 +1,13 @@
 <body>
   <div class="container" id="start">
-    <button type="button" (click)="createGame()">Test creating game</button>
-    <div class="row" *ngFor="let game of games | async">
-      <div>
-        <span (click)='startGame(game)'>{{game.id}}</span>
-      </div>
+    <h1 class="heyloo">Heyloo!</h1>
+    <p>Welcome to Heyloo! Click on the "Create Room" button to create a new room or click on an existing room ID to join</p>
+    <button class="btn btn-primary" (click)="createGame()">Create Room</button>
+    <br>
+    <div id="roomIds" style="overflow-y:hidden;" class="row" *ngFor="let game of games | async">
+      <span (click)='startGame(game)'>{{game.id}}</span>
+      <br>
+      <br>    
     </div>
   </div>
 </body>

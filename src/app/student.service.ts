@@ -45,7 +45,6 @@ export class StudentService {
       totalWrong = data.wrong;
     })
     if(correct == true){
-      console.log("editPointsTrue")
       student.update({points: (totalPoints + score), correct: (totalCorrect + 1), questionPoints: score, answered: true});
     }
     else if(correct == false){
@@ -58,11 +57,8 @@ export class StudentService {
   }
 
   editSkipPoints(student,totalPoints,score){
-    console.log("This works")
     student.update({points: (totalPoints - score), answered: false});
     student.subscribe(data => {
-      console.log(data);
     })
-    console.log("this updated")
   }
 }
