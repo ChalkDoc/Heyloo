@@ -64,8 +64,16 @@ export class HostComponent {
 
   //switching between the 5 game phases (start)
   gameStateCountdown(){
+    var players;
+    this.subGame.subscribe(data => {
+      players = data["player_list"]
+    })
+    if(players==undefined){
+      alert("There are currently no students in this game")
+    }else{
     this.hostService.editGameState('countdown', this.currentGame);
     this.fiveSeconds();
+    }
   }
 
   gameStatePreQuestion(){
