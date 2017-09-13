@@ -1,3 +1,31 @@
+#homepage {
+  background-color: rgb(159, 156, 153);
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+}
+
+
+#home-teacher {
+  position: absolute;
+  left: 0px;
+  background-color: rgb(224, 73, 81);
+  height: 100%;
+}
+
+#home-students {
+  position: absolute;
+  right: 0px;
+  height: 100%;
+}
+
 #homepage a:hover {
   text-decoration: none;
+}
+
+#homepage a {
+  color: white;
 }
