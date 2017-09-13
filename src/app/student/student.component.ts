@@ -30,6 +30,7 @@ export class StudentComponent implements OnInit {
   totalPositions;
   previousPosition;
   positionChange;
+  positionChangeColor;
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
@@ -115,14 +116,18 @@ export class StudentComponent implements OnInit {
     var change;
     if (this.previousPosition == undefined) {
       this.positionChange = 'N/A'
+      this.positionChangeColor = ''
     } else {
       change = this.previousPosition - this.currentPosition;
       if ( change > 0) {
         this.positionChange = 'You advanced ' + Math.abs(change) + ' position(s). Good job!';
+        this.positionChangeColor = 'green-text'
       } else if ( change < 0 ){
         this.positionChange = 'You dropped ' + Math.abs(change) + ' position(s). Try again next round!';
+        this.positionChangeColor = 'red-text'
       } else if ( change == 0 ){
         this.positionChange = 'Your ranking hasn\'t changed.';
+        this.positionChangeColor = ''
       }
     }
   }

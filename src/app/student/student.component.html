@@ -1,47 +1,51 @@
-<div class="question-holder" *ngIf="subGame?.game_state == 'starting' ">
-  <div class="container">
-    <h3>Game will start soon.</h3>
+<div id="student">
+  <div class="container" *ngIf="subGame?.game_state == 'starting' " class="message-text">
+    <h1>You've joined Room {{subGame?.id}}!</h1>
+    <h3>Please wait for the teacher to start the game.</h3>
   </div>
-</div>
 
-<div class="container" *ngIf="subGame?.game_state == 'question'">
-  <div *ngIf="subStudent?.answered == false">
-    <div class="row">
-      <div class="col-md-6">
-        <input type="hidden" #inputPostion0 value="0">
-        <i class="fa fa-paper-plane fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion0.value)'></i>
+  <div class="container" *ngIf="subGame?.game_state == 'question'">
+    <div *ngIf="subStudent?.answered == false">
+      <div class="row">
+        <div class="col-md-6">
+          <input type="hidden" #inputPostion0 value="0">
+          <i class="fa fa-paper-plane fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion0.value)'></i>
+        </div>
+        <div class="col-md-6">
+          <input type="hidden" #inputPostion1 value="1">
+          <i class="fa fa-star fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion1.value)'></i>
+        </div>
       </div>
-      <div class="col-md-6">
-        <input type="hidden" #inputPostion1 value="1">
-        <i class="fa fa-star fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion1.value)'></i>
+      <div class="row">
+        <div class="col-md-6">
+          <input type="hidden" #inputPostion2 value="2">
+          <i class="fa fa-heart fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion2.value)'></i>
+        </div>
+        <div class="col-md-6">
+          <input type="hidden" #inputPostion3 value="3">
+          <i class="fa fa-rocket fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion3.value)'></i>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <input type="hidden" #inputPostion2 value="2">
-        <i class="fa fa-heart fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion2.value)'></i>
-      </div>
-      <div class="col-md-6">
-        <input type="hidden" #inputPostion3 value="3">
-        <i class="fa fa-rocket fa-5x" aria-hidden="true" (click)='getStudentAnswer(inputPostion3.value)'></i>
-      </div>
+
+    <div class='container' *ngIf="subStudent?.answered == true" class='message-text'>
+      <h1>Your response has been recorded.</h1>
     </div>
   </div>
 
-  <div class='container' *ngIf="subStudent?.answered == true">
-    <h3>Your response has been recorded.</h3>
-  </div>
-</div>
-
-<div class="container" *ngIf="subGame?.game_state == 'answer' || subGame?.game_state == 'leaderboard'">
-  <div>
-    <h3>{{subStudent?.name}}</h3>
-    <h5 *ngIf="subStudent?.questionPoints !== 0">Correct!</h5>
-    <h5 *ngIf="subStudent?.questionPoints == 0">Incorrect.</h5>
-    <h5>Points earned for this question: {{subStudent?.questionPoints}}</h5>
-    <h3>Overall Progress</h3>
-    <h5>Total points: {{subStudent?.points}}</h5>
-    <h5>Leaderboard Position: {{currentPosition}}/{{totalPositions}}</h5>
-    <h5>Position Change: {{positionChange}}</h5>
+  <div class="container" *ngIf="subGame?.game_state == 'answer' || subGame?.game_state == 'leaderboard'">
+    <div class="container">
+      <h1><u>{{subStudent?.name}}</u></h1>
+      <h3 *ngIf="subStudent?.questionPoints !== 0" class="green-text">Correct!</h3>
+      <h3 *ngIf="subStudent?.questionPoints == 0" class="red-text">Incorrect.</h3>
+      <h3>Points earned for this question: {{subStudent?.questionPoints}}</h3>
+      <hr>
+      <h1>Overall Progress</h1>
+      <h3>Total points: {{subStudent?.points}}</h3>
+      <h3>Leaderboard Position: {{currentPosition}}/{{totalPositions}}</h3>
+      <h3>Position Change:
+        <span [class]="positionChangeColor">{{positionChange}}</span>
+      </h3>
+    </div>
   </div>
 </div>
