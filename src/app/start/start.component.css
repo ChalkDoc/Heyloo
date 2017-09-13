@@ -1,14 +1,15 @@
-body {
+#start-page {
   background-color: rgb(159, 156, 153);
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
+  font-family: 'Acme', sans-serif;
+  text-align: center;
 }
 
 .heyloo {
   font-family: 'Frijole', cursive;
-  text-align: center;
 }
 
 button {
@@ -20,10 +21,6 @@ h1 {
   font-size: 70px;
 }
 
-p {
-  text-align: center;
-}
-
-#roomIds {
-  text-align: center;
+span {
+  cursor: pointer;
 }

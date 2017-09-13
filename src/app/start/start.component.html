@@ -1,5 +1,5 @@
-<body>
-  <div class="container" id="start">
+<div id="start-page">
+  <div class="container">
     <h1 class="heyloo">Heyloo!</h1>
     <p>Welcome to Heyloo! Click on the "Create Room" button to create a new room or click on an existing room ID to join. The list is organized from oldest to newest.</p>
     <button class="btn btn-primary" (click)="createGame()" (click)='returnLastFiveGames()'>Create Room</button>
@@ -8,4 +8,4 @@
       <h5><span (click)='startGame(game)'>{{game.id}}</span></h5>
     </div>
   </div>
-</body>
+</div>
