@@ -43,11 +43,8 @@ export class StartComponent implements OnInit {
     var gamesList;
     this.games.subscribe(data => {
       gamesList = data
-      console.log(gamesList)
-      allGames = gamesList.slice(gamesList.length-5,gamesList.length)
-      console.log(allGames)
+      allGames = gamesList.slice(-5,)
       this.lastFiveGames = allGames
-      console.log(this.lastFiveGames)
     })
   }
 }
