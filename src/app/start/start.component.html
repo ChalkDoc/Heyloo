@@ -4,10 +4,8 @@
     <p>Welcome to Heyloo! Click on the "Create Room" button to create a new room or click on an existing room ID to join. The list is organized from oldest to newest.</p>
     <button class="btn btn-primary" (click)="createGame()" (click)='returnLastFiveGames()'>Create Room</button>
     <br>
-    <!-- <div style="overflow-y: hidden;height: 200px;"> -->
     <div id="roomIds" class="row" *ngFor="let game of lastFiveGames">
       <h5><span (click)='startGame(game)'>{{game.id}}</span></h5>
     </div>
-    <!-- </div> -->
   </div>
 </body>
