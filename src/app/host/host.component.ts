@@ -63,6 +63,8 @@ export class HostComponent {
 }
 
   //switching between the 5 game phases (start)
+
+  //"Let's begin" button
   gameStateCountdown(){
     var players;
     this.subGame.subscribe(data => {
@@ -201,4 +203,5 @@ export class HostComponent {
     })
     this.topPlayers = leaderboard.slice(0, 5);
   }
+
 }
