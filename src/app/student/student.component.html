@@ -46,6 +46,11 @@
       <h3>Position Change:
         <span [class]="positionChangeColor">{{positionChange}}</span>
       </h3>
+      <div *ngIf="subGame?.game_over == true">
+        <hr>
+        <h1>Game Over!</h1>
+        <a class="btn btn-primary" href="/register">Return to Home</a>
+      </div>
     </div>
   </div>
 </div>
