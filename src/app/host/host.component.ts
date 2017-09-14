@@ -7,13 +7,13 @@ import { Question } from '../question.model';
 import { Game } from '../game.model';
 import { StudentService } from '../student.service';
 
-
 @Component({
   selector: 'host-component',
   templateUrl: './host.component.html',
   styleUrls: ['./host.component.css'],
   providers: [HostService,StudentService]
 })
+
 export class HostComponent {
   games: FirebaseListObservable<any[]>;
   subGame: FirebaseObjectObservable<any[]>;
@@ -29,7 +29,7 @@ export class HostComponent {
   currentQuestionSubstring;
 
   constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
-   }
+  }
 
   ngOnInit() {
     var gameKey;
@@ -57,10 +57,10 @@ export class HostComponent {
   getPlayerList(gameId: number){
     this.subGame = this.hostService.getGameFromCode(gameId);
     this.subGame.subscribe(data=>{
-    this.playerList = this.hostService.getCurrentGamePlayerList(data["$key"]);
-  })
-  return this.playerList;
-}
+      this.playerList = this.hostService.getCurrentGamePlayerList(data["$key"]);
+    })
+    return this.playerList;
+  }
 
   //switching between the 5 game phases (start)
 
