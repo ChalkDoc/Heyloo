@@ -8,29 +8,29 @@
     <div *ngIf="subStudent?.answered == false">
       <div class="row">
         <div class="col-md-6">
-          <div class="answer-choice">
+          <div class="answer-choice" id="answer1" (click)='getStudentAnswer(inputPostion0.value)'>
             <input type="hidden" #inputPostion0 value="0">
-            <i class="fa fa-paper-plane fa-5x answer1" aria-hidden="true" (click)='getStudentAnswer(inputPostion0.value)'></i>
+            <i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="answer-choice">
+          <div class="answer-choice" id="answer2" (click)='getStudentAnswer(inputPostion1.value)'>
             <input type="hidden" #inputPostion1 value="1">
-            <i class="fa fa-star fa-5x answer2" aria-hidden="true" (click)='getStudentAnswer(inputPostion1.value)'></i>
+            <i class="fa fa-star fa-5x" aria-hidden="true"></i>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <div class="answer-choice">
+          <div class="answer-choice" id="answer3" (click)='getStudentAnswer(inputPostion2.value)'>
             <input type="hidden" #inputPostion2 value="2">
-            <i class="fa fa-heart fa-5x answer3" aria-hidden="true" (click)='getStudentAnswer(inputPostion2.value)'></i>
+            <i class="fa fa-heart fa-5x" aria-hidden="true"></i>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="answer-choice">
+          <div class="answer-choice" id="answer4" (click)='getStudentAnswer(inputPostion3.value)'>
             <input type="hidden" #inputPostion3 value="3">
-            <i class="fa fa-rocket fa-5x answer4" aria-hidden="true" (click)='getStudentAnswer(inputPostion3.value)'></i>
+            <i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
           </div>
         </div>
       </div>

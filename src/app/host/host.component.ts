@@ -204,4 +204,9 @@ export class HostComponent {
     this.topPlayers = leaderboard.slice(0, 5);
   }
 
+  nextQuestionWithoutLeaderboard() {
+    this.gameStateLeaderboard();
+    this.gameStateCountdown();
+  }
+
 }

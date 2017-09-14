@@ -23,32 +23,28 @@ h1, h3 {
   color: maroon;
 }
 
-.answer1 {
+#answer1 {
   background-color: rgb(114, 49, 87);
 }
 
-.answer2 {
+#answer2 {
   background-color: rgb(91, 121, 97);
 }
 
-.answer3 {
+#answer3 {
   background-color: rgb(46, 77, 167);
 }
 
-.answer4 {
+#answer4 {
   background-color: rgb(224, 73, 81);
 }
 
-.answer1, .answer2, .answer3, .answer4 {
+.answer-choice {
   display: block;
-  margin: 10;
+  margin: 10px;
   padding: 25px;
 }
 
-.answer1:hover, .answer2:hover, .answer3:hover, .answer4:hover {
+.answer-choice:hover {
   cursor: pointer;
-}
-
-.answer-choice {
-  margin: 10px;
 }
