@@ -5,13 +5,13 @@ import { Game } from '../game.model';
 import { Question } from '../question.model';
 import { HostService } from '../host.service';
 
-
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.css'],
   providers: [HostService]
 })
+
 export class StartComponent implements OnInit {
   games: FirebaseListObservable<any[]>;
   questions: Question[];
@@ -38,13 +38,14 @@ export class StartComponent implements OnInit {
     this.hostService.createGame(newGame);
   }
 
+  //runs on init and returns the 5 most recently created game ids
   returnLastFiveGames(){
-    var allGames = [];
+    var fiveGames = [];
     var gamesList;
     this.games.subscribe(data => {
       gamesList = data
-      allGames = gamesList.slice(-5,)
-      this.lastFiveGames = allGames
+      fiveGames = gamesList.slice(-5,)
+      this.lastFiveGames = fiveGames
     })
   }
 }
