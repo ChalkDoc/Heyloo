@@ -123,7 +123,7 @@ export class HostComponent {
   }
 
   fiveSeconds(){
-    this.time = 3;
+    this.time = 5;
     var interval = setInterval(data => {
       if(this.time != 0){
         this.time --;
@@ -136,7 +136,7 @@ export class HostComponent {
   }
 
   preQuestionCountdown(){
-    this.time = 3;
+    this.time = 10;
     var interval = setInterval(data => {
       if(this.time != 0){
         this.time --;
@@ -150,7 +150,7 @@ export class HostComponent {
 
   //If all students answer during question phase, gameStateAnswer() will run
   thirtySeconds(){
-    this.time = 15;
+    this.time = 30;
     var interval = setInterval(data => {
       if(this.time != 0){
         let counter = 0;
