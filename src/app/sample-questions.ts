@@ -1,22 +1,16 @@
 import { Question } from './question.model';
 
 export const QUESTIONS: Question[] = [
-  new Question("Writing Linear Equations", "Select the equation of the line represented by the two points, table, or graph.", "https://app.chalkdoc.com/cached_latex_images/f92053f28798c473926d91cc5451752d7bfcde8b8f09bbd166b606b24300872b.png", [
-    "https://app.chalkdoc.com/cached_latex_images/562b4bf20a28b882e474736affdda12702c655b52c09a637157041d39568d2dd.png",
-    "https://app.chalkdoc.com/cached_latex_images/1c8a787c20dcf46c88cce25ebf62e0a53e6b0461137a131ff7d97584dba14aef.png",
-    "https://app.chalkdoc.com/cached_latex_images/9e09628eec88d523ce5dba04f661b3ee16b8599b7d3f2a77e489e1a5ae3e20a5.png",
-    "https://app.chalkdoc.com/cached_latex_images/85e37542ea650d34c23a5467a12ae2f359ef595f80ecf3d652c51b52030ee980.png"
+  new Question("Basic Math", "Select the sum of the two numbers.", "1 + 1", [
+    "2", "4", "6", "8"
   ], 0),
-  new Question("Writing Linear Equations", "Select the equation of the line represented by the two points, table, or graph.", "(2, -1) and (0, 2)", [
-    "https://app.chalkdoc.com/cached_latex_images/725bd913935b2c2a24e228f7dd344d20ceb67d8586f00495870bfbd0d1135b47.png",
-    "https://app.chalkdoc.com/cached_latex_images/1c8a787c20dcf46c88cce25ebf62e0a53e6b0461137a131ff7d97584dba14aef.png",
-    "https://app.chalkdoc.com/cached_latex_images/9e09628eec88d523ce5dba04f661b3ee16b8599b7d3f2a77e489e1a5ae3e20a5.png",
-    "https://app.chalkdoc.com/cached_latex_images/85e37542ea650d34c23a5467a12ae2f359ef595f80ecf3d652c51b52030ee980.png"
-  ], 0),
-  new Question("Writing Linear Equations", "Select the equation of the line represented by the two points, table, or graph.", "(0, 1) and (-1, 3)", [
-    "https://app.chalkdoc.com/cached_latex_images/725bd913935b2c2a24e228f7dd344d20ceb67d8586f00495870bfbd0d1135b47.png",
-    "https://app.chalkdoc.com/cached_latex_images/1c8a787c20dcf46c88cce25ebf62e0a53e6b0461137a131ff7d97584dba14aef.png",
-    "https://app.chalkdoc.com/cached_latex_images/562b4bf20a28b882e474736affdda12702c655b52c09a637157041d39568d2dd.png",
-    "https://app.chalkdoc.com/cached_latex_images/9e09628eec88d523ce5dba04f661b3ee16b8599b7d3f2a77e489e1a5ae3e20a5.png"
-  ], 1)
+  new Question("Basic Math", "Select the sum of the two numbers.", "2 + 2", [
+    "2", "4", "6", "8"
+  ], 1),
+  new Question("Basic Math", "Select the sum of the two numbers.", "3 + 3", [
+    "2", "4", "6", "8"
+  ], 2),
+  new Question("Basic Math", "Select the sum of the two numbers.", "4 + 4", [
+    "2", "4", "6", "8"
+  ], 3),
 ]
