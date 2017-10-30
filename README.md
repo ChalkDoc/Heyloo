@@ -31,3 +31,30 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Things to polish
 The music that is used comes from bensound.com/royalty-free-music and should be noted somewhere on the website of its use.  
+
+## Minimum Viable Product Requirements
+
+1. Teacher logs in (Email log in supported)
+2. On login success, teach taken to HIS Admin page.  Page should show status of previous rooms, some finished (scores recorded), some live.  Admin page should have ability to create a quiz.
+
+**********
+Laura ADD Minimum Quiz creation steps here
+***********
+
+3. Teacher creates a room and room is created.
+4. Student goes to Register page and enters name and room code from Teachers projector view.
+6. Student is placed in confirmation page, teacher is notified that student has joined.
+7. Teacher starts game by pressing Start game button.
+
+# QUESTION LOOP
+* Counted of 5 seconds to start of question, students screen is blank. 
+
+* Question is displayed alone for 10 seconds.  Students screen is blank
+* Teacher's display shows question and 4 possible answers.  A countdown of 30 seconds shows how long students can vote. During this time students view shows 4 buttons and can vote for an answer once.  Once the vote is registered, the page notifies the student that their vote was cast.   After 30 seconds, If no vote is given the screen notifies student no vote was recorded. 
+* Screen changes to results page for that question.  Student Results page shows total points for the user for that question, or if no vote was given and current ranking (3rd out of 7 students) in total.  At same time, teachers view shows a histogram of student votes for the question among the 4 possible answers.  Options here: Start Next question, or end game.
+
+Repeat these steps for each question
+
+END OF GAME
+
+Teacher screen taken to the final scoreboard showing the winner.
