@@ -58,3 +58,21 @@ Repeat these steps for each question
 END OF GAME
 
 Teacher screen taken to the final scoreboard showing the winner.
+
+
+## How to Deploy Heyloo to Firebase Hosting
+
+1. Install the Firebase tools globally using `npm install -g firebase-tools`, make sure to navigate to the project root folder (where package.json is located)
+2. Type `firebase login`, and it will require you to login to Firebase via a browser window.
+3. Type `firebase init` to start the project tool.  This allows you to configure hosting.  Select Hosting in the menu, and press enter.
+4. On the next menu associate the hosting to an existing Firebase project.  Select it in this list and press enter.
+5. On the next menu it asks you what folder to use as public.  Type `dist` and press enter.  Make sure you've built the folder using `ng build` 
+6. When it asks to rewrite all urls to /index.html answer Y (yes) and press enter.
+7. When it asks to overwrite index.html answer n (No)
+
+At this point your Firebase project will be prepared to be hosted.  To deploy the project go to the next step.
+
+8. Type `firebase deploy` to start the deployment process using the Firebase CLI tool.  There is no steps required here, it should just upload and work!
+
+
+
