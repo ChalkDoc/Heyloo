@@ -1,100 +1,10 @@
 <div class="container">
-  <h4>Add Quiz</h4>
-  <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
-    <!-- we will place our fields here -->
-
-    <!-- name -->
-    <div class="form-group">
-      <label>Name</label>
-      <input type="text" formControlName="name">
-      <!--display error message if name is not valid-->
-      <small *ngIf="!myForm.controls.name.valid" class="text-danger">
-            Name is required (minimum 5 characters).
-        </small>
-    </div>
-
-    <!-- list of questions -->
-    <div formArrayName="questions">
-      <div *ngFor="let question of myForm.controls.questions.controls; let i=index">
-        <!-- question header, show remove button when more than one question available -->
-        <div>
-          <span>Question {{i + 1}}</span>
-          <span *ngIf="myForm.controls.questions.controls.length > 1" (click)="removeQuestion(i)">
-                </span>
-        </div>
-
-        <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-        <div [formGroupName]="i">
-          <!--title-->
-          <div>
-            <label>title</label>
-            <input type="text" formControlName="title">
-            <!--display error message if title is not valid-->
-            <small [hidden]="myForm.controls.questions.controls[i].controls.title.valid">
-                      A title is required
-                    </small>
-          </div>
-          <!--instructions-->
-          <div>
-            <label>instructions</label>
-            <input type="text" formControlName="instructions">
-            <!--display error message if title is not valid-->
-            <small [hidden]="myForm.controls.questions.controls[i].controls.instructions.valid">
-                      instructions are required
-                    </small>
-          </div>
-          <!--time-->
-          <div>
-            <label>time</label>
-            <input type="text" formControlName="time">
-            <!--display error message if title is not valid-->
-            <small [hidden]="myForm.controls.questions.controls[i].controls.time.valid">
-                      A time is required
-                    </small>
-          </div>
-          <!-- list of Answers -->
-          <div formArrayName="answers">
-            <div *ngFor="let question of myForm.controls.answers.controls; let i=index">
-              <!-- question header, show remove button when more than one question available -->
-              <div>
-                <span>Answer {{i + 1}}</span>
-                <span *ngIf="myForm.controls.answers.controls.length > 1" (click)="removeAnswer(i)">
-                      </span>
-              </div>
-
-              <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-              <div [formGroupName]="ai">
-                <!--data-->
-                <div>
-                  <label>Text/URL</label>
-                  <input type="text" formControlName="data">
-                  <!--display error message if data is not valid-->
-                  <small [hidden]="myForm.controls.questions.controls[i].controls.data.valid">
-                            Text or a URL is required
-                          </small>
-                </div>
-                <!--type-->
-                <div>
-                  <label>type</label>
-                  <input type="text" formControlName="type">
-                  <!--display error message if title is not valid-->
-                  <small [hidden]="myForm.controls.questions.controls[i].controls.type.valid">
-                            A type of URL or text string is required
-                          </small>
-                </div>
-              </div>
-              <!-- End of Answer formGroup -->
-            </div>
-            <!-- End of Answer ngFor -->
-          </div>
-          <!-- End of Answers formArray -->
-        </div>
-        <!-- End of Questions formGroup -->
-      </div>
-      <!-- End of Questions ngFor -->
-    </div>
-    <!-- End of Questions formArray -->
-    <button type="submit" [disabled]="!myForm.valid">Submit</button>
+  <!-- quiz-form.component.html -->
+  <form [formGroup]="quizForm">
+    <label for="name">Name</label>
+    <input formControlName="name" />
+    <br/>
+    <app-question-list [quizForm]="quizForm" [questions]="quizForm.questions">
+    </app-question-list>
   </form>
-
 </div>

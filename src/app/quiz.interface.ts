@@ -9,7 +9,7 @@ export interface Question {
   instructions: string;  
   time: number;  // The number of Milliseconds the question will be shown
   answerId: number; //the array id of the correct answer
-  answers: Answer[];
+  //  answers: Answer[];
 }
 
 export interface Answer {

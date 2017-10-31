@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Quiz, Question, Answer, AnswerType } from '../quiz.interface';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-quiz-form',
@@ -10,19 +11,28 @@ import { Quiz, Question, Answer, AnswerType } from '../quiz.interface';
 export class QuizFormComponent implements OnInit {
   public initialQuiz: Quiz;
   public myQuiz: Quiz;
-  public myForm: FormGroup; // our form model
+  public quizForm: FormGroup; // our form model
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     // we will initialize our form here
-    this.myForm = this._fb.group({
-      name: ['', [Validators.required, Validators.minLength(5)]],
-      questions: this._fb.array([
-          this.initQuestion(),
-      ])
-    });
+    this.initialQuiz = this.getQuiz();
+    this.myQuiz = _.cloneDeep(this.initialQuiz);
+    this.quizForm = this.toFormGroup(this.myQuiz);
+    console.log('Initial Quiz', this.myQuiz);
   }
+
+  ngAfterViewInit() {
+    this.quizForm.valueChanges
+        .subscribe(value => {
+            console.log('Parent Form changed', value);
+            this.myQuiz = _.mergeWith(this.myQuiz,
+                                          value,
+                                          this.mergeCustomizer);
+
+        });
+}
 
   private getQuiz(): Quiz {
         // initialize a Quiz
@@ -33,89 +43,67 @@ export class QuizFormComponent implements OnInit {
             title: "Question 1",
             instructions: "Instructions go here",
             time: 30000,
-            answerId: 1,
-            answers: [{
-              id:1,
-              data:"Answer #1",
-              type:"text"
-            },{
-              id:2,
-              data:"Answer #2",
-              type:"text"
-            },{
-              id:3,
-              data:"Answer #3",
-              type:"text"
-            },{
-              id:4,
-              data:"Answer #4",
-              type:"text"
-            }]
+            answerId: 1
+            // answers: [{
+            //   id:1,
+            //   data:"Answer #1",
+            //   type:"text"
+            // },{
+            //   id:2,
+            //   data:"Answer #2",
+            //   type:"text"
+            // },{
+            //   id:3,
+            //   data:"Answer #3",
+            //   type:"text"
+            // },{
+            //   id:4,
+            //   data:"Answer #4",
+            //   type:"text"
+            // }]
           }]
         } 
   }
 
-  initQuestion() {
-    // initialize a question
-    return this._fb.group({
-      title: ['', Validators.required],
-      instructions: ['', Validators.required],
-      time: ['', Validators.required],
-      answerIndex: ['', Validators.required],
-      answers: this._fb.array([
-        this.initAnswer(),
-        this.initAnswer(),
-        this.initAnswer(),
-        this.initAnswer()      
-      ])
+  private toFormGroup(data: Quiz): FormGroup {
+    const formGroup = this.fb.group({
+        name: [ data.name, Validators.required ]
     });
+
+    return formGroup;
   }
 
-  addQuestion() {
-    // add question to the list of questions
-    const control = <FormArray>this.myForm.controls['questions'];
-    control.push(this.initQuestion());
-  }
-    
-  removeQuestion(i: number) {
-    // remove question from the list
-    const control = <FormArray>this.myForm.controls['questions'];
-    control.removeAt(i);
-  }
-
-  initAnswer() {
-    // initialize an answer
-    return this._fb.group({
-      title: ['', Validators.required],
-      instructions: ['', Validators.required],
-      time: ['', Validators.required],
-      answerIndex: ['', Validators.required],
-      answers: this._fb.array([
-        this.initAnswer(),
-        this.initAnswer(),
-        this.initAnswer(),
-        this.initAnswer()      
-      ])
-    });
-  }
-  
-  addAnswer() {
-    // add question to the list of questions
-    const control = <FormArray>this.myForm.controls['answers'];
-    control.push(this.initAnswer());
-  }
-    
-  removeAnswer(i: number) {
-    // remove question from the list
-    const control = <FormArray>this.myForm.controls['answers'];
-    control.removeAt(i);
+  // _.mergeWith customizer to avoid merging primitive arrays, and only
+  // merge object arrays
+  private mergeCustomizer = (objValue, srcValue) => {
+    if (_.isArray(objValue)) {
+        if (_.isPlainObject(objValue[0]) || _.isPlainObject(srcValue[0])) {
+            return srcValue.map(src => {
+                const obj = _.find(objValue, { id: src.id });
+                return _.mergeWith(obj || {}, src, this.mergeCustomizer);
+            });
+        }
+        return srcValue;
+    }
   }
 
+  onSubmit() {
+    if (!this.quizForm.valid) {
+        console.error('Parent Form invalid, preventing submission');
+        return false;
+    }
 
-  save(model: Quiz) {
-    // call API to save customer
-    console.log(model);
-  } 
+    const updatedQuiz = _.mergeWith(this.myQuiz,
+                                          this.quizForm.value,
+                                          this.mergeCustomizer);
+
+    console.log('Submitting...');
+    console.log('Original quiz', this.initialQuiz);
+    console.log('Updated parentData', updatedQuiz);
+
+    return false;
+}
+
 
 } // End of class
 
