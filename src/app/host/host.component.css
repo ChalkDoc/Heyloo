@@ -40,7 +40,6 @@
 
 .answer1 {
   background-color: rgb(114, 49, 87);
-
 }
 
 .answer2 {
@@ -72,4 +71,9 @@
   display: block;
   margin: 10px;
   padding: 25px;
+}
+
+#txtanswer0, #txtanswer1, #txtanswer2, #txtanswer3 {
+  font-size: 40px;
+  color: white;
 }
