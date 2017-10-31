@@ -34,23 +34,27 @@ The music that is used comes from bensound.com/royalty-free-music and should be 
 
 ## Minimum Viable Product Requirements
 
-1. Teacher logs in (Email log in supported)
-2. On login success, teach taken to HIS Admin page.  Page should show status of previous rooms, some finished (scores recorded), some live.  Admin page should have ability to create a quiz.
+1.	Teacher logs in (Email log in supported)
+2.	On login success, teach taken to HIS Admin page. Page should show status of previous rooms, some finished (scores recorded), some live.
+3.	Teacher selects Create New Quiz button which redirects to the first creator page.
+4.	On the first creator page, the teacher fills out the form with the quiz a name before continuing to the second creator page by clicking the “ok, go” button.
+a.	Description text also required – ignored for now
+b.	Audience drop down also required – ignored for now
+5.	On the second creator page, the teacher clicks the “Add Question” button to be redirected to a question content form.
+6.	On the question content form, the teacher adds the text for the question, and adds the text for at least 2 answer options with the correct answer identified with a check button. The user clicks the “next” button once completing the question which returns them to the second creator page where they have the option to edit or delete any questions added, or create another question.
+7.	Once the teacher has finished making questions, they click on the “save” button on the second creator page which redirects them to the quiz summary page.
+8.	On the quiz summary page the teacher is shown the title of the quiz and a count of the number of questions it contains. The teacher also has 4 button options: “edit it” takes the teacher back to the second creator page; “I’m done” takes the teacher back to their admin page where they can see the newly created quiz listed; “play it” opens a new tab with the landing page of the game and takes the teacher there.
+9.	Teacher presses the “play it” button on the quiz summary page or from the admin page.
+10.	Student goes to the student register page and enters name and room code from Teachers projector view.
+11.	Student is placed in joined confirmation page, teacher is notified that student has joined.
+12.	Teacher starts game by pressing “Start game” button.
 
-**********
-Laura ADD Minimum Quiz creation steps here
-***********
-
-3. Teacher creates a room and room is created.
-4. Student goes to Register page and enters name and room code from Teachers projector view.
-6. Student is placed in confirmation page, teacher is notified that student has joined.
-7. Teacher starts game by pressing Start game button.
 
 # QUESTION LOOP
-* Counted of 5 seconds to start of question, students screen is blank. 
+* Counted of 5 seconds to start of question, students screen is blank.
 
 * Question is displayed alone for 10 seconds.  Students screen is blank
-* Teacher's display shows question and 4 possible answers.  A countdown of 30 seconds shows how long students can vote. During this time students view shows 4 buttons and can vote for an answer once.  Once the vote is registered, the page notifies the student that their vote was cast.   After 30 seconds, If no vote is given the screen notifies student no vote was recorded. 
+* Teacher's display shows question and 4 possible answers.  A countdown of 30 seconds shows how long students can vote. During this time students view shows 4 buttons and can vote for an answer once.  Once the vote is registered, the page notifies the student that their vote was cast.   After 30 seconds, If no vote is given the screen notifies student no vote was recorded.
 * Screen changes to results page for that question.  Student Results page shows total points for the user for that question, or if no vote was given and current ranking (3rd out of 7 students) in total.  At same time, teachers view shows a histogram of student votes for the question among the 4 possible answers.  Options here: Start Next question, or end game.
 
 Repeat these steps for each question
@@ -66,13 +70,10 @@ Teacher screen taken to the final scoreboard showing the winner.
 2. Type `firebase login`, and it will require you to login to Firebase via a browser window.
 3. Type `firebase init` to start the project tool.  This allows you to configure hosting.  Select Hosting in the menu, and press enter.
 4. On the next menu associate the hosting to an existing Firebase project.  Select it in this list and press enter.
-5. On the next menu it asks you what folder to use as public.  Type `dist` and press enter.  Make sure you've built the folder using `ng build` 
+5. On the next menu it asks you what folder to use as public.  Type `dist` and press enter.  Make sure you've built the folder using `ng build`
 6. When it asks to rewrite all urls to /index.html answer Y (yes) and press enter.
 7. When it asks to overwrite index.html answer n (No)
 
 At this point your Firebase project will be prepared to be hosted.  To deploy the project go to the next step.
 
 8. Type `firebase deploy` to start the deployment process using the Firebase CLI tool.  There is no steps required here, it should just upload and work!
-
-
-
