@@ -4,12 +4,22 @@
   </h2>
   <!-- quiz-form.component.html -->
   <form class="quiz-form" [formGroup]="quizForm" (ngSubmit)="onSubmit()">
-    <label for="name">Name</label>
-    <input formControlName="name" />
+
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control" formControlName="name">
+      <small *ngIf="!quizForm.controls.name.valid" class="text-danger">
+        Name is required.
+      </small>
+    </div>
+
+    <!-- <label for="name">Name</label>
+    <input formControlName="name" /> -->
+
     <br/>
     <app-question-list [quizForm]="quizForm" [questions]="myQuiz.questions">
     </app-question-list>
-    <button type="submit" [disabled]="!myQuiz.valid">
+    <button type="submit" [disabled]="!quizForm.valid">
         Submit
     </button>
   </form>

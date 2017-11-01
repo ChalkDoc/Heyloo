@@ -28,7 +28,7 @@ export class QuizFormComponent implements OnInit {
     this.initialQuiz = this.getQuiz();
     this.myQuiz = _.cloneDeep(this.initialQuiz);
     this.quizForm = this.toFormGroup(this.myQuiz);
-    console.log('Initial Quiz', this.myQuiz);
+    console.log('Initial myQuiz', this.myQuiz);
   }
 
   // This fires whenever something changes in the form
