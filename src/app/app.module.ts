@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { masterFirebaseConfig } from './api-keys';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -16,6 +16,9 @@ import { StudentService } from './student.service';
 import { BarGraphComponent } from './bar-graph/bar-graph.component';
 import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from './home/home.component';
+import { QuizFormComponent } from './quiz-form/quiz-form.component';
+import { QuestionListComponent } from './question-list/question-list.component';
+import { QuestionFormComponent } from './question-form/question-form.component';
 
 export const firebaseConfig = {
   apiKey: masterFirebaseConfig.apiKey,
@@ -32,10 +35,14 @@ export const firebaseConfig = {
     RegisterComponent,
     StartComponent,
     BarGraphComponent,
-    HomeComponent
+    HomeComponent,
+    QuizFormComponent,
+    QuestionListComponent,
+    QuestionFormComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),

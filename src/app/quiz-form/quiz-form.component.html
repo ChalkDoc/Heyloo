@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>
+    Quiz Form
+  </h2>
+  <!-- quiz-form.component.html -->
+  <form class="quiz-form" [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control" formControlName="name">
+      <small *ngIf="!quizForm.controls.name.valid" class="text-danger">
+        Name is required.
+      </small>
+    </div>
+
+    <!-- <label for="name">Name</label>
+    <input formControlName="name" /> -->
+
+    <br/>
+    <app-question-list [quizForm]="quizForm" [questions]="myQuiz.questions">
+    </app-question-list>
+    <button type="submit" [disabled]="!quizForm.valid">
+        Submit
+    </button>
+  </form>
+
+  <div class="quiz-form-state">
+    <p>Current quiz state:</p>
+    <pre>{{ myQuiz | json }}</pre>
+  </div>
+</div>

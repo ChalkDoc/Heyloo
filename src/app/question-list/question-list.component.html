@@ -1,0 +1,10 @@
+<div [formGroup]="quizForm">
+  <div formArrayName="questions">
+    <div *ngFor="let question of questions; let idx=index">
+      Question {{question.id}} (<a href="" (click)="removeQuestion(idx)">Remove</a>)
+      <app-question-form [questions]="quizForm.controls.questions" [question]="question">
+      </app-question-form>
+    </div>
+    <a href="" (click)="addQuestion()">Add Question</a>
+  </div>
+</div>
