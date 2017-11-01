@@ -1,10 +1,21 @@
 <div class="container">
+  <h2>
+    Quiz Form
+  </h2>
   <!-- quiz-form.component.html -->
-  <form [formGroup]="quizForm">
+  <form class="quiz-form" [formGroup]="quizForm" (ngSubmit)="onSubmit()">
     <label for="name">Name</label>
     <input formControlName="name" />
     <br/>
-    <app-question-list [quizForm]="quizForm" [questions]="quizForm.questions">
+    <app-question-list [quizForm]="quizForm" [questions]="myQuiz.questions">
     </app-question-list>
+    <button type="submit" [disabled]="!myQuiz.valid">
+        Submit
+    </button>
   </form>
+
+  <div class="quiz-form-state">
+    <p>Current quiz state:</p>
+    <pre>{{ myQuiz | json }}</pre>
+  </div>
 </div>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { Quiz, Question, Answer, AnswerType } from '../quiz.interface';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Quiz } from '../quiz.interface';
 import * as _ from 'lodash';
 
 @Component({
@@ -8,6 +8,14 @@ import * as _ from 'lodash';
   templateUrl: './quiz-form.component.html',
   styleUrls: ['./quiz-form.component.css']
 })
+
+// Beautiful Instructions at: http://brophy.org/post/nested-reactive-forms-in-angular2/
+// and https://scotch.io/tutorials/how-to-build-nested-model-driven-forms-in-angular-2
+
+// A QuizFormComponent who knows only about root level 
+// Quiz fields and how to prompt for them in inputs, 
+// and nothing about questions or answers
+
 export class QuizFormComponent implements OnInit {
   public initialQuiz: Quiz;
   public myQuiz: Quiz;
@@ -23,6 +31,7 @@ export class QuizFormComponent implements OnInit {
     console.log('Initial Quiz', this.myQuiz);
   }
 
+  // This fires whenever something changes in the form
   ngAfterViewInit() {
     this.quizForm.valueChanges
         .subscribe(value => {
@@ -35,7 +44,7 @@ export class QuizFormComponent implements OnInit {
 }
 
   private getQuiz(): Quiz {
-        // initialize a Quiz
+        // creating a default Quiz
         return {
           name:"My Quiz",
           questions: [{
@@ -44,23 +53,6 @@ export class QuizFormComponent implements OnInit {
             instructions: "Instructions go here",
             time: 30000,
             answerId: 1
-            // answers: [{
-            //   id:1,
-            //   data:"Answer #1",
-            //   type:"text"
-            // },{
-            //   id:2,
-            //   data:"Answer #2",
-            //   type:"text"
-            // },{
-            //   id:3,
-            //   data:"Answer #3",
-            //   type:"text"
-            // },{
-            //   id:4,
-            //   data:"Answer #4",
-            //   type:"text"
-            // }]
           }]
         } 
   }
@@ -79,7 +71,7 @@ export class QuizFormComponent implements OnInit {
     if (_.isArray(objValue)) {
         if (_.isPlainObject(objValue[0]) || _.isPlainObject(srcValue[0])) {
             return srcValue.map(src => {
-                const obj = _.find(objValue, { id: src.id });
+                const obj = _.find(objValue, { id: src.id }); // you cannot alter the ID in the form
                 return _.mergeWith(obj || {}, src, this.mergeCustomizer);
             });
         }
@@ -106,7 +98,3 @@ export class QuizFormComponent implements OnInit {
 
 
 } // End of class
-
-// Beautiful Instructions at: http://brophy.org/post/nested-reactive-forms-in-angular2/
-// and https://scotch.io/tutorials/how-to-build-nested-model-driven-forms-in-angular-2
-

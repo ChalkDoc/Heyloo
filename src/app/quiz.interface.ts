@@ -18,7 +18,7 @@ export interface Answer {
   type: string; // to be enum AnswerType in the future
 }
 
-export enum AnswerType {
-  url = "URL",
-  text = "TEXT"
-}
+// export enum AnswerType {
+//   url = "URL",
+//   text = "TEXT"
+// }
