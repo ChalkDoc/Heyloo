@@ -47,13 +47,7 @@ export class QuizFormComponent implements OnInit {
         // creating a default Quiz
         return {
           name:"My Quiz",
-          questions: [{
-            id: 1,
-            title: "Question 1",
-            instructions: "Instructions go here",
-            time: 30000,
-            answerId: 1
-          }]
+          questions: []
         } 
   }
 
