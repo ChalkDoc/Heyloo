@@ -34,19 +34,19 @@ The music that is used comes from bensound.com/royalty-free-music and should be 
 
 ## Minimum Viable Product Requirements
 
-1.	Teacher logs in (Email log in supported)
-2.	On login success, teach taken to HIS Admin page. Page should show status of previous rooms, some finished (scores recorded), some live.
-3.	Teacher selects Create New Quiz button which redirects to the first creator page.
-4.	On the first creator page, the teacher fills out the form with the quiz a name before continuing to the second creator page by clicking the “ok, go” button.
+1.	Teacher logs in on the Login Page (Email log in supported)
+2.	On login success, teach taken to HIS Admin Page. Page should show status of previous rooms, some finished (scores recorded), some live.
+3.	Teacher selects Create New Quiz button which redirects to the First Quiz Creator Page.
+4.	On the First Quiz Creator Page, the teacher fills out the form with the quiz name before continuing to the Second Quiz Creator Page by clicking the “ok, go” button.
 a.	Description text also required – ignored for now
 b.	Audience drop down also required – ignored for now
-5.	On the second creator page, the teacher clicks the “Add Question” button to be redirected to a question content form.
-6.	On the question content form, the teacher adds the text for the question, and adds the text for at least 2 answer options with the correct answer identified with a check button. The user clicks the “next” button once completing the question which returns them to the second creator page where they have the option to edit or delete any questions added, or create another question.
-7.	Once the teacher has finished making questions, they click on the “save” button on the second creator page which redirects them to the quiz summary page.
-8.	On the quiz summary page the teacher is shown the title of the quiz and a count of the number of questions it contains. The teacher also has 4 button options: “edit it” takes the teacher back to the second creator page; “I’m done” takes the teacher back to their admin page where they can see the newly created quiz listed; “play it” opens a new tab with the landing page of the game and takes the teacher there.
-9.	Teacher presses the “play it” button on the quiz summary page or from the admin page.
-10.	Student goes to the student register page and enters name and room code from Teachers projector view.
-11.	Student is placed in joined confirmation page, teacher is notified that student has joined.
+5.	On the Second Quiz Creator Page, the teacher clicks the “Add Question” button to be redirected to a Question Content Form Page.
+6.	On the Question Content Form Page, the teacher adds the text for the question, and adds the text for at least 2 answer options with the correct answer identified with a check button. The user clicks the “next” button once completing the question which returns them to the Second Quiz Creator Page where they have the option to edit or delete any questions added, or create another question.
+7.	Once the teacher has finished making questions, they click on the “save” button on the Second Quiz Creator Page which redirects them to the Quiz Summary Page.
+8.	On the Quiz Summary Page the teacher is shown the title of the quiz and a count of the number of questions it contains. The teacher also has 3 button options: “edit it” takes the teacher back to the Second Quiz Creator Page; “I’m done” takes the teacher back to their Admin Page where they can see the newly created quiz listed; “play it” opens a new tab with the Play Quiz Landing Page and takes the teacher there.
+9.	Teacher presses the “play it” button on the Quiz Summary Page or from the Admin Page.
+10.	Student goes to the Student Register Page and enters name and room code from teacher's projector view.
+11.	Student is placed in Joined Confirmation Page, teacher is notified that student has joined on the Play Quiz Landing Page.
 12.	Teacher starts game by pressing “Start game” button.
 
 
