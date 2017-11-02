@@ -22,7 +22,14 @@ export class QuestionListComponent implements OnInit {
 
   nextId: number;
 
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(private cd: ChangeDetectorRef) {
+    this.questions = [];
+   }
+
+  // <previous> 1. Create FormGroup quizForm
+  // <previous> 2. Add Quiz controls to FormGroup (via toFormGroup)
+  // 3. Add questions FormArray to FormGroup
+  // 4. Add first Question to questions FormArray
 
   ngOnInit() {
     console.log('Initializing question list', this.questions);
@@ -37,9 +44,9 @@ export class QuestionListComponent implements OnInit {
   }
 
   addQuestion() {
-    const question: Question = {
+    let question: Question = {
         id: this.getNextId(),
-        title: 'My Question',
+        title: 'My test',
         instructions: 'Instructions here',
         time: 30000,
         answerId: 1,
@@ -47,14 +54,18 @@ export class QuestionListComponent implements OnInit {
     };
 
     for(var i=1;i<=4;i++){
-      var a: Answer = {
+      const a: Answer = {
         id: i,
         data: "Answer #" + i.toString(),
         type: "TEXT"
       }
       question.answers.push(a);
     }
+    console.log("question equals=" + question);
+    console.log("question answer 2 data = " + question.answers[1].data);
+    
     this.questions.push(question);
+   // console.log("checking questions question answer 2 data = " + this.questions[1].answers[1].data);
     this.cd.detectChanges();
     return false;
   }

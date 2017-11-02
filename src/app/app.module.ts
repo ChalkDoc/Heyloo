@@ -19,6 +19,7 @@ import { HomeComponent } from './home/home.component';
 import { QuizFormComponent } from './quiz-form/quiz-form.component';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { QuestionFormComponent } from './question-form/question-form.component';
+import { AnswerFormComponent } from './answer-form/answer-form.component';
 
 export const firebaseConfig = {
   apiKey: masterFirebaseConfig.apiKey,
@@ -38,7 +39,8 @@ export const firebaseConfig = {
     HomeComponent,
     QuizFormComponent,
     QuestionListComponent,
-    QuestionFormComponent
+    QuestionFormComponent,
+    AnswerFormComponent
   ],
   imports: [
     BrowserModule,
