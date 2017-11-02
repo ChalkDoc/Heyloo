@@ -1,8 +1,19 @@
 export class Question {
-  time: number
-  student_choices: number[];
-  constructor(public title: string, public instructions: string, public prompt: string, public choices: string[], public answer: number) {
-    this.time = 30;
-    this.student_choices = [0, 0, 0, 0];
-  }
+  public student_choices: number[];
+  public title: string;
+  public instructions: string;
+  public time: number;
+  public prompt: string;
+  public choices: string[];
+  public answer: number
+
+  constructor(title: string, instructions: string, time: number, prompt: string, choices: string[], answer: number){
+      this.title = title;
+      this.instructions = instructions;
+      this.time = time;
+      this.prompt = prompt;
+      this.choices = choices;
+      this.answer = answer;
+      this.student_choices =[0, 0, 0, 0];
+    }
 }

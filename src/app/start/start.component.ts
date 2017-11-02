@@ -33,6 +33,11 @@ export class StartComponent implements OnInit {
     return Math.floor(Math.random()*90000) + 10000;
   }
 
+  // id: number
+  // game_state: string
+  // game_over: boolean
+  // public player_list: Player[]
+  //  public question_list: Question[]
   createGame(game){
     var newGame: Game = new Game(this.randomId(), "starting", false, [], this.questions);
     this.hostService.createGame(newGame);

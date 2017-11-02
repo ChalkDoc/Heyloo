@@ -1,9 +1,12 @@
 <div id="student">
+
+  <!-- starting phase -->
   <div class="container" *ngIf="subGame?.game_state == 'starting' " class="message-text">
     <h1>You've joined Room {{subGame?.id}}!</h1>
     <h3>Please wait for the teacher to start the game.</h3>
   </div>
 
+  <!-- question phase -->
   <div class="container" *ngIf="subGame?.game_state == 'question'">
     <div *ngIf="subStudent?.answered == false">
       <div class="row">
@@ -41,6 +44,7 @@
     </div>
   </div>
 
+  <!-- answer phase -->
   <div class="container" *ngIf="subGame?.game_state == 'answer' || subGame?.game_state == 'leaderboard'">
     <div class="container">
       <h1><u>{{subStudent?.name}}</u></h1>

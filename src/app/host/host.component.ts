@@ -20,7 +20,7 @@ export class HostComponent {
   subGame: FirebaseObjectObservable<any[]>;
   playerList: FirebaseListObservable<any[]>;
   gameId;
-  currentGame;
+  public currentGame;
   questions: Question[];
   currentQuestion: Question;
   time: number = 0;
@@ -38,7 +38,10 @@ export class HostComponent {
   ngOnInit() {
     var gameKey;
     this.questions = this.hostService.getQuestions();
+
+    // How many questions remain in the game
     this.questionsRemaining = this.questions.length - 1;
+
     this.games = this.hostService.getGames();
     this.route.params.forEach((urlParameters) => {
       this.gameId = urlParameters["id"];
@@ -53,6 +56,8 @@ export class HostComponent {
       });
       this.subGame = this.hostService.getGameFromCode(this.currentGame.id);
       this.getPlayerList(this.currentGame.id);
+
+      // This ensures currentQuestion is always up to date.
       this.subGame.subscribe(data => {
         gameKey = data['$key'];
         this.currentQuestion = data['question_list'][data['current_question']];
@@ -163,7 +168,7 @@ export class HostComponent {
 
   //If all students answer during question phase, gameStateAnswer() will run
   thirtySeconds(){
-    this.time = 8;
+    this.time = this.currentQuestion.time;
     var interval = setInterval(data => {
       if(this.time != 0){
         let counter = 0; // Counting answers
