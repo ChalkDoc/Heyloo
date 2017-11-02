@@ -15,6 +15,7 @@ import { StudentService } from '../student.service';
 })
 
 export class HostComponent {
+
   games: FirebaseListObservable<any[]>;
   subGame: FirebaseObjectObservable<any[]>;
   playerList: FirebaseListObservable<any[]>;
@@ -28,12 +29,16 @@ export class HostComponent {
   private hideBarGraph = true;
   currentQuestionSubstring;
 
+  questionsRemaining: number;
+
+
   constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
   }
 
   ngOnInit() {
     var gameKey;
     this.questions = this.hostService.getQuestions();
+    this.questionsRemaining = this.questions.length - 1;
     this.games = this.hostService.getGames();
     this.route.params.forEach((urlParameters) => {
       this.gameId = urlParameters["id"];
@@ -64,7 +69,7 @@ export class HostComponent {
 
   //switching between the 5 game phases (start)
 
-  //"Let's begin" button
+  // countdown timer shows on screen
   gameStateCountdown(){
     var players;
     this.subGame.subscribe(data => {
@@ -78,6 +83,7 @@ export class HostComponent {
     }
   }
 
+  // Question is shown for certain amount of time without answers
   gameStatePreQuestion(){
     var substring;
     this.hostService.editGameState('prequestion', this.currentGame);
@@ -86,13 +92,20 @@ export class HostComponent {
     this.preQuestionCountdown();
   }
 
+  // Question is visible, voting opens
   gameStateQuestion(){
     this.hostService.editGameState('question', this.currentGame);
     this.thirtySeconds();
   }
 
+  //  Answer Distrobution Chart visible
   gameStateAnswer(){
     this.hostService.editGameState('answer', this.currentGame);
+  }
+
+  // Host shows current users ranks
+  gameStateCurrentRankings(){
+    this.hostService.editGameState('ranking', this.currentGame);
   }
 
   gameStateLeaderboard(){
@@ -153,13 +166,14 @@ export class HostComponent {
     this.time = 8;
     var interval = setInterval(data => {
       if(this.time != 0){
-        let counter = 0;
+        let counter = 0; // Counting answers
         for (let key of Object.keys(this.currentGame.player_list)) {
           let playerInfo = this.currentGame.player_list[key]
           if(playerInfo.answered===true){
             counter += 1
           };
         }
+        // If everyone has submitted an answer, finish countdown
         if(counter === Object.keys(this.currentGame.player_list).length){
         clearInterval(interval);
         this.gameStateAnswer();
@@ -188,7 +202,8 @@ export class HostComponent {
 
   endGame(){
     this.hostService.gameOver(this.currentGame);
-    this.gameStateLeaderboard();
+    this.hostService.editGameState('leaderboard', this.currentGame);
+    this.getLeaderboard();
   }
 
   getLeaderboard(){
@@ -204,9 +219,20 @@ export class HostComponent {
     this.topPlayers = leaderboard.slice(0, 5);
   }
 
-  nextQuestionWithoutLeaderboard() {
+  // nextQuestionWithoutLeaderboard() {
+  //   this.gameStateLeaderboard();
+  //   this.gameStateCountdown();
+  // }
+
+  continueGame() {
+    // Add logic to see if the game is over
+    if(this.questionsRemaining == 0){
+      this.endGame();
+    }
+    console.log("Questions remaining =" + this.questionsRemaining.toString())
+    this.questionsRemaining--;
+    // This shows the leaderboard
     this.gameStateLeaderboard();
-    this.gameStateCountdown();
   }
 
 }

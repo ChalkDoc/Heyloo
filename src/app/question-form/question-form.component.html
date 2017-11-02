@@ -11,4 +11,11 @@
   <br/>
   <label for="answerId">answerId</label>
   <input formControlName="answerId" />
+  <div formArrayName="answers">
+    <div *ngFor="let answer of question.answers; let idx=index">
+      Answer {{answer.id}}
+      <app-answer-form [answers]="questionForm.controls.answ" [answer]="answer">
+      </app-answer-form>
+    </div>
+  </div>
 </div>

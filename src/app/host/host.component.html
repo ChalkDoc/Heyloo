@@ -29,6 +29,7 @@
 			<h1>The next question will start in {{time}}....</h1>
 		</div>
 
+
 		<!-- prequestion phase (answers don't show yet) -->
 		<div class="row pre-question" *ngIf="currentGame?.game_state == 'prequestion' ">
 			<div class="jumbotron">
@@ -183,7 +184,7 @@
 			<div class="container">
 				<button class="btn" type="button" (click)='gameStateLeaderboard()'>Go to leaderboard</button>
 				<br><br>
-				<button class="btn btn-success" type="button" (click)='nextQuestionWithoutLeaderboard()'>Next question</button>
+				<button class="btn btn-success" type="button" (click)='continueGame()'>Next question</button>
 				<button class="btn btn-danger" type="button" (click)='endGame()'>End Game</button>
 			</div>
 		</div>

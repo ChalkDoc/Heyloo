@@ -8,15 +8,18 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
 import { QUESTIONS } from './sample-questions';
+import { Observable } from 'rxjs/Observable'; //Added by STZ
 
 @Injectable()
 export class HostService {
   games: FirebaseListObservable<any[]>;
-  subGames: Game[];
+  quizzes: FirebaseListObservable<any[]>;  // Added by STZ
+  subGames: Game[]; // our list of games
 
   constructor(private database: AngularFireDatabase, private http: Http) {
     this.games = database.list('games');
     this.games.subscribe(data => {this.subGames = data})
+    this.quizzes = database.list('quizzes'); // Added by STZ, list of quizes
   }
 
   getGames(){
@@ -27,6 +30,7 @@ export class HostService {
     return this.database.object('games/' + chosenGameId);
   }
 
+  // this returns a DB reference
   getGameFromCode(roomcode: number){
     var thisGame;
     for(let i=0; i<this.subGames.length; i++){
@@ -60,6 +64,7 @@ export class HostService {
     return newGame;
   }
 
+  // from STZ - currently we get these questions from code, but we need to get them from Firebase instead
   getQuestions() {
     return QUESTIONS;
   }
@@ -69,12 +74,17 @@ export class HostService {
     currentGame.update({game_state: gameState});
   }
 
-  nextQuestion(game){
+  // this creates a listener that fires when
+  // current_question changes on the server
+  nextQuestion(game) {
     var nextQuestion;
-    var currentGame = this.getGameFromCode(game.id);
+    var currentGame = this.getGameFromCode(game.id); // returns a db ref to our game
+
+    // is this subscribe code needed?
     currentGame.subscribe(data => {
       nextQuestion = data['current_question'];
     })
+    // This should be inside the subsciption right?
     currentGame.update({current_question: nextQuestion + 1});
   }
 
@@ -91,6 +101,10 @@ export class HostService {
   updatePlayerChoice(questions, game){
     var currentGame = this.getGameFromCode(game.id);
     currentGame.update({question_list: questions});
+  }
+
+  createQuiz(quiz: any): void{
+    this.quizzes.push(quiz);
   }
 
 }

@@ -1,12 +1,14 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { HostService } from '../host.service';
 import { Quiz } from '../quiz.interface';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-quiz-form',
   templateUrl: './quiz-form.component.html',
-  styleUrls: ['./quiz-form.component.css']
+  styleUrls: ['./quiz-form.component.css'],
+  providers: [HostService]
 })
 
 // Beautiful Instructions at: http://brophy.org/post/nested-reactive-forms-in-angular2/
@@ -21,7 +23,11 @@ export class QuizFormComponent implements OnInit {
   public myQuiz: Quiz;
   public quizForm: FormGroup; // our form model
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private hostService: HostService) { }
+
+
+  // 1. Create FormGroup quizForm
+  // 2. Add Quiz controls to FormGroup (via toFormGroup)
 
   ngOnInit() {
     // we will initialize our form here
@@ -85,7 +91,10 @@ export class QuizFormComponent implements OnInit {
 
     console.log('Submitting...');
     console.log('Original quiz', this.initialQuiz);
-    console.log('Updated parentData', updatedQuiz);
+    console.log('Updated JSON', updatedQuiz);
+    console.log('myQuiz JSON', this.myQuiz);
+
+    this.hostService.createQuiz(updatedQuiz);
 
     return false;
 }
