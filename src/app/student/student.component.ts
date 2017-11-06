@@ -108,6 +108,12 @@ export class StudentComponent implements OnInit {
   // number of milliseconds
   // This is hard-coded to 30 seconds responses
   // 1000 maximum score, 500 minimum score
+  // End-start returns a number of milliseconds (eg 2472 ms)
+  // Dividing by 1000 gives us a elapsed time for the question in seconds (eg 2 sec)
+  // Divided by currentQuestion.time (20') gives us a percentage moving (eg .1)
+
+  // TODO: Add Unit tests here
+
   scoringAlgorithm(end, start){
     return Math.round(1000 * (1 - ((((end - start) / 1000)/this.currentQuestion.time)/2)));
   }

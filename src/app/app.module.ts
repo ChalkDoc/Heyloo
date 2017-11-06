@@ -16,10 +16,6 @@ import { StudentService } from './student.service';
 import { BarGraphComponent } from './bar-graph/bar-graph.component';
 import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from './home/home.component';
-import { QuizFormComponent } from './quiz-form/quiz-form.component';
-import { QuestionListComponent } from './question-list/question-list.component';
-import { QuestionFormComponent } from './question-form/question-form.component';
-import { AnswerFormComponent } from './answer-form/answer-form.component';
 
 export const firebaseConfig = {
   apiKey: masterFirebaseConfig.apiKey,
@@ -36,11 +32,7 @@ export const firebaseConfig = {
     RegisterComponent,
     StartComponent,
     BarGraphComponent,
-    HomeComponent,
-    QuizFormComponent,
-    QuestionListComponent,
-    QuestionFormComponent,
-    AnswerFormComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
