@@ -19,7 +19,6 @@ export class HostService {
   constructor(private database: AngularFireDatabase, private http: Http) {
     this.games = database.list('games');
     this.games.subscribe(data => {this.subGames = data})
-    this.quizzes = database.list('quizzes'); // Added by STZ, list of quizes
   }
 
   getGames(){
@@ -101,10 +100,6 @@ export class HostService {
   updatePlayerChoice(questions, game){
     var currentGame = this.getGameFromCode(game.id);
     currentGame.update({question_list: questions});
-  }
-
-  createQuiz(quiz: any): void{
-    this.quizzes.push(quiz);
   }
 
 }
