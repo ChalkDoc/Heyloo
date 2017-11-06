@@ -25,6 +25,8 @@ h1, h3 {
 
 #answer1 {
   background-color: rgb(114, 49, 87);
+  height: 100%;
+  width:100%;
 }
 
 #answer2 {
