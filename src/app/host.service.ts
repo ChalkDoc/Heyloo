@@ -7,8 +7,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
-import { QUESTIONS } from './sample-questions';
-import { Observable } from 'rxjs/Observable'; //Added by STZ
+import { QUESTIONS } from './sample-questions-all';
 
 @Injectable()
 export class HostService {
