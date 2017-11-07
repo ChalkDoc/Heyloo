@@ -7,12 +7,11 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
-import { QUESTIONS } from './sample-questions-all';
+import { QUESTIONS } from './sample-questions';
 
 @Injectable()
 export class HostService {
   games: FirebaseListObservable<any[]>;
-  quizzes: FirebaseListObservable<any[]>;  // Added by STZ
   subGames: Game[]; // our list of games
 
   constructor(private database: AngularFireDatabase, private http: Http) {
