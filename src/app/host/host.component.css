@@ -8,6 +8,11 @@
 
 .jumbotron {
   background-color: rgb(224, 73, 81);
+  color: black;
+}
+
+.jumbotron-prequestion {
+  background-color: rgb(224, 73, 81);
   color: white;
 }
 
@@ -25,11 +30,9 @@
   text-align: center;
 }
 
-/*.current-question, */
-
 .pre-question {
   font-family: 'Patrick Hand SC', cursive;
-  font-size: 50px;
+  font-size: 40px;
 }
 
 #question-number {
@@ -94,5 +97,6 @@
 
 /* Image size fix for answer choices at bottom of Answer Dist Chart */
 .answer-chart {
-  width: 200px;
+  width: 100%;
+  height: auto;
 }

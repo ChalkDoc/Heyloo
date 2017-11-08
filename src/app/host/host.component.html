@@ -24,7 +24,7 @@
 			</div>
 		</div>
 
-		<!-- countodwn phase -->
+		<!-- countdown phase -->
 		<div class="row countdown" *ngIf="currentGame?.game_state == 'countdown' ">
 			<h1>The next question will start in {{time}}....</h1>
 		</div>
@@ -44,16 +44,18 @@
 			<div class="row">
 			</div>
 			<div class="jumbotron">
+				<div class="jumbotron-prequestion">
 				<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
 					{{currentQuestion?.instructions}}
-					<br><br>
+					<br>
 					<img src="{{currentQuestion?.prompt}}">
 				</div>
 				<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
 					{{currentQuestion?.instructions}}
-					<br><br>
-					{{currentQuestion?.prompt}}
+					<br>
+					<img class="prompt" src="{{currentQuestion?.prompt}}">
 				</div>
+			</div>
 			</div>
 		</div>
 
@@ -78,28 +80,21 @@
 					<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
 						{{currentQuestion?.instructions}}
 						<br>
-						{{currentQuestion?.prompt}}
+						<img class="prompt" src="{{currentQuestion?.prompt}}">
 					</div>
 				</div>
 			</div>
-			<!-- <div class="col-md-12">
-				<span class='timer'>{{time}}</span>
-				<br>
-				<button class="btn btn-warning" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
-				<br>
-				<br>
-			</div> -->
 			<div class="row">
 				<div class="col-md-6">
 					<div class="answer1">
 						<i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer0">{{currentQuestion?.choices[0]}}</p>
+						<p id="txtanswer0"><img class="answer" src="{{currentQuestion?.choices[0]}}"></p>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="answer2">
 						<i class="fa fa-star fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer1">{{currentQuestion?.choices[1]}}</p>
+						<p id="txtanswer1"><img class="answer" src="{{currentQuestion?.choices[1]}}"></p>
 					</div>
 				</div>
 			</div>
@@ -107,13 +102,13 @@
 				<div class="col-md-6">
 					<div class="answer3">
 						<i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer2">{{currentQuestion?.choices[2]}}</p>
+						<p id="txtanswer2"><img class="answer" src="{{currentQuestion?.choices[2]}}"></p>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="answer4">
 						<i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer3">{{currentQuestion?.choices[3]}}</p>
+						<p id="txtanswer3"><img class="answer" src="{{currentQuestion?.choices[3]}}"></p>
 					</div>
 				</div>
 			</div>
@@ -136,19 +131,19 @@
 				<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
 					{{currentQuestion?.instructions}}
 					<br><br>
-					{{currentQuestion?.prompt}}
+					<img class="prompt-chart" src="{{currentQuestion?.prompt}}">
 				</div>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="answer1">
 							<i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-							<p>{{currentQuestion?.choices[0]}}</p>
+							<p><img class="answer" src="{{currentQuestion?.choices[0]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="answer2">
 							<i class="fa fa-star fa-5x" aria-hidden="true"></i>
-							<p>{{currentQuestion?.choices[1]}}</p>
+							<p><img class="answer" src="{{currentQuestion?.choices[1]}}"></p>
 						</div>
 					</div>
 				</div>
@@ -156,13 +151,13 @@
 					<div class="col-md-6">
 						<div class="answer3">
 							<i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-							<p>{{currentQuestion?.choices[2]}}</p>
+							<p><img class="answer" src="{{currentQuestion?.choices[2]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="answer4">
 							<i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-							<p>{{currentQuestion?.choices[3]}}</p>
+							<p><img class="answer" src="{{currentQuestion?.choices[3]}}"></p>
 						</div>
 					</div>
 				</div>
@@ -172,22 +167,22 @@
 				<div class="row">
 					<div class="col-md-3">
 						<div class="answer1">
-							<p>{{currentQuestion?.choices[0]}}</p>
+							<p><img class="answer-chart" src="{{currentQuestion?.choices[0]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer2">
-							<p>{{currentQuestion?.choices[1]}}</p>
+							<p><img class="answer-chart" src="{{currentQuestion?.choices[1]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer3">
-							<p>{{currentQuestion?.choices[2]}}</p>
+							<p><img class="answer-chart" src="{{currentQuestion?.choices[2]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer4">
-							<p>{{currentQuestion?.choices[3]}}</p>
+							<p><img class="answer-chart" src="{{currentQuestion?.choices[3]}}"></p>
 						</div>
 					</div>
 				</div>
