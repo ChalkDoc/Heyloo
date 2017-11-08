@@ -78,6 +78,7 @@
   color: white;
 }
 
+/* Image size fix for answer choices at bottom of Answer Dist Chart */
 .answer-chart {
   width: 200px;
 }
