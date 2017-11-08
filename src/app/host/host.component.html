@@ -1,215 +1,227 @@
 <html id='host'>
-<div class="container">
+	<div class="container">
 
-  <!-- persistent room code -->
-  <div class='room-code' *ngIf='currentGame'>
-    <h3>Room Code: {{currentGame?.id}}</h3>
-  </div>
+		<!-- persistent room code -->
+		<div class='room-code' *ngIf='currentGame'>
+			<h3>Room Code: {{currentGame?.id}}</h3>
+		</div>
 
-  <!-- waiting room -->
-  <div class="row starting" *ngIf="currentGame?.game_state == 'starting' ">
-    <div class="jumbotron">
-      <h1><span class="heyloo">Heyloo!</span></h1>
-      <h2>Go to https://Heyloo-ced60.firebaseapp.com on your smartphone</h2>
-      <h2>Our PIN code is {{currentGame?.id}}</h2>
-      <p><button class="btn btn-success" (click)='gameStateCountdown()'>Let's begin!</button></p>
-    </div>
-    <div class="col-md-12">
-      <h3>Who's here:</h3>
-      <div class="player-list" *ngFor='let player of playerList | async'>
-        <span class='players' (click)='deleteStudent(player)'>{{player.name}}</span>
-        <br>
-        <br>
-      </div>
-    </div>
-  </div>
+		<!-- waiting room -->
+		<div class="row starting" *ngIf="currentGame?.game_state == 'starting' ">
+			<div class="jumbotron">
+				<h1><span class="heyloo">Heyloo!</span></h1>
+				<h2>Go to https://Heyloo-ced60.firebaseapp.com on your smartphone</h2>
+				<h2>Our PIN code is {{currentGame?.id}}</h2>
+				<p><button class="btn btn-success" (click)='gameStateCountdown()'>Let's begin!</button></p>
+			</div>
+			<div class="col-md-12">
+				<h3>Who's here:</h3>
+				<div class="player-list" *ngFor='let player of playerList | async'>
+					<span class='players' (click)='deleteStudent(player)'>{{player.name}}</span>
+					<br>
+					<br>
+				</div>
+			</div>
+		</div>
 
-  <!-- countdown phase -->
-  <div class="row countdown" *ngIf="currentGame?.game_state == 'countdown' ">
-    <h1>The next question will start in {{time}}....</h1>
-  </div>
+		<!-- countodwn phase -->
+		<div class="row countdown" *ngIf="currentGame?.game_state == 'countdown' ">
+			<h1>The next question will start in {{time}}....</h1>
+		</div>
 
 
-  <!-- prequestion phase (answers don't show yet) -->
-  <div class="row pre-question" *ngIf="currentGame?.game_state == 'prequestion' ">
-    <div class="jumbotron">
-      <div class="row">
-        <h1>{{currentQuestion?.title}}</h1>
-      </div>
-      <div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
-        {{currentQuestion?.instructions}}
-        <br><br>
-        <img src="{{currentQuestion?.prompt}}">
-      </div>
-      <div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
-        {{currentQuestion?.instructions}}
-        <br><br>
-        <img class="prompt" src="{{currentQuestion?.prompt}}">
-      </div>
-    </div>
-    <div class="col-md-12">
-      <span class='timer'>{{time}}</span>
-    </div>
-    <button class="btn btn-warning" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
-  </div>
+		<!-- prequestion phase (answers don't show yet) -->
+		<div class="row pre-question" *ngIf="currentGame?.game_state == 'prequestion' ">
+			<div class="col-md-2">
+				<span class='timer'>{{time}}</span>
+			</div>
+			<div class="col-md-8">
+				<h1 id=question-number>{{currentQuestion?.title}}</h1>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-warning" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+			</div>
+			<div class="row">
+			</div>
+			<div class="jumbotron">
+				<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
+					{{currentQuestion?.instructions}}
+					<br><br>
+					<img src="{{currentQuestion?.prompt}}">
+				</div>
+				<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
+					{{currentQuestion?.instructions}}
+					<br><br>
+					{{currentQuestion?.prompt}}
+				</div>
+			</div>
+		</div>
 
-  <!-- question phase (students see answer choices and can select their answer) -->
-  <div class="row questions" *ngIf="currentGame?.game_state == 'question' ">
-    <div class="jumbotron">
-      <div class="row">
-        <h1>{{currentQuestion?.title}}</h1>
-      </div>
-      <div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
-        {{currentQuestion?.instructions}}
-        <br><br>
-        <img src="{{currentQuestion?.prompt}}">
-      </div>
-      <div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
-        {{currentQuestion?.instructions}}
-        <br><br>
-        <img class="prompt" src="{{currentQuestion?.prompt}}">
-      </div>
-    </div>
-    <div class="col-md-12">
-      <span class='timer'>{{time}}</span>
-      <br>
-      <button class="btn btn-warning" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
-      <br>
-      <br>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="answer1">
-          <i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer0"><img class="answer" src="{{currentQuestion?.choices[0]}}"></p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="answer2">
-          <i class="fa fa-star fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer1"><img class="answer" src="{{currentQuestion?.choices[1]}}"></p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="answer3">
-          <i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer2"><img class="answer" src="{{currentQuestion?.choices[2]}}"></p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="answer4">
-          <i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer3"><img class="answer" src="{{currentQuestion?.choices[3]}}"></p>
-        </div>
-      </div>
-    </div>
-    <br>
-    <br>
-  </div>
+		<!-- question phase (students see answer choices and can select their answer) -->
+		<div class="row questions" *ngIf="currentGame?.game_state == 'question' ">
+			<div class="col-md-6">
+				<span class='timer'>{{time}}</span>
+			</div>
+			<div class="col-md-4">
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-warning" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+			</div>
 
-  <!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
-  <div class="answer" *ngIf="currentGame?.game_state == 'answer' ">
-    <button class="btn" (click)="showQuestion=!showQuestion" (click)="hideBarGraph=!hideBarGraph">{{showQuestion ? 'Show Distribution' : 'Show Question'}}</button>
-    <br>
-    <img src="{{currentGame?.question_list[currentGame?.current_question].choices[currentGame?.question_list[currentGame?.current_question].answer]}}" alt="">
-    <br>
-    <div class="row" *ngIf='showQuestion'>
-      <div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
-        {{currentQuestion?.instructions}}
-        <br><br>
-        <img src="{{currentQuestion?.prompt}}">
-      </div>
-      <div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
-        {{currentQuestion?.instructions}}
-        <br><br> <img class="prompt-chart" src="{{currentQuestion?.prompt}}">
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="answer1">
-            <i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-            <p><img class="answer" src="{{currentQuestion?.choices[0]}}"></p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="answer2">
-            <i class="fa fa-star fa-5x" aria-hidden="true"></i>
-            <p><img class="answer" src="{{currentQuestion?.choices[1]}}"></p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="answer3">
-            <i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-            <p><img class="answer" src="{{currentQuestion?.choices[2]}}"></p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="answer4">
-            <i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-            <p><img class="answer" src="{{currentQuestion?.choices[3]}}"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="bar-graph" *ngIf='hideBarGraph'>
-      <app-bar-graph [thisQuestion]="currentQuestion"></app-bar-graph>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="answer1">
-            <p><img class="answer-chart" src="{{currentQuestion?.choices[0]}}"></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="answer2">
-            <p><img class="answer-chart" src="{{currentQuestion?.choices[1]}}"></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="answer3">
-            <p><img class="answer-chart" src="{{currentQuestion?.choices[2]}}"></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="answer4">
-            <p><img class="answer-chart" src="{{currentQuestion?.choices[3]}}"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br>
-    <div class="container">
-      <button class="btn" type="button" (click)='gameStateLeaderboard()'>Go to leaderboard</button>
-      <br><br>
-      <button class="btn btn-success" type="button" (click)='continueGame()'>Next question</button>
-      <button class="btn btn-danger" type="button" (click)='endGame()'>End Game</button>
-    </div>
-  </div>
+			<div class="smaller-question">
+				<div class="col-md-12">
+					<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
+						{{currentQuestion?.instructions}}
+						<br>
+						<img src="{{currentQuestion?.prompt}}">
+					</div>
+					<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
+						{{currentQuestion?.instructions}}
+						<br>
+						{{currentQuestion?.prompt}}
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-md-12">
+				<span class='timer'>{{time}}</span>
+				<br>
+				<button class="btn btn-warning" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+				<br>
+				<br>
+			</div> -->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="answer1">
+						<i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
+						<p id="txtanswer0">{{currentQuestion?.choices[0]}}</p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="answer2">
+						<i class="fa fa-star fa-5x" aria-hidden="true"></i>
+						<p id="txtanswer1">{{currentQuestion?.choices[1]}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="answer3">
+						<i class="fa fa-heart fa-5x" aria-hidden="true"></i>
+						<p id="txtanswer2">{{currentQuestion?.choices[2]}}</p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="answer4">
+						<i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
+						<p id="txtanswer3">{{currentQuestion?.choices[3]}}</p>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+		</div>
 
-  <!-- leaderboard phase -->
-  <div class="container-fluid leaderboard" *ngIf="currentGame?.game_state == 'leaderboard' ">
-    <div class="" *ngIf="currentGame?.game_over == false">
-      <h1>Leaderboard:</h1>
-      <div class="col-md-12" *ngFor='let player of topPlayers'>
-        {{player.name}} - {{player.points}}
-      </div>
-      <button class="btn btn-success" type="button" (click)='gameStateCountdown()'>Next question</button>
-      <button class="btn btn-danger" type="button" (click)='endGame()'>End Game</button>
-    </div>
+		<!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
+		<div class="answer" *ngIf="currentGame?.game_state == 'answer' ">
+			<button class="btn" (click)="showQuestion=!showQuestion" (click)="hideBarGraph=!hideBarGraph">{{showQuestion ? 'Show Distribution' : 'Show Question'}}</button>
+			<br>
+			<img src="{{currentGame?.question_list[currentGame?.current_question].choices[currentGame?.question_list[currentGame?.current_question].answer]}}" alt="">
+			<br>
+			<div class="row" *ngIf='showQuestion'>
+				<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
+					{{currentQuestion?.instructions}}
+					<br><br>
+					<img src="{{currentQuestion?.prompt}}">
+				</div>
+				<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
+					{{currentQuestion?.instructions}}
+					<br><br>
+					{{currentQuestion?.prompt}}
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="answer1">
+							<i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
+							<p>{{currentQuestion?.choices[0]}}</p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="answer2">
+							<i class="fa fa-star fa-5x" aria-hidden="true"></i>
+							<p>{{currentQuestion?.choices[1]}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="answer3">
+							<i class="fa fa-heart fa-5x" aria-hidden="true"></i>
+							<p>{{currentQuestion?.choices[2]}}</p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="answer4">
+							<i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
+							<p>{{currentQuestion?.choices[3]}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bar-graph" *ngIf='hideBarGraph'>
+				<app-bar-graph [thisQuestion]="currentQuestion"></app-bar-graph>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="answer1">
+							<p>{{currentQuestion?.choices[0]}}</p>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="answer2">
+							<p>{{currentQuestion?.choices[1]}}</p>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="answer3">
+							<p>{{currentQuestion?.choices[2]}}</p>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="answer4">
+							<p>{{currentQuestion?.choices[3]}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="container">
+				<button class="btn" type="button" (click)='gameStateLeaderboard()'>Go to leaderboard</button>
+				<br><br>
+				<button class="btn btn-success" type="button" (click)='continueGame()'>Next question</button>
+				<button class="btn btn-danger" type="button" (click)='endGame()'>End Game</button>
+			</div>
+		</div>
 
-    <!-- game over - contained within leaderboard phase -->
-    <div class="" *ngIf="currentGame?.game_over == true">
-      <h1>Final Scores:</h1>
-      <div class="col-md-12" *ngFor='let player of topPlayers'>
-        {{player.name}} - {{player.points}}
-      </div>
-      <a class="btn btn-primary" href="/start">Return to Home</a>
-    </div>
+		<!-- leaderboard phase -->
+		<div class="container-fluid leaderboard" *ngIf="currentGame?.game_state == 'leaderboard' ">
+			<div class="" *ngIf="currentGame?.game_over == false">
+				<h1>Leaderboard:</h1>
+				<div class="col-md-12" *ngFor='let player of topPlayers'>
+					{{player.name}} - {{player.points}}
+				</div>
+				<button class="btn btn-success" type="button" (click)='gameStateCountdown()'>Next question</button>
+				<button class="btn btn-danger" type="button" (click)='endGame()'>End Game</button>
+			</div>
 
-  </div>
+			<!-- game over - contained within leaderboard phase -->
+			<div class="" *ngIf="currentGame?.game_over == true">
+				<h1>Final Scores:</h1>
+				<div class="col-md-12" *ngFor='let player of topPlayers'>
+					{{player.name}} - {{player.points}}
+				</div>
+				<a class="btn btn-primary" href="/start">Return to Home</a>
+			</div>
 
-</div>
+		</div>
 
+	</div>
 </html>
