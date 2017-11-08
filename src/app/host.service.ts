@@ -8,6 +8,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
 import { QUESTIONS } from './sample-questions';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class HostService {
@@ -65,6 +66,17 @@ export class HostService {
   getQuestions() {
     return QUESTIONS;
   }
+
+  // STZ: Currently hard coded to the assets folder
+  public getJSON(id: String): Observable<any> {
+    return this.http.get("./assets/chalkdoc/"+ id + ".json")
+                    .map((res:any) => res.json())
+                    .catch((error:any) => {
+                      console.log(error)
+                      return error;
+                    });
+  }
+
 
   editGameState(gameState, game){
     var currentGame = this.getGameFromCode(game.id);

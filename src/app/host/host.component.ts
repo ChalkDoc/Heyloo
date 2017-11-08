@@ -30,6 +30,8 @@ export class HostComponent {
   currentQuestionSubstring;
 
   questionsRemaining: number;
+  private id: string; // Test code by STZ
+  private path: String; // Test code by STZ
 
 
   constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
@@ -37,10 +39,25 @@ export class HostComponent {
 
   ngOnInit() {
     var gameKey;
-    this.questions = this.hostService.getQuestions();
 
-    // How many questions remain in the game
-    this.questionsRemaining = this.questions.length - 1;
+    this.id = this.route.snapshot.params.id;
+    this.path = this.route.snapshot.url[0].toString();
+    console.log(" Id is: " + this.id);
+    console.log(" Route is: " + this.path);
+    if(this.path == 'chalkdoc'){
+      this.hostService.getJSON(this.id).subscribe(data => {
+        console.log("data found: " + JSON.stringify(data));
+        
+        // Assign results to questions
+        this.questions = data;
+        // How many questions remain in the game
+        this.questionsRemaining = this.questions.length - 1;
+      }, error => {
+        console.log(error)
+      });
+    } else{
+      this.questions = this.hostService.getQuestions();
+    }
 
     this.games = this.hostService.getGames();
     this.route.params.forEach((urlParameters) => {
