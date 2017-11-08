@@ -8,7 +8,12 @@
 
 .jumbotron {
   background-color: rgb(224, 73, 81);
+  color: white;
 }
+
+/*.jumbotron img {
+  background-color: rgb(224, 73, 81);
+}*/
 
 .starting, .countdown, .questions, .answer, .pre-question, .leaderboard {
   text-align: center;
@@ -26,12 +31,23 @@
 
 .current-question, .pre-question {
   font-family: 'Patrick Hand SC', cursive;
-  font-size: 30px;
+  font-size: 40px;
+}
+
+#question-number {
+  font-size: 35px;
+  color: white;
+}
+
+.smaller-question {
+  font-family: 'Patrick Hand SC', cursive;
+  font-size: 20px;
+  color: white;
 }
 
 .timer {
   font-family: 'Bowlby One', cursive;
-  font-size: 30px;
+  font-size: 40px;
 }
 
 .answer {
