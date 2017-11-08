@@ -16,9 +16,16 @@
   color: white;
 }
 
-.starting, .countdown, .questions, .answer, .pre-question, .leaderboard {
+.starting, .countdown, .questions, .pre-question, .leaderboard {
   text-align: center;
   font-family: 'Acme', sans-serif;
+}
+
+.answer {
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+  width: 100%;
+  height: auto;
 }
 
 .heyloo {
