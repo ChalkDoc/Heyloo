@@ -123,8 +123,10 @@
 		<!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
 		<div class="answer" *ngIf="currentGame?.game_state == 'answer' ">
 			<button class="btn" (click)="showQuestion=!showQuestion" (click)="hideBarGraph=!hideBarGraph">{{showQuestion ? 'Show Distribution' : 'Show Question'}}</button>
+
+			<button class="btn" type="button" (click)='gameStateLeaderboard()'>Go to leaderboard</button>
 			<br>
-			<img src="{{currentGame?.question_list[currentGame?.current_question].choices[currentGame?.question_list[currentGame?.current_question].answer]}}" alt="">
+			<img class="answerimage" src="{{currentGame?.question_list[currentGame?.current_question].choices[currentGame?.question_list[currentGame?.current_question].answer]}}" alt="">
 			<br>
 			<div class="row" *ngIf='showQuestion'>
 				<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
@@ -193,8 +195,6 @@
 			</div>
 			<br>
 			<div class="container">
-				<button class="btn" type="button" (click)='gameStateLeaderboard()'>Go to leaderboard</button>
-				<br><br>
 				<button class="btn-success" type="button" (click)='continueGame()'>Next question</button>
 				<button class="btn-danger" type="button" (click)='endGame()'>End Game</button>
 			</div>
