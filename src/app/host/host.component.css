@@ -1,5 +1,5 @@
 #host {
-  background-color: rgb(159, 156, 153);
+  background-color: rgb(255, 167, 95);
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -7,19 +7,48 @@
 }
 
 .jumbotron {
-  background-color: rgb(224, 73, 81);
+  background-color: rgb(167, 95, 255);
   color: black;
 }
 
 .jumbotron-prequestion {
-  background-color: rgb(224, 73, 81);
+  background-color: rgb(167, 95, 255);
   color: white;
+}
+
+.btn {
+  background-color: rgb(95, 255, 167);
+  color: black;
 }
 
 .starting, .countdown, .questions, .pre-question, .leaderboard {
   text-align: center;
   font-family: 'Acme', sans-serif;
 }
+
+ /*.questions {
+   display: flex;
+   flex-direction: row;
+ }*/
+
+ .room-code {
+   font-family: 'Acme', sans-serif;
+   text-align: right;
+   /*order: 1;*/
+ }
+
+ .timer {
+   font-family: 'Bowlby One', cursive;
+   font-size: 40px;
+   color: black;
+   border-radius: 50px;
+   background: white;
+   padding: 10px;
+   width: 50px;
+   height: 50px;
+   object-fit: cover;
+   /*order: 0;*/
+ }
 
 .answer {
   text-align: center;
@@ -52,12 +81,6 @@
   color: white;
 }
 
-.timer {
-  font-family: 'Bowlby One', cursive;
-  font-size: 40px;
-  color: white;
-}
-
 .answer {
   font-size: 20px;
 }
@@ -84,11 +107,6 @@
 
 .players:hover {
   cursor: pointer;
-}
-
-.room-code {
-  font-family: 'Acme', sans-serif;
-  text-align: right;
 }
 
 .answer1, .answer2, .answer3, .answer4 {

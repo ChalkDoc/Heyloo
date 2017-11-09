@@ -1,5 +1,5 @@
 #student {
-  background-color: rgb(159, 156, 153);
+  background-color: rgb(255, 167, 95);
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -21,6 +21,11 @@ h1, h3 {
 
 .red-text {
   color: maroon;
+}
+
+.answer {
+  width: 100%;
+  height: auto;
 }
 
 #answer1 {

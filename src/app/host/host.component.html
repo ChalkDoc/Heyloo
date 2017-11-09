@@ -2,8 +2,10 @@
 	<div class="container">
 
 		<!-- persistent room code -->
-		<div class='room-code' *ngIf='currentGame'>
-			<h3>Room Code: {{currentGame?.id}}</h3>
+		<div class="col-md-12">
+				<div class='room-code' *ngIf='currentGame'>
+					<h3>Room Code: {{currentGame?.id}}</h3>
+				</div>
 		</div>
 
 		<!-- waiting room -->
@@ -29,17 +31,18 @@
 			<h1>The next question will start in {{time}}....</h1>
 		</div>
 
-
 		<!-- prequestion phase (answers don't show yet) -->
 		<div class="row pre-question" *ngIf="currentGame?.game_state == 'prequestion' ">
-			<div class="col-md-2">
+			<div class="col-md-1">
 				<span class='timer'>{{time}}</span>
+			</div>
+			<div class="col-md-1">
 			</div>
 			<div class="col-md-8">
 				<h1 id=question-number>{{currentQuestion?.title}}</h1>
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-warning" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+				<button class="btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
 			</div>
 			<div class="row">
 			</div>
@@ -61,15 +64,16 @@
 
 		<!-- question phase (students see answer choices and can select their answer) -->
 		<div class="row questions" *ngIf="currentGame?.game_state == 'question' ">
-			<div class="col-md-6">
+			<div class="col-md-1">
 				<span class='timer'>{{time}}</span>
 			</div>
-			<div class="col-md-4">
-			</div>
+			<div class="col-md-1">
+				</div>
+			<div class="col-md-8">
+				</div>
 			<div class="col-md-2">
-				<button class="btn btn-warning" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+				<button class="btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
 			</div>
-
 			<div class="smaller-question">
 				<div class="col-md-12">
 					<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
@@ -191,8 +195,8 @@
 			<div class="container">
 				<button class="btn" type="button" (click)='gameStateLeaderboard()'>Go to leaderboard</button>
 				<br><br>
-				<button class="btn btn-success" type="button" (click)='continueGame()'>Next question</button>
-				<button class="btn btn-danger" type="button" (click)='endGame()'>End Game</button>
+				<button class="btn-success" type="button" (click)='continueGame()'>Next question</button>
+				<button class="btn-danger" type="button" (click)='endGame()'>End Game</button>
 			</div>
 		</div>
 
