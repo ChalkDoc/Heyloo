@@ -26,11 +26,6 @@
   font-family: 'Acme', sans-serif;
 }
 
- /*.questions {
-   display: flex;
-   flex-direction: row;
- }*/
-
  .room-code {
    font-family: 'Acme', sans-serif;
    text-align: right;
@@ -50,11 +45,12 @@
    /*order: 0;*/
  }
 
-.answer {
-  text-align: center;
-  font-family: 'Acme', sans-serif;
-  width: 100%;
-  height: auto;
+.prompt {
+  width: 200px;
+}
+
+.smallprompt {
+  width: 85px;
 }
 
 .heyloo {
@@ -83,6 +79,13 @@
 
 .answer {
   font-size: 20px;
+}
+
+.smallanswer {
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+  width: 100px;
+  height: auto;
 }
 
 .answer1 {

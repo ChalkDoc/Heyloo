@@ -51,7 +51,7 @@
 				<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
 					{{currentQuestion?.instructions}}
 					<br>
-					<img src="{{currentQuestion?.prompt}}">
+					<img class="prompt" src="{{currentQuestion?.prompt}}">
 				</div>
 				<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
 					{{currentQuestion?.instructions}}
@@ -79,12 +79,12 @@
 					<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
 						{{currentQuestion?.instructions}}
 						<br>
-						<img src="{{currentQuestion?.prompt}}">
+						<img class="smallprompt" src="{{currentQuestion?.prompt}}">
 					</div>
 					<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
 						{{currentQuestion?.instructions}}
 						<br>
-						<img src="{{currentQuestion?.prompt}}">
+						<img class="smallprompt" src="{{currentQuestion?.prompt}}">
 					</div>
 				</div>
 			</div>
@@ -92,13 +92,13 @@
 				<div class="col-md-6">
 					<div class="answer1">
 						<i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer0"><img class="answer" src="{{currentQuestion?.choices[0]}}"></p>
+						<p id="txtanswer0"><img class="smallanswer" src="{{currentQuestion?.choices[0]}}"></p>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="answer2">
 						<i class="fa fa-star fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer1"><img class="answer" src="{{currentQuestion?.choices[1]}}"></p>
+						<p id="txtanswer1"><img class="smallanswer" src="{{currentQuestion?.choices[1]}}"></p>
 					</div>
 				</div>
 			</div>
@@ -106,13 +106,13 @@
 				<div class="col-md-6">
 					<div class="answer3">
 						<i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer2"><img class="answer" src="{{currentQuestion?.choices[2]}}"></p>
+						<p id="txtanswer2"><img class="smallanswer" src="{{currentQuestion?.choices[2]}}"></p>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="answer4">
 						<i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer3"><img class="answer" src="{{currentQuestion?.choices[3]}}"></p>
+						<p id="txtanswer3"><img class="smallanswer" src="{{currentQuestion?.choices[3]}}"></p>
 					</div>
 				</div>
 			</div>
