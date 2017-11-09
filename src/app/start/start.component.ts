@@ -29,9 +29,9 @@ export class StartComponent implements OnInit {
     this.router.navigate(['host', clickedGame.id]);
   }
 
-  randomId(){
-    return Math.floor(Math.random()*90000) + 10000;
-  }
+  // randomId(){
+  //   return Math.floor(Math.random()*90000) + 10000;
+  // }
 
   // id: number
   // game_state: string
@@ -39,7 +39,7 @@ export class StartComponent implements OnInit {
   // public player_list: Player[]
   //  public question_list: Question[]
   createGame(game){
-    var newGame: Game = new Game(this.randomId(), "starting", false, [], this.questions);
+    var newGame: Game = new Game(this.hostService.randomId(), "starting", false, [], this.questions, this.questions.length-1);
     this.hostService.createGame(newGame);
   }
 

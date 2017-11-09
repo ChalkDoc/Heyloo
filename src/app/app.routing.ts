@@ -17,7 +17,7 @@ const appRoutes: Routes = [
   component: StartComponent
 },
 {
-  path: 'host/:id',
+  path: 'host/:roomCode',
   component: HostComponent
 },
 {
@@ -30,7 +30,7 @@ const appRoutes: Routes = [
 },
 {
   path: 'chalkdoc/:id',
-  component: HostComponent
+  component: ChalkdocComponent
 }
 ];
 

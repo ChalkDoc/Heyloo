@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
 import { Game } from './game.model';
 import { Player } from './player.model';
 import { Question } from './question.model';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
-import 'rxjs/add/operator/map';
 import { QUESTIONS } from './sample-questions';
-import { Observable } from 'rxjs/Rx';
+
+// Added by STZ for Chalkdoc integration
+import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class HostService {
@@ -31,6 +32,7 @@ export class HostService {
   // this returns a DB reference
   getGameFromCode(roomcode: number){
     var thisGame;
+    console.log("subgames is: " + this.subGames)
     for(let i=0; i<this.subGames.length; i++){
       if(this.subGames[i].id == roomcode){
         thisGame = this.getGame(this.subGames[i]['$key']);
@@ -43,6 +45,26 @@ export class HostService {
     }
   }
 
+  //STZ's new version
+  // this returns a DB reference
+  getKeyFromRoomCode(roomcode: number){
+    let thisGame;
+    this.database.list('/games', {preserveSnapshot:true})
+      .subscribe(snapshots =>{
+        snapshots.forEach(snapshot => {
+          if(snapshot.id == roomcode){
+            thisGame = this.getGame(snapshot.key);
+          }
+        });
+        if (thisGame != undefined) {
+          return thisGame;
+        } else {
+          alert('There\'s no game with that code. Please try again!');
+        }
+        return null;
+      })
+  }
+
   getGameKey(game){
     game.subscribe(data => {
       return data['$key'];
@@ -53,6 +75,7 @@ export class HostService {
     return this.database.list('games/' + id + '/player_list')
   }
 
+  // Added by STZ
   randomId(){
     return Math.floor(Math.random()*90000) + 10000;
   }
@@ -67,15 +90,42 @@ export class HostService {
     return QUESTIONS;
   }
 
-  // STZ: Currently hard coded to the assets folder
-  public getJSON(id: String): Observable<any> {
-    return this.http.get("./assets/chalkdoc/"+ id + ".json")
-                    .map((res:any) => res.json())
-                    .catch((error:any) => {
-                      console.log(error)
-                      return error;
-                    });
+  getFirebaseQuestions(id: string){
+    return this.database.list('games/' + id + '/question_list')
   }
+
+
+  // STZ: Currently hard coded to the assets folder
+  // public getJSONQuestions(id: String): Observable<any> {
+  //   return this.http.get("./assets/chalkdoc/"+ id + ".json")
+  //                   .map((res:any) => res.json())
+  //                   .catch((error:any) => {
+  //                     console.log(error)
+  //                     return error;
+  //                   });
+  // }
+
+  getJSONQuestions(id: string): Promise<any> {
+    let headers = new Headers({ 'Content-Type': 'application/json', 
+    'Accept': 'q=0.8;application/json;q=0.9' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http
+        .get("./assets/chalkdoc/"+ id + ".json", options)
+        .toPromise()
+        .then(this.extractData)
+        .catch(this.handleError);
+  }
+
+  private extractData(res: Response) {
+      let body = res.json();
+      return body || {};
+  }
+
+  private handleError(error: any): Promise<any> {
+      console.error('An error occurred', error);
+      return Promise.reject(error.message || error);
+  }  
+
 
 
   editGameState(gameState, game){

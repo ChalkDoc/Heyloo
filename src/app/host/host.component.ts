@@ -16,10 +16,11 @@ import { StudentService } from '../student.service';
 
 export class HostComponent {
 
-  games: FirebaseListObservable<any[]>;
+  //games: FirebaseListObservable<any[]>;
   subGame: FirebaseObjectObservable<any[]>;
   playerList: FirebaseListObservable<any[]>;
-  gameId;
+
+  roomCode: number;
   public currentGame;
   questions: Question[];
   currentQuestion: Question;
@@ -38,47 +39,70 @@ export class HostComponent {
   }
 
   ngOnInit() {
+    //Why is this not a class variable?
     var gameKey;
 
-    this.id = this.route.snapshot.params.id;
-    this.path = this.route.snapshot.url[0].toString();
-    console.log(" Id is: " + this.id);
-    console.log(" Route is: " + this.path);
-    if(this.path == 'chalkdoc'){
-      this.hostService.getJSON(this.id).subscribe(data => {
-        console.log("data found: " + JSON.stringify(data));
-        
-        // Assign results to questions
-        this.questions = data;
-        // How many questions remain in the game
-        this.questionsRemaining = this.questions.length - 1;
-      }, error => {
-        console.log(error)
-      });
-    } else{
-      this.questions = this.hostService.getQuestions();
-    }
+    // Why is this needed?
+    //this.questions = this.hostService.getQuestions();
+    
+    // How many questions remain in the game
+    // This was a temporary fix.  Needs to be put in game state.
+    //this.questionsRemaining = this.questions.length - 1;
 
-    this.games = this.hostService.getGames();
+    //Is this needed?  I don't think so
+    //this.games = this.hostService.getGames();
+    
+    //Get the ID for the game we're about to host
     this.route.params.forEach((urlParameters) => {
-      this.gameId = urlParameters["id"];
+      this.roomCode = urlParameters["roomCode"];
     });
-    this.hostService.getGameFromCode(this.gameId).subscribe(data => {
+
+    console.log("Room code is: " + this.roomCode);
+
+    // Make subGame a DB reference to the 
+    this.subGame = this.hostService.getGameFromCode(this.roomCode);
+    
+    // This subscribes currentQuestion to FB's current question.
+    this.subGame.subscribe(data => {
+      gameKey = data['$key'];
+
+      console.log(data['id']);
+      console.log(data['game_state']);
+      console.log(data['game_over']);
+      console.log(data['player_list']);
+      console.log(data['question_list']);
+      console.log(data['questionsRemaining']);
+
+      // this.currentGame = new Game
+      // (data['id'],
+      // data['game_state'],
+      // data.game_over,
+      // data.player_list,
+      // data.question_list,
+      // data.questionsRemaining);
+
+      this.currentQuestion = data['question_list'][data['current_question']];
+    })
+
+
+    //This subscribes currentGame to the FB game state variables
+    this.hostService.getGameFromCode(this.roomCode).subscribe(data => {
       this.currentGame = new Game
       (data.id,
       data.game_state,
       data.game_over,
       data.player_list,
-      data.question_list)
+      data.question_list,
+      data.questionsRemaining)
       });
-      this.subGame = this.hostService.getGameFromCode(this.currentGame.id);
+
       this.getPlayerList(this.currentGame.id);
 
-      // This ensures currentQuestion is always up to date.
-      this.subGame.subscribe(data => {
-        gameKey = data['$key'];
-        this.currentQuestion = data['question_list'][data['current_question']];
-      })
+      // // This subscribes currentQuestion to FB's current question.
+      // this.subGame.subscribe(data => {
+      //   gameKey = data['$key'];
+      //   this.currentQuestion = data['question_list'][data['current_question']];
+      // })
   }
 
   getPlayerList(gameId: number){
