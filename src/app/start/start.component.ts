@@ -13,9 +13,9 @@ import { HostService } from '../host.service';
 })
 
 export class StartComponent implements OnInit {
-  games: FirebaseListObservable<any[]>;
+  games: FirebaseListObservable<Game[]>;
   questions: Question[];
-  lastFiveGames;
+  lastFiveGames: Game[] ;
 
   constructor(private router: Router, private hostService: HostService) { }
 
@@ -48,9 +48,21 @@ export class StartComponent implements OnInit {
     var fiveGames = [];
     var gamesList;
     this.games.subscribe(data => {
-      gamesList = data
+      gamesList = this.snapshotToArray(data)
       fiveGames = gamesList.slice(-5,)
       this.lastFiveGames = fiveGames
     })
   }
+
+  snapshotToArray(snapshot) {
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+        returnArr.push(item);
+    });
+
+    return returnArr;
+  };
 }

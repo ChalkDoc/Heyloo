@@ -43,7 +43,8 @@ export class StudentComponent implements OnInit {
   ngOnInit() {
     var studentId;
     this.route.params.forEach(urlParameters => {
-      this.currentGame = this.hostService.getGameFromCode(urlParameters['roomcode']);
+      //this.currentGame = this.hostService.getGameFromCode(urlParameters['roomcode']);
+      //this.hostService.setGameKey(urlParameters['roomcode']);
       this.studentId = urlParameters['studentid'];
     })
 
@@ -93,7 +94,7 @@ export class StudentComponent implements OnInit {
     this.questions[this.subGame.current_question] = this.currentQuestion;
 
     // Send answer to DB
-    this.hostService.updatePlayerChoice(this.questions, this.subGame);
+    this.hostService.updatePlayerChoice(this.questions);
 
     this.setEndTime();
 
