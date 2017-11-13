@@ -6,10 +6,21 @@
   -o-background-size: cover;
 }
 
+.heyloo {
+  font-family: 'Frijole', cursive;
+}
+
+.players {
+  font-size: 18px;
+}
+
+.players:hover {
+  cursor: pointer;
+}
+
 .room-code {
   font-family: 'Acme', sans-serif;
   text-align: right;
-  /*order: 1;*/
 }
 
 /*Styling for starting phase*/
@@ -24,6 +35,7 @@
 
 .starting-btn {
   background-color: rgb(95, 255, 167);
+  font-family: 'Acme', sans-serif;
 }
 
 .starting-players {
@@ -72,6 +84,7 @@
   background-color: rgb(95, 255, 167);
   color: black;
   font-size: 20px;
+  font-family: 'Acme', sans-serif;
 }
 
 .prequestion-prompt {
@@ -80,7 +93,6 @@
 
 /*Styling for question phase*/
 .question {
-  text-align: center;
   font-family: 'Acme', sans-serif;
   font-size: "111";
 }
@@ -101,19 +113,23 @@
   background-color: rgb(95, 255, 167);
   color: black;
   font-size: 20px;
+  font-family: 'Acme', sans-serif;
 }
 
 .question-question {
   font-family: 'Patrick Hand SC', cursive;
   font-size: 25px;
   color: white;
+  text-align: center;
 }
 
 .question-reduced-prompt {
-  width: 85px;
+  width: 185px;
   border-style: groove;
   border-width: 1px;
   border-color: black;
+  display: block;
+  margin: 0 auto;
 }
 
 .question-answer1 {
@@ -136,118 +152,125 @@
   display: block;
   margin: 10px;
   padding: 5px;
-  /*text-align: left;*/
-}
-
-
-
-
-#txtanswer0, #txtanswer1, #txtanswer2, #txtanswer3 {
-  font-size: 35px;
-  color: white;
+  border-radius: 25px;
 }
 
 .question-answer {
-  text-align: center;
-  font-family: 'Acme', sans-serif;
   width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+
+/*Styling for answer phase*/
+.answer-showqs-btn {
+  background-color: rgb(95, 255, 167);
+  color: black;
+  font-size: 20px;
+  font-family: 'Acme', sans-serif;
+}
+
+.answer-leaderboard-btn {
+  background-color: rgb(167, 95, 255);
+  color: white;
+  font-size: 20px;
+  font-family: 'Acme', sans-serif;
+}
+
+.answer-nextqs-btn {
+  background-color: rgb(95, 255, 167);
+  color: black;
+  font-size: 20px;
+  font-family: 'Acme', sans-serif;
+}
+
+.answer-endgame-btn {
+  background-color: rgb(220, 20, 60);
+  color: black;
+  font-size: 20px;
+  font-family: 'Acme', sans-serif;
+}
+
+.answer-correctansw-image {
+  width: 100px;
+}
+
+.answer-question {
+  font-family: 'Patrick Hand SC', cursive;
+  font-size: 25px;
+  color: white;
+  text-align: center;
+}
+
+.answer-reduced-prompt {
+  width: 135px;
+  border-style: groove;
+  border-width: 1px;
+  border-color: black;
+  display: block;
+  margin: 0 auto;
+}
+
+.answer-multchoice-answer {
+  width: 100px;
+  display: block;
+  margin: 0 auto;
+}
+
+.answer-answer1 {
+  background-color: rgb(114, 49, 87);
+}
+
+.answer-answer2 {
+  background-color: rgb(91, 121, 97);
+}
+
+.answer-answer3 {
+  background-color: rgb(46, 77, 167);
+}
+
+.answer-answer4 {
+  background-color: rgb(224, 73, 81);
+}
+
+.answer-chart {
+  width: 100%;
   height: auto;
 }
 
+.answer-bar-graph {
+  width: 65%;
+}
+
+.answer-answer1, .answer-answer2, .answer-answer3, .answer-answer4 {
+  display: block;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 25px;
+}
 
 
-
+/*Styling for leaderboard phase*/
 .leaderboard {
   text-align: center;
   font-family: 'Acme', sans-serif;
-}
-
- .timer {
-   font-family: 'Bowlby One', cursive;
-   font-size: 40px;
-   color: black;
-   border-radius: 50px;
-   background: white;
-   padding: 10px;
-   width: 50px;
-   height: 50px;
-   object-fit: cover;
- }
-
-.prompt {
-  width: 200px;
-}
-
-
-.heyloo {
-  font-family: 'Frijole', cursive;
-}
-
-.leaderboard {
   font-size: 24px;
   text-align: center;
 }
 
-.pre-question {
-  font-family: 'Patrick Hand SC', cursive;
-  font-size: 40px;
-}
-
-#question-number {
-  font-size: 40px;
-}
-
-
-.answer {
-  font-size: 20px;
-  text-align: center;
-}
-
-.smallanswer {
-  text-align: center;
-  font-family: 'Acme', sans-serif;
-  width: 100px;
-  height: auto;
-}
-
-.answer1 {
-  background-color: rgb(114, 49, 87);
-}
-
-.answer2 {
-  background-color: rgb(91, 121, 97);
-}
-
-.answer3 {
-  background-color: rgb(46, 77, 167);
-}
-
-.answer4 {
-  background-color: rgb(224, 73, 81);
-}
-
-.players {
-  font-size: 18px;
-}
-
-.players:hover {
-  cursor: pointer;
-}
-
-.answer1, .answer2, .answer3, .answer4 {
-  display: block;
-  margin: 10px;
-  padding: 25px;
-  border-radius: 25px;
-}
-
-#txtanswer0, #txtanswer1, #txtanswer2, #txtanswer3 {
-  font-size: 35px;
-  color: white;
-}
-
-.btn-info {
+.leaderboard-nextqs-btn {
+  background-color: rgb(95, 255, 167);
   color: black;
+  font-size: 20px;
+  font-family: 'Acme', sans-serif;
+}
+
+.leaderboard-endgame-btn {
+  background-color: rgb(220, 20, 60);
+  color: black;
+  font-size: 20px;
+  font-family: 'Acme', sans-serif;
 }
 
 /* Image size fix for answer choices at bottom of Answer Dist Chart */
@@ -260,8 +283,12 @@
   width: 100%;
 }
 
-.answerimage {
-  width: 100px
+/*Styling for game over phase*/
+.gameover-rtnhome-btn {
+  background-color: rgb(95, 255, 167);
+  color: black;
+  font-size: 20px;
+  font-family: 'Acme', sans-serif;
 }
 
 .AnswerRow {
