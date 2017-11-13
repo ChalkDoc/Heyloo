@@ -273,10 +273,25 @@
   font-family: 'Acme', sans-serif;
 }
 
+/* Image size fix for answer choices at bottom of Answer Dist Chart */
+.AnswerChartImg {
+  width: 180px;
+  height: 40px;
+}
+
+.bar-graph {
+  width: 100%;
+}
+
 /*Styling for game over phase*/
 .gameover-rtnhome-btn {
   background-color: rgb(95, 255, 167);
   color: black;
   font-size: 20px;
   font-family: 'Acme', sans-serif;
+}
+
+.AnswerRow {
+  display: flex;
+  flex-direction: row;
 }
