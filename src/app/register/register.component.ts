@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
       .first()
       .finally(()=>{
         // route to the student view
-        this.router.navigate(['student', this.game.id, this.currentPlayer.id]);     
+        //this.router.navigate(['student', this.game.id, this.currentPlayer.id]);     
       })
       .subscribe(gameReturned => {
         if(gameReturned.length==1){
@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
           this.game.key = gameReturned[0].$key; // Get's the key for this game
     
           // create a new user
-          this.currentPlayer = new Player(username, 0, 0, this.hostService.randomId(), false);
+          this.currentPlayer = new Player(username, 0, 0, this.hostService.randomId(), false, "0");
     
           // add user to game
           this.hostService.addPlayer(this.game.key,this.currentPlayer);

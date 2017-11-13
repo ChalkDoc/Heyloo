@@ -21,7 +21,7 @@ export class HostService {
   gamesRef;
   games: FirebaseListObservable<Game[]> = null;  //A list of Games from Firebase
   game: FirebaseObjectObservable<Game> = null; // the current game
-  playerList: FirebaseListObservable<Player[]> = null; //Current
+  playersList: FirebaseListObservable<Player[]> = null; //Current
 
   //subGames: Game[]; // our list of games
 
@@ -52,7 +52,7 @@ export class HostService {
   //   return this.database.list(this.basePath);
   // }
 
-  // Returns a game Observable from game code
+  // Returns a game ListObservable from game code
   getGame(roomCode: number) {
     //let test: number = 77754;
     return this.database.list(this.basePath, {
@@ -63,13 +63,18 @@ export class HostService {
     });
   }
 
+  getPlayersList(gameKey: string){
+    this.playersList = this.database.list(this.basePath + "/" + gameKey + "/player_list");
+    return this.playersList;
+  }
+
   // Add a player to a specific game
   // STZ: TODO this currently does not have any error handling
   // such as if the player name is already taken
   addPlayer(gameKey: string, player: Player){
     const gamePath =  `${this.basePath}/${gameKey}/player_list`;
-    this.playerList = this.database.list(gamePath);
-    this.playerList.push(player);
+    this.playersList = this.database.list(gamePath);
+    this.playersList.push(player);
   }
 
   // Added by STZ

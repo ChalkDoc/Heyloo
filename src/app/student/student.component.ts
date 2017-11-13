@@ -58,15 +58,10 @@ export class StudentComponent implements OnInit {
         this.currentGame = gameReturned[0];
         this.currentGame.key = gameReturned[0].$key; // Get's the key for this game
         this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
-        this.playersList = gameReturned[0].player_list;
 
-        // this.iteratePlayers();
-        this.printGame();
-
-        // for(let i=0; i<=gameReturned[0].player_list.length;i++){
-        //   console.log("the key is: " + gameReturned[0][i].$key);
-        //   console.log("Full player is: " +gameReturned[0][i]);
-        // }
+        // Now move to step 2
+        this.getPlayerList(gameReturned[0].$key);
+        // console.log(this.playersList);
 
       } else {
         alert("Room Code is not valid");        
@@ -83,6 +78,10 @@ export class StudentComponent implements OnInit {
     // })
   
 
+    
+
+
+
 
     // OLD - Subscribe a student
       // this.currentStudent = this.studentService
@@ -97,14 +96,25 @@ export class StudentComponent implements OnInit {
 
   }
 
-  iteratePlayers(){
-    this.playersList.forEach(player => {
-      console.log(player.name);
-    })
+  // Step #2, get the list of players
+  getPlayerList(gameKey: string){
+    this.hostService.getPlayersList(gameKey)
+      .subscribe(playerlist => {
+        this.playersList = playerlist;
+
+        // On to Step 3
+        this.getPlayerSubscription();
+
+      }, err => {
+        alert("Error getting the Player list");
+      } );
   }
 
-  printGame(){
-    console.log(this.currentGame);
+  //Step #3, subscribe to the specific user
+  getPlayerSubscription(){
+    this.playersList.forEach(player => {
+      console.log(player.name);
+    });
   }
 
   ngDoCheck(){
