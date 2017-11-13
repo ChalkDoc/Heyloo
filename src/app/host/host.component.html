@@ -120,9 +120,9 @@
 
 		<!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
 		<div class="answer" *ngIf="currentGame?.game_state == 'answer' ">
-			<button class="btn" (click)="showQuestion=!showQuestion" (click)="hideBarGraph=!hideBarGraph">{{showQuestion ? 'Show Distribution' : 'Show Question'}}</button>
+			<button class="btn-info" (click)="showQuestion=!showQuestion" (click)="hideBarGraph=!hideBarGraph">{{showQuestion ? 'Show Distribution' : 'Show Question'}}</button>
 
-			<button class="btn" type="button" (click)='gameStateLeaderboard()'>Go to leaderboard</button>
+			<button class="btn-info" type="button" (click)='gameStateLeaderboard()'>Go to Leaderboard</button>
 			<br>
 			<img class="answerimage" src="{{currentGame?.question_list[currentGame?.current_question].choices[currentGame?.question_list[currentGame?.current_question].answer]}}" alt="">
 			<br>
@@ -166,32 +166,36 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- Bar graph section (should be added as another phase)-->
 			<div class="bar-graph" *ngIf='hideBarGraph'>
 				<app-bar-graph [thisQuestion]="currentQuestion"></app-bar-graph>
-				<div class="row">
+				<div class="AnswerRow">
 					<div class="col-md-3">
 						<div class="answer1">
-							<p><img class="answer-chart" src="{{currentQuestion?.choices[0]}}"></p>
+							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[0]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer2">
-							<p><img class="answer-chart" src="{{currentQuestion?.choices[1]}}"></p>
+							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[1]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer3">
-							<p><img class="answer-chart" src="{{currentQuestion?.choices[2]}}"></p>
+							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[2]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer4">
-							<p><img class="answer-chart" src="{{currentQuestion?.choices[3]}}"></p>
+							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[3]}}"></p>
 						</div>
 					</div>
 				</div>
 			</div>
+
 			<br>
+
 			<div class="container">
 				<button class="btn-success" type="button" (click)='continueGame()'>Next question</button>
 				<button class="btn-danger" type="button" (click)='endGame()'>End Game</button>
@@ -205,8 +209,8 @@
 				<div class="col-md-12" *ngFor='let player of topPlayers'>
 					{{player.name}} - {{player.points}}
 				</div>
-				<button class="btn btn-success" type="button" (click)='gameStateCountdown()'>Next question</button>
-				<button class="btn btn-danger" type="button" (click)='endGame()'>End Game</button>
+				<button class="btn-success" type="button" (click)='gameStateCountdown()'>Next question</button>
+				<button class="btn-danger" type="button" (click)='endGame()'>End Game</button>
 			</div>
 
 			<!-- game over - contained within leaderboard phase -->

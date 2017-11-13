@@ -157,12 +157,6 @@
 
 
 
-
-.btn {
-  background-color: rgb(95, 255, 167);
-  color: black;
-}
-
 .leaderboard {
   text-align: center;
   font-family: 'Acme', sans-serif;
@@ -206,6 +200,7 @@
 
 .answer {
   font-size: 20px;
+  text-align: center;
 }
 
 .smallanswer {
@@ -243,6 +238,7 @@
   display: block;
   margin: 10px;
   padding: 25px;
+  border-radius: 25px;
 }
 
 #txtanswer0, #txtanswer1, #txtanswer2, #txtanswer3 {
@@ -250,16 +246,25 @@
   color: white;
 }
 
+.btn-info {
+  color: black;
+}
+
 /* Image size fix for answer choices at bottom of Answer Dist Chart */
-.answer-chart {
-  width: 100%;
-  height: auto;
+.AnswerChartImg {
+  width: 180px;
+  height: 40px;
 }
 
 .bar-graph {
-  width: 65%;
+  width: 100%;
 }
 
 .answerimage {
   width: 100px
+}
+
+.AnswerRow {
+  display: flex;
+  flex-direction: row;
 }
