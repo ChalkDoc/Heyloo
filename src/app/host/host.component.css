@@ -6,31 +6,167 @@
   -o-background-size: cover;
 }
 
-.jumbotron {
-  background-color: rgb(167, 95, 255);
-  color: black;
+.room-code {
+  font-family: 'Acme', sans-serif;
+  text-align: right;
+  /*order: 1;*/
 }
 
-.jumbotron-prequestion {
+/*Styling for starting phase*/
+.starting {
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+}
+
+.jumbotron {
   background-color: rgb(167, 95, 255);
+}
+
+.starting-btn {
+  background-color: rgb(95, 255, 167);
+}
+
+.starting-players {
+  font-size: 40px;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
+}
+
+.starting-players:hover {
+  cursor: pointer;
+}
+
+/*Styling for countdown phase*/
+.countdown {
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
+  /*font-size: 100px; Couldn't get font size to respond*/
+}
+
+/*Styling for prequestion phase*/
+.prequestion {
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+  font-size: 45px;
+}
+
+.prequestion-timer {
+  font-family: 'Bowlby One', cursive;
+  font-size: 40px;
+  color: black;
+  border-radius: 50px;
+  background: white;
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+#prequestion-question-number {
+  font-size: 40px;
+}
+
+.prequestion-skip-btn {
+  background-color: rgb(95, 255, 167);
+  color: black;
+  font-size: 20px;
+}
+
+.prequestion-prompt {
+  width: 200px;
+}
+
+/*Styling for question phase*/
+.question {
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+  font-size: "111";
+}
+
+.question-timer {
+  font-family: 'Bowlby One', cursive;
+  font-size: 40px;
+  color: black;
+  border-radius: 50px;
+  background: white;
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.question-skip-btn {
+  background-color: rgb(95, 255, 167);
+  color: black;
+  font-size: 20px;
+}
+
+.question-question {
+  font-family: 'Patrick Hand SC', cursive;
+  font-size: 25px;
   color: white;
 }
+
+.question-reduced-prompt {
+  width: 85px;
+  border-style: groove;
+  border-width: 1px;
+  border-color: black;
+}
+
+.question-answer1 {
+  background-color: rgb(114, 49, 87);
+}
+
+.question-answer2 {
+  background-color: rgb(91, 121, 97);
+}
+
+.question-answer3 {
+  background-color: rgb(46, 77, 167);
+}
+
+.question-answer4 {
+  background-color: rgb(224, 73, 81);
+}
+
+.question-answer1, .question-answer2, .question-answer3, .question-answer4 {
+  display: block;
+  margin: 10px;
+  padding: 5px;
+  /*text-align: left;*/
+}
+
+
+
+
+#txtanswer0, #txtanswer1, #txtanswer2, #txtanswer3 {
+  font-size: 35px;
+  color: white;
+}
+
+.question-answer {
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+  width: 100px;
+  height: auto;
+}
+
+
+
+
 
 .btn {
   background-color: rgb(95, 255, 167);
   color: black;
 }
 
-.starting, .countdown, .questions, .pre-question, .leaderboard {
+.leaderboard {
   text-align: center;
   font-family: 'Acme', sans-serif;
 }
-
- .room-code {
-   font-family: 'Acme', sans-serif;
-   text-align: right;
-   /*order: 1;*/
- }
 
  .timer {
    font-family: 'Bowlby One', cursive;
@@ -42,16 +178,12 @@
    width: 50px;
    height: 50px;
    object-fit: cover;
-   /*order: 0;*/
  }
 
 .prompt {
   width: 200px;
 }
 
-.smallprompt {
-  width: 85px;
-}
 
 .heyloo {
   font-family: 'Frijole', cursive;
@@ -71,11 +203,6 @@
   font-size: 40px;
 }
 
-.smaller-question {
-  font-family: 'Patrick Hand SC', cursive;
-  font-size: 25px;
-  color: white;
-}
 
 .answer {
   font-size: 20px;

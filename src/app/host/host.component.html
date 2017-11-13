@@ -9,17 +9,17 @@
 		</div>
 
 		<!-- waiting room -->
-		<div class="row starting" *ngIf="currentGame?.game_state == 'starting' ">
+		<div class="starting" *ngIf="currentGame?.game_state == 'starting' ">
 			<div class="jumbotron">
 				<h1><span class="heyloo">Heyloo!</span></h1>
 				<h2>Go to https://Heyloo-ced60.firebaseapp.com on your smartphone</h2>
 				<h2>Our PIN code is {{currentGame?.id}}</h2>
-				<p><button class="btn btn-success" (click)='gameStateCountdown()'>Let's begin!</button></p>
+				<p><button class="starting-btn" (click)='gameStateCountdown()'>Let's begin!</button></p>
 			</div>
 			<div class="col-md-12">
 				<h3>Who's here:</h3>
 				<div class="player-list" *ngFor='let player of playerList | async'>
-					<span class='players' (click)='deleteStudent(player)'>{{player.name}}</span>
+					<span class='starting-players' (click)='deleteStudent(player)'>{{player.name}}</span>
 					<br>
 					<br>
 				</div>
@@ -27,92 +27,90 @@
 		</div>
 
 		<!-- countdown phase -->
-		<div class="row countdown" *ngIf="currentGame?.game_state == 'countdown' ">
-			<h1>The next question will start in {{time}}....</h1>
+		<div class="countdown" *ngIf="currentGame?.game_state == 'countdown' ">
+			<h1>New question in {{time}}....</h1>
 		</div>
 
 		<!-- prequestion phase (answers don't show yet) -->
-		<div class="row pre-question" *ngIf="currentGame?.game_state == 'prequestion' ">
+		<div class="prequestion" *ngIf="currentGame?.game_state == 'prequestion' ">
 			<div class="col-md-1">
-				<span class='timer'>{{time}}</span>
+				<span class='prequestion-timer'>{{time}}</span>
 			</div>
 			<div class="col-md-1">
 			</div>
 			<div class="col-md-8">
-				<h1 id=question-number>{{currentQuestion?.title}}</h1>
+				<h1 id=prequestion-question-number>{{currentQuestion?.title}}</h1>
 			</div>
 			<div class="col-md-2">
-				<button class="btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+				<button class="prequestion-skip-btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
 			</div>
 			<div class="row">
 			</div>
 			<div class="jumbotron">
-				<div class="jumbotron-prequestion">
-				<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
+				<div class="current-question" *ngIf="currentQuestionSubstring == 'https'">
 					{{currentQuestion?.instructions}}
 					<br>
-					<img class="prompt" src="{{currentQuestion?.prompt}}">
+					<img class="prequestion-prompt" src="{{currentQuestion?.prompt}}">
 				</div>
-				<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
+				<div class="current-question" *ngIf="currentQuestionSubstring != 'https'">
 					{{currentQuestion?.instructions}}
 					<br>
-					<img class="prompt" src="{{currentQuestion?.prompt}}">
+					<img class="prequestion-prompt" src="{{currentQuestion?.prompt}}">
 				</div>
-			</div>
 			</div>
 		</div>
 
 		<!-- question phase (students see answer choices and can select their answer) -->
-		<div class="row questions" *ngIf="currentGame?.game_state == 'question' ">
+		<div class="question" *ngIf="currentGame?.game_state == 'question' ">
 			<div class="col-md-1">
-				<span class='timer'>{{time}}</span>
+				<span class='question-timer'>{{time}}</span>
 			</div>
 			<div class="col-md-1">
 				</div>
 			<div class="col-md-8">
 				</div>
 			<div class="col-md-2">
-				<button class="btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+				<button class="question-skip-btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
 			</div>
-			<div class="smaller-question">
+			<div class="reduced-question">
 				<div class="col-md-12">
-					<div class="row current-question" *ngIf="currentQuestionSubstring == 'https'">
+					<div class="question-question" *ngIf="currentQuestionSubstring == 'https'">
 						{{currentQuestion?.instructions}}
 						<br>
-						<img class="smallprompt" src="{{currentQuestion?.prompt}}">
+						<img class="question-reduced-prompt" src="{{currentQuestion?.prompt}}">
 					</div>
-					<div class="row current-question" *ngIf="currentQuestionSubstring != 'https'">
+					<div class="question-question" *ngIf="currentQuestionSubstring != 'https'">
 						{{currentQuestion?.instructions}}
 						<br>
-						<img class="smallprompt" src="{{currentQuestion?.prompt}}">
+						<img class="question-reduced-prompt" src="{{currentQuestion?.prompt}}">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<div class="answer1">
+					<div class="question-answer1">
 						<i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer0"><img class="smallanswer" src="{{currentQuestion?.choices[0]}}"></p>
+						<p id="txtanswer0"><img class="question-answer" src="{{currentQuestion?.choices[0]}}"></p>
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="answer2">
+					<div class="question-answer2">
 						<i class="fa fa-star fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer1"><img class="smallanswer" src="{{currentQuestion?.choices[1]}}"></p>
+						<p id="txtanswer1"><img class="question-answer" src="{{currentQuestion?.choices[1]}}"></p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<div class="answer3">
+					<div class="question-answer3">
 						<i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer2"><img class="smallanswer" src="{{currentQuestion?.choices[2]}}"></p>
+						<p id="txtanswer2"><img class="question-answer" src="{{currentQuestion?.choices[2]}}"></p>
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="answer4">
+					<div class="question-answer4">
 						<i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-						<p id="txtanswer3"><img class="smallanswer" src="{{currentQuestion?.choices[3]}}"></p>
+						<p id="txtanswer3"><img class="question-answer" src="{{currentQuestion?.choices[3]}}"></p>
 					</div>
 				</div>
 			</div>
