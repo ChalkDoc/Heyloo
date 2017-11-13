@@ -48,26 +48,19 @@ export class HostService {
   }
 
   // // Returns a game Observable from game code
-  // getGame(gameCode: number) {
+  // getGame(roomCode: number) {
   //   return this.database.list(this.basePath);
   // }
 
-    // Returns a game Observable from game code
-    getGame(gameCode: number) {
-      //let test: number = 77754;
-      return this.database.list(this.basePath, {
-        query: {
-          orderByChild: 'id',
-          equalTo: gameCode
-        }
-      });
-    }
-
-  // Returns a game Observable from a key
-  getGameObservable(key: string): FirebaseObjectObservable<Game> {
-    const gamePath =  `${this.basePath}/${key}`;
-    this.game = this.database.object(gamePath)
-    return this.game;
+  // Returns a game Observable from game code
+  getGame(roomCode: number) {
+    //let test: number = 77754;
+    return this.database.list(this.basePath, {
+      query: {
+        orderByChild: 'id',
+        equalTo: roomCode
+      }
+    });
   }
 
   // Add a player to a specific game
@@ -114,10 +107,6 @@ export class HostService {
   //   }
   // }
 
-
-
-
-
   getCurrentGamePlayerList(id: string){
     return this.database.list('games/' + id + '/player_list')
   }
@@ -126,8 +115,6 @@ export class HostService {
   randomId(){
     return Math.floor(Math.random()*90000) + 10000;
   }
-
-
 
   // from STZ - currently we get these questions from code, but we need to get them from Firebase instead
   getQuestions() {

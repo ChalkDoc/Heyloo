@@ -15,10 +15,8 @@ import { Observable } from 'rxjs/Observable'; //Added by STZ
   providers: [StudentService, HostService]
 })
 export class StudentComponent implements OnInit {
-  currentGame: FirebaseObjectObservable<any[]>;
-  currentStudent: FirebaseObjectObservable<any[]>;
+  
   questions: Question[];
-  currentQuestion: Question;
   currentGameKey: string;
 
   // this is the data from our current game, as a json object
@@ -27,7 +25,6 @@ export class StudentComponent implements OnInit {
   startTime;
   endTime;
   subStudent;
-  studentId;
   allPlayers;
   sortedPlayers = [];
   currentPosition;
@@ -36,43 +33,86 @@ export class StudentComponent implements OnInit {
   positionChange;
   positionChangeColor;
 
-  gameState;
+  // STZ Variables
+  urlParamRoomCode: number;
+  urlParamStudentId: number;
+  currentGame: Game;
+  currentQuestion: Question; 
+  currentStudent: Player;
+  playersList: Player[];
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
   ngOnInit() {
-    var studentId;
+    
+    // Get the parameters from the URL
     this.route.params.forEach(urlParameters => {
-      //this.currentGame = this.hostService.getGameFromCode(urlParameters['roomcode']);
-      //this.hostService.setGameKey(urlParameters['roomcode']);
-      this.studentId = urlParameters['studentid'];
+      this.urlParamRoomCode = parseInt(urlParameters['roomcode']);
+      this.urlParamStudentId = parseInt(urlParameters['studentid']);
     })
 
-    // This ensures the current question is up to date.
-    this.currentGame.subscribe(data => {
-      this.currentGameKey = data['$key'];
-      this.currentQuestion = data['question_list'][data['current_question']];
-      this.gameState = data['game_state'];
-    })
-    this.currentStudent = this.studentService.getStudentGameKeyAndId(this.currentGameKey, this.studentId);
-    this.questions = this.hostService.getQuestions();
-    this.currentGame.subscribe(data => {
-      this.subGame = data;
-    })
-    this.currentStudent.subscribe(data => {
-      this.subStudent = data;
-    })
+    //Subscribe to game from roomcode
+    this.hostService.getGame(this.urlParamRoomCode)
+    .subscribe(gameReturned => {
+      if(gameReturned.length==1){
+        this.currentGame = gameReturned[0];
+        this.currentGame.key = gameReturned[0].$key; // Get's the key for this game
+        this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
+        this.playersList = gameReturned[0].player_list;
 
-    // STZ test
-    this.gameState.subscribe().take
+        // this.iteratePlayers();
+        this.printGame();
+
+        // for(let i=0; i<=gameReturned[0].player_list.length;i++){
+        //   console.log("the key is: " + gameReturned[0][i].$key);
+        //   console.log("Full player is: " +gameReturned[0][i]);
+        // }
+
+      } else {
+        alert("Room Code is not valid");        
+      }
+    }, err => {
+      alert("Houston we have a problem");
+    });
+
+    // Subscribe a student.  Unfortunately this can fire BEFORE previous subscribe returns :(
+    // this.studentService
+    //   .getStudentFromRoomCodeAndId('-Kycdu7DG-239m8fRxKm', this.urlParamStudentId)
+    //   .subscribe(students => {
+    //     console.log(students)
+    // })
+  
+
+
+    // OLD - Subscribe a student
+      // this.currentStudent = this.studentService
+      // .getStudentGameKeyAndId(this.currentGame.key, this.urlParamRoomCode);
+
+
+    // this.questions = this.hostService.getQuestions();
+
+    // this.currentStudent.subscribe(data => {
+    //   this.subStudent = data;
+    // })
+
+  }
+
+  iteratePlayers(){
+    this.playersList.forEach(player => {
+      console.log(player.name);
+    })
+  }
+
+  printGame(){
+    console.log(this.currentGame);
   }
 
   ngDoCheck(){
-    if(this.subGame['game_state'] == 'question'){
+    if(this.currentGame.game_state == 'question'){
       this.setStartTime();
-    }else if(this.subGame['game_state'] == "answer"){
+    }else if(this.currentGame.game_state == "answer"){
       this.updateGame();
-    }else if(this.subGame['game_state'] == 'leaderboard'){
+    }else if(this.currentGame.game_state == 'leaderboard'){
 
       this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
       this.previousPosition = this.currentPosition;
@@ -81,6 +121,22 @@ export class StudentComponent implements OnInit {
       console.log("Question timer was reset to ZERO");
     }
   }
+
+  // Old version
+  // ngDoCheck(){
+  //   if(this.subGame['game_state'] == 'question'){
+  //     this.setStartTime();
+  //   }else if(this.subGame['game_state'] == "answer"){
+  //     this.updateGame();
+  //   }else if(this.subGame['game_state'] == 'leaderboard'){
+
+  //     this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
+  //     this.previousPosition = this.currentPosition;
+  //     // Set to null as a method to set Start time only once per question
+  //     this.startTime = null;
+  //     console.log("Question timer was reset to ZERO");
+  //   }
+  // }
 
   getStudentAnswer(answer: number){
     var questionAnswer;
@@ -120,9 +176,9 @@ export class StudentComponent implements OnInit {
   }
 
   updateGame(){
-    this.currentGame.subscribe(data => {
-      this.subGame = data;
-    })
+    // this.currentGame.subscribe(data => {
+    //   this.subGame = data;
+    // })
     this.getLeaderboard();
     this.getLeaderboardChange();
   }

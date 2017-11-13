@@ -2,16 +2,36 @@ import { Injectable } from '@angular/core';
 import { Game } from './game.model';
 import { Player } from './player.model';
 import { Question } from './question.model';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { HostService } from './host.service';
 
 @Injectable()
 export class StudentService {
-  players: FirebaseListObservable<any[]>;
+  
+  //players: FirebaseListObservable<any[]>;
   subPlayers: Player[];
 
+  // STZ added variables
+  private basePath: string = '/games';
+  player: FirebaseObjectObservable<Player>; 
+  players: FirebaseListObservable<Player[]>; 
+
+
   constructor(private database: AngularFireDatabase, private hostService: HostService) { }
+
+  //STZ additions
+    // Returns a player FirebaseListObservable from game code and player id
+    getStudentFromRoomCodeAndId(gameKey: string, playerId: number): FirebaseListObservable<Player[]> {
+      this.players = this.database.list(this.basePath + '/' + gameKey + '/player_list' , {
+        query: {
+          orderByChild: 'id',
+          equalTo: playerId,
+          limitToFirst: 1
+        }
+      });
+      return this.players;
+    }
 
   addStudent(newPlayer: Player) {
     this.players.push(newPlayer);
