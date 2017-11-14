@@ -18,11 +18,9 @@ import { StudentService } from '../student.service';
 export class HostComponent {
 
   //games: FirebaseListObservable<any[]>;
-  currentGame: FirebaseObjectObservable<Game>;
+  //currentGame: FirebaseObjectObservable<Game>;
   gameObserver;
-  playerList: Player[];
-
-  roomCode: number;
+    
   //public currentGame; //What type of variable is this?
   questions: Question[];
   currentQuestion: Question;
@@ -32,24 +30,30 @@ export class HostComponent {
   private hideBarGraph = true;
   currentQuestionSubstring;
 
-  questionsRemaining: number;
+ 
   private id: string; // Test code by STZ
   private path: String; // Test code by STZ
 
+  //STZ Variables
+  games: Game[];
+  urlParamRoomCode: number;
+  currentGame: Game;
+  playersList: Player[]; 
+  questionsRemaining: number;
 
   constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
   }
 
   ngOnInit() {
     //Why is this not a class variable?
-    var gameKey;
+    //var gameKey;
 
     // Why is this needed?
     //this.questions = this.hostService.getQuestions();
     
     // How many questions remain in the game
     // This was a temporary fix.  Needs to be put in game state.
-    //this.questionsRemaining = this.questions.length - 1;
+    this.questionsRemaining = this.questions.length - 1;
 
     //Is this needed?  I don't think so
     //this.games = this.hostService.getGames();
@@ -57,10 +61,10 @@ export class HostComponent {
 
     //Get the ID for the game we're about to host from the URL
     this.route.params.forEach((urlParameters) => {
-      this.roomCode = urlParameters["roomCode"];
+      this.urlParamRoomCode = urlParameters["roomCode"];
     });
 
-    console.log("Room code is: " + this.roomCode);
+    console.log("Room code is: " + this.urlParamRoomCode);
 
     // Sets the game in the Host Service so we're getting data from 
     // the correct game in Firebase 
@@ -70,11 +74,34 @@ export class HostComponent {
    // this.currentGame = this.hostService.getGame();
     
     // Not sure if we really need an observer variable or not
-    this.gameObserver = this.currentGame.subscribe(gameData => {
-      this.currentQuestion = gameData['question_list'][gameData['current_question']];
-      this.playerList = gameData['player_list']
-      console.log("Game data changed");
-    });
+    // this.gameObserver = this.currentGame.subscribe(gameData => {
+    //   this.currentQuestion = gameData['question_list'][gameData['current_question']];
+    //   this.playerList = gameData['player_list']
+    //   console.log("Game data changed");
+    // });
+
+    //get the current game
+    //Subscribe to game from roomcode
+    this.hostService.getGame(this.urlParamRoomCode)
+      .subscribe(gameReturned => {
+        if(gameReturned.length==1){
+          this.currentGame = gameReturned[0];
+          this.currentGame.key = gameReturned[0].$key; // Get's the key for this game   
+          
+        } else {
+          alert("Room Code is not valid");        
+        }
+      }, err => {
+        alert("Houston we have a problem");
+      });
+
+    // Subscribe to a Players list
+    this.hostService.getPlayersList(this.urlParamRoomCode)
+      .subscribe(players => {
+        this.playersList = players;
+      }, err => {
+        console.log("We got an error, getting the list of players")
+      });
 
     // This subscribes currentQuestion to FB's current question.
     // this.subGame.subscribe(data => {
@@ -120,31 +147,20 @@ export class HostComponent {
   }
 
   getPlayerList(){
-    // this.subGame = this.hostService.getGameFromCode(gameId);
-    // this.subGame.subscribe(data=>{
-    //   this.playerList = this.hostService.getCurrentGamePlayerList(data["$key"]);
-    // })
-    return this.playerList;
+    return this.playersList;
   }
 
   //switching between the 5 game phases (start)
 
   // countdown timer shows on screen
-  // gameStateCountdown(){
-  //   var players;
-  //   this.subGame.subscribe(data => {
-  //     players = data["player_list"]
-  //   })
-  //   if(players==undefined){
-  //     alert("There are currently no students in this game")
-  //   }else{
-  //   this.hostService.editGameState('countdown');
-  //   this.fiveSeconds();
-  //   }
-  // }
-
   gameStateCountdown(){
-
+    //var players;
+    if(this.playersList==undefined){
+      alert("There are currently no students in this game")
+    }else{
+    this.hostService.editGameState('countdown');
+    this.fiveSeconds();
+    }
   }
 
 
@@ -184,9 +200,9 @@ export class HostComponent {
   // editStudentPointsIfAnswered(){
   //   var player
   //   var gameKey
-  //   this.subGame.subscribe(data => {
-  //     player = data["player_list"]
-  //   })
+  //   // this.subGame.subscribe(data => {
+  //   //   player = data["player_list"]
+  //   // })
   //   for (let key of Object.keys(player)) {
   //     let playerInfo = player[key]
   //     if(playerInfo.answered){
@@ -199,11 +215,6 @@ export class HostComponent {
   //   }
   //     this.gameStateLeaderboard()
   // }
-
-  editStudentPointsIfAnswered(){
-
-  }
-
 
 
   fiveSeconds(){
@@ -233,36 +244,30 @@ export class HostComponent {
   }
 
   //If all students answer during question phase, gameStateAnswer() will run
-  // thirtySeconds(){
-  //   this.time = this.currentQuestion.time;
-  //   var interval = setInterval(data => {
-  //     if(this.time != 0){
-  //       let counter = 0; // Counting answers
-  //       for (let key of Object.keys(this.currentGame.player_list)) {
-  //         let playerInfo = this.currentGame.player_list[key]
-  //         if(playerInfo.answered===true){
-  //           counter += 1
-  //         };
-  //       }
-  //       // If everyone has submitted an answer, finish countdown
-  //       if(counter === Object.keys(this.currentGame.player_list).length){
-  //       clearInterval(interval);
-  //       this.gameStateAnswer();
-  //     }
-  //       this.time --;
-  //     }
-  //     else {
-  //       clearInterval(interval);
-  //       this.gameStateAnswer();
-  //     }
-  //   }, 1000);
-  // }
-
   thirtySeconds(){
-    
+    this.time = this.currentQuestion.time;
+    var interval = setInterval(data => {
+      if(this.time != 0){
+        let counter = 0; // Counting answers
+        for (let key of Object.keys(this.currentGame.player_list)) {
+          let playerInfo = this.currentGame.player_list[key]
+          if(playerInfo.answered===true){
+            counter += 1
+          };
+        }
+        // If everyone has submitted an answer, finish countdown
+        if(counter === Object.keys(this.currentGame.player_list).length){
+        clearInterval(interval);
+        this.gameStateAnswer();
+      }
+        this.time --;
+      }
+      else {
+        clearInterval(interval);
+        this.gameStateAnswer();
+      }
+    }, 1000);
   }
-
-
 
   // deleteStudent(player){
   //   var players;
@@ -321,26 +326,4 @@ export class HostComponent {
     // This shows the leaderboard
     this.gameStateLeaderboard();
   }
-
-  // //Added by STZ
-  // getKeyFromRoomCode(roomcode: number){
-  //   let thisGame;
-  //   this.hostService.getGames()
-  //     .subscribe
-  //   this.database.list('/games', {preserveSnapshot:true})
-  //     .subscribe(snapshots =>{
-  //       snapshots.forEach(snapshot => {
-  //         if(snapshot.id == roomcode){
-  //           thisGame = this.getGame(snapshot.key);
-  //         }
-  //       });
-  //       if (thisGame != undefined) {
-  //         return thisGame;
-  //       } else {
-  //         alert('There\'s no game with that code. Please try again!');
-  //       }
-  //       return null;
-  //     })
-  // }
-
 }

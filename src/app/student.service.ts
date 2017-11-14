@@ -11,12 +11,14 @@ import {Observable} from 'rxjs/Observable';
 export class StudentService {
   
   //players: FirebaseListObservable<any[]>;
-  subPlayers: Player[];
+  //subPlayers: Player[];
 
   // STZ added variables
   private gameBasePath: string = '/games';
   private playerBasePath: string = '/players';
-  player: Observable<Player>; 
+
+  //player: FirebaseListObservable<Player[]>; 
+  player: FirebaseListObservable<Player[]>; 
   players: FirebaseListObservable<Player[]>; 
 
 
@@ -24,20 +26,33 @@ export class StudentService {
 
   //STZ additions
     // Returns a player FirebaseListObservable from game code and player id
-    getPlayerFromRoomCodeAndId(roomCode: number, playerId: number): Observable<Player> {
-      this.player = this.database.list(this.playerBasePath , {
+    getPlayerFromId(playerId: number): FirebaseListObservable<Player[]> {
+      this.player = this.database.list(this.playerBasePath, {
         query: {
           orderByChild: 'id',
           equalTo: playerId,
           limitToFirst: 1
         }
-      }).filter(item => {
-          if(item.gameId == 666){
-            return true
-          } else { return false }
-        });
+      })
       return this.player;
     }
+
+    // // Returns a player FirebaseListObservable from game code and player id
+    // getPlayerFromRoomCodeAndId(roomCode: number, playerId: number): Observable<Player> {
+    //   this.player = this.database.list(this.playerBasePath , {
+    //     query: {
+    //       orderByChild: 'id',
+    //       equalTo: playerId,
+    //       limitToFirst: 1
+    //     }
+    //   }).filter(item => {
+    //       if(item.gameId == 666){
+    //         return true
+    //       } else { return false }
+    //     });
+    //   return this.player;
+    // }
+
 
     // STZ Added
     // getPlayerListByGameKey(gameKey:){
@@ -47,27 +62,27 @@ export class StudentService {
 
 
 
-  addStudent(newPlayer: Player) {
-    this.players.push(newPlayer);
-  }
+  // addStudent(newPlayer: Player) {
+  //   this.players.push(newPlayer);
+  // }
 
-  getStudent(id: string, gamekey: string){
-    return this.database.object('games/' + gamekey + '/player_list/' + id);
-  }
+  // getStudent(id: string, gamekey: string){
+  //   return this.database.object('games/' + gamekey + '/player_list/' + id);
+  // }
 
-  getStudentGameKeyAndId(key: string, id: number){
-    var retrievedStudent
-    this.players = this.database.list('games/' + key + '/player_list');
-    this.players.subscribe(data => {
-      this.subPlayers = data
-    })
-    for(let i=0; i<this.subPlayers.length; i++){
-      if(this.subPlayers[i]['id'] == id){
-        retrievedStudent = this.getStudent(this.subPlayers[i]['$key'], key);
-      }
-    }
-    return retrievedStudent;
-  }
+  // getStudentGameKeyAndId(key: string, id: number){
+  //   var retrievedStudent
+  //   this.players = this.database.list('games/' + key + '/player_list');
+  //   this.players.subscribe(data => {
+  //     this.subPlayers = data
+  //   })
+  //   for(let i=0; i<this.subPlayers.length; i++){
+  //     if(this.subPlayers[i]['id'] == id){
+  //       retrievedStudent = this.getPlayerFromId(this.subPlayers[i]['$key'], key);
+  //     }
+  //   }
+  //   return retrievedStudent;
+  // }
 
   editStudentPoints(student, correct, score){
     var totalPoints;
@@ -86,8 +101,8 @@ export class StudentService {
     }
   }
 
-  changeStudentsAnsweredToFalse(student){
-    student.update({answered: false, questionPoints: 0})
+  resetPlayerForNextQuestion(player){
+    this.database.object(this.playerBasePath + '/' + player.key).update({answered: false, questionPoints: 0})
   }
 
   editSkipPoints(student,totalPoints,score){

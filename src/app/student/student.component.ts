@@ -24,9 +24,9 @@ export class StudentComponent implements OnInit {
 
   startTime;
   endTime;
-  subStudent;
-  allPlayers;
-  sortedPlayers = [];
+  // subStudent;
+  // allPlayers;
+  
   currentPosition;
   totalPositions;
   previousPosition;
@@ -40,6 +40,9 @@ export class StudentComponent implements OnInit {
   currentQuestion: Question; 
   player: Player;
   playersList: Player[];
+
+  //still needed?
+  sortedPlayers = [];
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
 
@@ -60,7 +63,7 @@ export class StudentComponent implements OnInit {
         // this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
 
         // Now move to step 2
-        this.getPlayer(this.urlParamRoomCode, this.urlParamStudentId);
+        this.getPlayer(this.urlParamStudentId);
         
       } else {
         alert("Room Code is not valid");        
@@ -69,31 +72,24 @@ export class StudentComponent implements OnInit {
       alert("Houston we have a problem");
     });
 
-    // Subscribe a student.  Unfortunately this can fire BEFORE previous subscribe returns :(
-    // this.studentService
-    //   .getStudentFromRoomCodeAndId('-Kycdu7DG-239m8fRxKm', this.urlParamStudentId)
-    //   .subscribe(students => {
-    //     console.log(students)
-    // })
+    // Subscribe to a Players list
+    // for the leaderboard view
+    this.hostService.getPlayersList(this.urlParamRoomCode)
+      .subscribe(players => {
+        this.playersList = players;
+      }, err => {
+        console.log("We got an error, getting the list of players")
+      })
 
-    // OLD - Subscribe a student
-      // this.currentStudent = this.studentService
-      // .getStudentGameKeyAndId(this.currentGame.key, this.urlParamRoomCode);
+  } // end of onInit
 
-
-    // this.questions = this.hostService.getQuestions();
-
-    // this.currentStudent.subscribe(data => {
-    //   this.subStudent = data;
-    // })
-
-  }
-
-  getPlayer(roomCode: number, playerId: number){
-    this.studentService.getPlayerFromRoomCodeAndId(roomCode,playerId)
+  // Start the Player subscription
+  getPlayer(playerId: number){
+    this.studentService.getPlayerFromId(playerId)
     .subscribe(data => {
       console.log(data);
-      this.player = data;
+      this.player = data[0];
+      this.player.key = data['0'].$key;
     })
   }
 
@@ -129,7 +125,7 @@ export class StudentComponent implements OnInit {
       this.updateGame();
     }else if(this.currentGame.game_state == 'leaderboard'){
 
-      this.studentService.changeStudentsAnsweredToFalse(this.player);
+      this.studentService.resetPlayerForNextQuestion(this.player);
       this.previousPosition = this.currentPosition;
       // Set to null as a method to set Start time only once per question
       this.startTime = null;
@@ -162,7 +158,7 @@ export class StudentComponent implements OnInit {
 
     // a local copy of the current question, stored in an array.
     // not sure this line is needed
-    this.questions[this.subGame.current_question] = this.currentQuestion;
+    this.questions[this.currentGame.current_question] = this.currentQuestion;
 
     // Send answer to DB
     this.hostService.updatePlayerChoice(this.questions);
@@ -215,12 +211,12 @@ export class StudentComponent implements OnInit {
   }
 
   getLeaderboard() {
-    this.allPlayers = this.studentService.subPlayers;
-    this.sortedPlayers = this.allPlayers.slice().sort(function(a, b) {
+    // this.allPlayers = this.studentService.subPlayers;
+    this.sortedPlayers = this.playersList.slice().sort(function(a, b) {
       return b.points - a.points;
     });
     for (var i = 0; i < this.sortedPlayers.length; i++) {
-      if (this.sortedPlayers[i].id == this.subStudent.id) {
+      if (this.sortedPlayers[i].id == this.player.id) {
         this.currentPosition = i+1;
       }
     }

@@ -65,14 +65,17 @@ export class HostService {
     });
   }
 
-  getPlayersList(gameKey: string){
-    this.playersList = this.database.list(this.gameBasePath + "/" + gameKey + "/player_list");
-    return this.playersList;
-  }
-
-  getPlayerFromPlayerKey(playerKey: string){
-
-  }
+    // Returns a list of players ListObservable from a room code
+    getPlayersList(roomCode: number) {
+      //let test: number = 77754;
+      this.playersList = this.database.list(this.playerBasePath, {
+        query: {
+          orderByChild: 'gameId',
+          equalTo: roomCode
+        }
+      });
+      return this.playersList;
+    }
 
   // Add a player to a specific game
   // STZ: TODO this currently does not have any error handling

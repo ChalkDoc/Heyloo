@@ -1,13 +1,13 @@
 <div id="student">
 
   <!-- starting phase -->
-  <div class="container" *ngIf="subGame?.game_state == 'starting' " class="message-text">
-    <h1>You've joined Room {{subGame?.id}}!</h1>
+  <div class="container" *ngIf="currentGame?.game_state == 'starting' " class="message-text">
+    <h1>You've joined Room {{currentGame?.id}}!</h1>
     <h3>Please wait for the teacher to start the game.</h3>
   </div>
 
   <!-- question phase -->
-  <div class="container" *ngIf="subGame?.game_state == 'question'">
+  <div class="container" *ngIf="currentGame?.game_state == 'question'">
     <div *ngIf="subStudent?.answered == false">
       <div class="row">
         <div class="col-md-6">
@@ -39,17 +39,17 @@
       </div>
     </div>
 
-    <div class='container' *ngIf="subStudent?.answered == true" class='message-text'>
+    <div class='container' *ngIf="player?.answered == true" class='message-text'>
       <h1>Your response has been recorded.</h1>
     </div>
   </div>
 
   <!-- answer phase -->
-  <div class="container" *ngIf="subGame?.game_state == 'answer' || subGame?.game_state == 'leaderboard'">
+  <div class="container" *ngIf="currentGame?.game_state == 'answer' || currentGame?.game_state == 'leaderboard'">
     <div class="container">
       <h1><u>{{subStudent?.name}}</u></h1>
-      <h3 *ngIf="subStudent?.questionPoints !== 0" class="green-text">Correct!</h3>
-      <h3 *ngIf="subStudent?.questionPoints == 0" class="red-text">Incorrect.</h3>
+      <h3 *ngIf="player?.questionPoints !== 0" class="green-text">Correct!</h3>
+      <h3 *ngIf="player?.questionPoints == 0" class="red-text">Incorrect.</h3>
       <h3>Points earned for this question: {{subStudent?.questionPoints}}</h3>
       <hr>
       <h1>Overall Progress</h1>
@@ -58,7 +58,7 @@
       <h3>Position Change:
         <span [class]="positionChangeColor">{{positionChange}}</span>
       </h3>
-      <div *ngIf="subGame?.game_over == true">
+      <div *ngIf="currentGame?.game_over == true">
         <hr>
         <h1>Game Over!</h1>
         <a class="btn btn-primary" href="/register">Return to Home</a>
