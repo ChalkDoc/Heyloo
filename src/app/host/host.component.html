@@ -125,7 +125,7 @@
 			<button class="answer-nextqs-btn" type="button" (click)='continueGame()'>Next question</button>
 			<button class="answer-endgame-btn" type="button" (click)='endGame()'>End Game</button>
 			<br><br>
-			<img class="answer-correctansw-image" src="{{currentGame?.question_list[currentGame?.current_question].choices[currentGame?.question_list[currentGame?.current_question].answer]}}" alt="">	
+			<img class="answer-correctansw-image" src="{{currentGame?.question_list[currentGame?.current_question].choices[currentGame?.question_list[currentGame?.current_question].answer]}}" alt="">
 			<br>
 			<div class="row" *ngIf='showQuestion'>
 				<div class="answer-question" *ngIf="currentQuestionSubstring == 'https'">
@@ -167,7 +167,7 @@
 					</div>
 				</div>
 			</div>
-      
+
 <!-- Bar graph section (should be added as another phase)-->
 			<div class="answer-bar-graph" *ngIf='hideBarGraph'>
 				<app-bar-graph [thisQuestion]="currentQuestion"></app-bar-graph>
@@ -175,22 +175,22 @@
 					<div class="col-md-3">
 
 						<div class="answer-answer1">
-							<p><img class="answer-chart" src="{{currentQuestion?.choices[0]}}"></p>
+							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[0]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer-answer2">
-							<p><img class="answer-chart" src="{{currentQuestion?.choices[1]}}"></p>
+							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[1]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer-answer3">
-							<p><img class="answer-chart" src="{{currentQuestion?.choices[2]}}"></p>
+							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[2]}}"></p>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="answer-answer4">
-							<p><img class="answer-chart" src="{{currentQuestion?.choices[3]}}"></p>
+							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[3]}}"></p>
 						</div>
 					</div>
 				</div>
@@ -211,15 +211,12 @@
 
 
 		<!-- game over - contained within leaderboard phase -->
-		<div class="" *ngIf="currentGame?.game_over == true">
+		<div class="GameOver" *ngIf="currentGame?.game_over == true">
 			<h1>Final Scores:</h1>
 			<div class="col-md-12" *ngFor='let player of topPlayers'>
 				{{player.name}} - {{player.points}}
 			</div>
-			<a class="gameover-rtnhome-btn" href="/start">Return to Home</a>
+			<button class="gameover-rtnhome-btn" href="/start">Return to Home</button>
 		</div>
-
-		</div>
-
 	</div>
 </html>

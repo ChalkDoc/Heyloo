@@ -162,8 +162,11 @@
   margin: 0 auto;
 }
 
-
 /*Styling for answer phase*/
+.answer {
+  text-align: center;
+}
+
 .answer-showqs-btn {
   background-color: rgb(95, 255, 167);
   color: black;
@@ -240,7 +243,7 @@
 }
 
 .answer-bar-graph {
-  width: 65%;
+  width: 100%;
 }
 
 .answer-answer1, .answer-answer2, .answer-answer3, .answer-answer4 {
@@ -252,11 +255,10 @@
 
 
 /*Styling for leaderboard phase*/
-.leaderboard {
+.leaderboard, .GameOver{
   text-align: center;
   font-family: 'Acme', sans-serif;
   font-size: 24px;
-  text-align: center;
 }
 
 .leaderboard-nextqs-btn {

@@ -127,7 +127,7 @@ export class StudentComponent implements OnInit {
   }
 
   setStartTime(){
-        
+
     if (this.startTime==null){
       this.startTime = new Date().getTime();
       console.log("Time started at = " + this.startTime.toString());
@@ -166,7 +166,7 @@ export class StudentComponent implements OnInit {
         this.positionChange = 'You advanced ' + Math.abs(change) + ' position(s). Good job!';
         this.positionChangeColor = 'green-text'
       } else if ( change < 0 ){
-        this.positionChange = 'You dropped ' + Math.abs(change) + ' position(s). Try again next round!';
+        this.positionChange = '--';
         this.positionChangeColor = 'red-text'
       } else if ( change == 0 ){
         this.positionChange = 'Your ranking hasn\'t changed.';
