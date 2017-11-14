@@ -8,7 +8,7 @@
 
   <!-- question phase -->
   <div class="container" *ngIf="currentGame?.game_state == 'question'">
-    <div *ngIf="subStudent?.answered == false">
+    <div *ngIf="player?.answered == false">
       <div class="row">
         <div class="col-md-6">
           <div class="answer-choice" id="answer1" (click)='getStudentAnswer(inputPostion0.value)'>

@@ -19,77 +19,51 @@ export class HostComponent {
 
   //games: FirebaseListObservable<any[]>;
   //currentGame: FirebaseObjectObservable<Game>;
-  gameObserver;
+  //gameObserver;
     
   //public currentGame; //What type of variable is this?
-  questions: Question[];
   currentQuestion: Question;
-  time: number = 0;  // Timer variable
+  
   topPlayers;
   private showQuestion = false;
   private hideBarGraph = true;
   currentQuestionSubstring;
 
- 
-  private id: string; // Test code by STZ
-  private path: String; // Test code by STZ
-
   //STZ Variables
+  gameKey: string;
   games: Game[];
   urlParamRoomCode: number;
   currentGame: Game;
   playersList: Player[]; 
+  questions: Question[];
   questionsRemaining: number;
+  time: number = 0;  // Timer variable
 
   constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
   }
 
   ngOnInit() {
-    //Why is this not a class variable?
-    //var gameKey;
 
-    // Why is this needed?
-    //this.questions = this.hostService.getQuestions();
-    
-    // How many questions remain in the game
-    // This was a temporary fix.  Needs to be put in game state.
-    this.questionsRemaining = this.questions.length - 1;
-
-    //Is this needed?  I don't think so
-    //this.games = this.hostService.getGames();
-    
-
-    //Get the ID for the game we're about to host from the URL
+    // Get the ID for the game we're about to host from the URL
+    // Need to make sure to parseInt and numbers 
+    // as params are returned as strings 
     this.route.params.forEach((urlParameters) => {
-      this.urlParamRoomCode = urlParameters["roomCode"];
+      this.urlParamRoomCode = parseInt(urlParameters["roomCode"]);
+      console.log("Room code is: " + this.urlParamRoomCode);      
     });
 
-    console.log("Room code is: " + this.urlParamRoomCode);
-
-    // Sets the game in the Host Service so we're getting data from 
-    // the correct game in Firebase 
-   // this.hostService.setGameKey(this.roomCode);
-
-    // Gets a local version of the current game Observable
-   // this.currentGame = this.hostService.getGame();
-    
-    // Not sure if we really need an observer variable or not
-    // this.gameObserver = this.currentGame.subscribe(gameData => {
-    //   this.currentQuestion = gameData['question_list'][gameData['current_question']];
-    //   this.playerList = gameData['player_list']
-    //   console.log("Game data changed");
-    // });
-
-    //get the current game
-    //Subscribe to game from roomcode
-    this.hostService.getGame(this.urlParamRoomCode)
+    // All this just to get the gameKey
+    this.hostService.getGameAndKey(this.urlParamRoomCode)
+      .first()
       .subscribe(gameReturned => {
         if(gameReturned.length==1){
-          this.currentGame = gameReturned[0];
-          this.currentGame.key = gameReturned[0].$key; // Get's the key for this game   
+          this.gameKey = gameReturned[0].$key; // Get's the key for this game   
+
+          // Step #2, retrieve full game
+          this.getGame(this.gameKey);
           
         } else {
-          alert("Room Code is not valid");        
+          alert("Room Code " + this.urlParamRoomCode + " is not valid");        
         }
       }, err => {
         alert("Houston we have a problem");
@@ -99,51 +73,21 @@ export class HostComponent {
     this.hostService.getPlayersList(this.urlParamRoomCode)
       .subscribe(players => {
         this.playersList = players;
+        console.log("player joined the game");
       }, err => {
         console.log("We got an error, getting the list of players")
       });
 
-    // This subscribes currentQuestion to FB's current question.
-    // this.subGame.subscribe(data => {
-    //   gameKey = data['$key'];
+  }
 
-    //   console.log(data['id']);
-    //   console.log(data['game_state']);
-    //   console.log(data['game_over']);
-    //   console.log(data['player_list']);
-    //   console.log(data['question_list']);
-    //   console.log(data['questionsRemaining']);
-
-    //   // this.currentGame = new Game
-    //   // (data['id'],
-    //   // data['game_state'],
-    //   // data.game_over,
-    //   // data.player_list,
-    //   // data.question_list,
-    //   // data.questionsRemaining);
-
-    //   this.currentQuestion = data['question_list'][data['current_question']];
-    // })
-
-
-    //This subscribes currentGame to the FB game state variables
-    // this.hostService.getGameFromCode(this.roomCode).subscribe(data => {
-    //   this.currentGame = new Game
-    //   (data.id,
-    //   data.game_state,
-    //   data.game_over,
-    //   data.player_list,
-    //   data.question_list,
-    //   data.questionsRemaining)
-    //   });
-
-     // this.getPlayerList(this.currentGame.id);
-
-      // // This subscribes currentQuestion to FB's current question.
-      // this.subGame.subscribe(data => {
-      //   gameKey = data['$key'];
-      //   this.currentQuestion = data['question_list'][data['current_question']];
-      // })
+  // Get a subscription to the game Observable
+  getGame(key: string){
+    this.hostService.getGameByKey(key)
+      .subscribe(game => {
+        this.currentGame = game;
+        this.questions = game.question_list;
+        this.currentQuestion = game.question_list[game.current_question];
+      });
   }
 
   getPlayerList(){
@@ -249,14 +193,14 @@ export class HostComponent {
     var interval = setInterval(data => {
       if(this.time != 0){
         let counter = 0; // Counting answers
-        for (let key of Object.keys(this.currentGame.player_list)) {
-          let playerInfo = this.currentGame.player_list[key]
+        for (let key of Object.keys(this.playersList)) {
+          let playerInfo = this.playersList[key]
           if(playerInfo.answered===true){
             counter += 1
           };
         }
         // If everyone has submitted an answer, finish countdown
-        if(counter === Object.keys(this.currentGame.player_list).length){
+        if(counter === Object.keys(this.playersList).length){
         clearInterval(interval);
         this.gameStateAnswer();
       }
@@ -269,21 +213,10 @@ export class HostComponent {
     }, 1000);
   }
 
-  // deleteStudent(player){
-  //   var players;
-  //   this.playerList.subscribe(data => {
-  //     players = data;
-  //   })
-  //   for(let i = 0; i < players.length; i++){
-  //     if(players[i].id == player.id){
-  //       players.splice(i, 1);
-  //     }
-  //   }
-  //   this.hostService.updatePlayerList(players, this.currentGame);
-  // }
-
   deleteStudent(player){
+    this.hostService.deletePlayer(player)
   }
+
 
   // endGame(){
   //   this.hostService.gameOver(this.currentGame);
@@ -295,22 +228,19 @@ export class HostComponent {
   
   }
 
-  // getLeaderboard(){
-  //   var leaderboard = [];
-  //   var players;
-  //   var current = this;
-  //   this.playerList.subscribe(data => {
-  //     players = data;
-  //   })
-  //   leaderboard = players.sort(function(a, b){
-  //     return b.points-a.points
-  //   })
-  //   this.topPlayers = leaderboard.slice(0, 5);
-  // }
-
   getLeaderboard(){
-  
+    var leaderboard = [];
+    // var players;
+    //    var current = this;
+    // this.playersList.subscribe(data => {
+    //   players = data;
+    // })
+    leaderboard = this.playersList.sort(function(a, b){
+      return b.points-a.points
+    })
+    this.topPlayers = leaderboard.slice(0, 5);
   }
+
   // nextQuestionWithoutLeaderboard() {
   //   this.gameStateLeaderboard();
   //   this.gameStateCountdown();

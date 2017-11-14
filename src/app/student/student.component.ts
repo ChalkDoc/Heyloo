@@ -55,12 +55,14 @@ export class StudentComponent implements OnInit {
     })
 
     //Subscribe to game from roomcode
-    this.hostService.getGame(this.urlParamRoomCode)
+    this.hostService.getGameAndKey(this.urlParamRoomCode)
     .subscribe(gameReturned => {
       if(gameReturned.length==1){
         this.currentGame = gameReturned[0];
         this.currentGame.key = gameReturned[0].$key; // Get's the key for this game
-        // this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
+        
+        // Helper variable to track the current question
+        this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
 
         // Now move to step 2
         this.getPlayer(this.urlParamStudentId);
@@ -89,7 +91,7 @@ export class StudentComponent implements OnInit {
     .subscribe(data => {
       console.log(data);
       this.player = data[0];
-      this.player.key = data['0'].$key;
+      //this.player.$key = data['0'].$key;
     })
   }
 
@@ -150,21 +152,25 @@ export class StudentComponent implements OnInit {
   // }
 
   getStudentAnswer(answer: number){
-    var questionAnswer;
+    //var questionAnswer;
 
-    //This is getting rid of the 0 index, and
-    // storing users choice as 1 - 4
-    this.currentQuestion.student_choices[answer] ++;
+    // storing users choice
+    //this.currentQuestion.student_choices[answer] ++;
 
     // a local copy of the current question, stored in an array.
     // not sure this line is needed
-    this.questions[this.currentGame.current_question] = this.currentQuestion;
+    //this.questions[this.currentGame.current_question] = this.currentQuestion;
 
-    // Send answer to DB
-    this.hostService.updatePlayerChoice(this.questions);
+    // Send answer to DB so we can see the histogram of answers (chart)
+    //this.hostService.updatePlayerChoice(this.questions);
 
+    // Need to remember to parseInt form values.
+    this.hostService.submitPlayersAnswer(this.currentGame.key, this.currentGame.current_question, answer);
+
+    //Stop the timer
     this.setEndTime();
 
+    // determine score
     if(answer == this.currentQuestion.answer){
       this.studentService.editStudentPoints(this.player, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
@@ -241,5 +247,9 @@ export class StudentComponent implements OnInit {
         this.positionChangeColor = ''
       }
     }
+  }
+
+  ngOnDestroy() {
+    console.log("the player is gone");
   }
 }

@@ -39,6 +39,7 @@ export class HostService {
   // STZ: Removed return value
   //Creates a new game when passed a complete Game
   createGame(newGame: Game): void{
+    this.games = this.database.list(this.gameBasePath);
     this.games.push(newGame)
       .catch(error => this.handErrorToConsole(error))
   }
@@ -46,7 +47,8 @@ export class HostService {
 
   // Returns a list of games Observable
   getGames(){
-    return this.gamesRef.snapshotChanges();
+    this.games = this.database.list(this.gameBasePath);
+    return this.games;
   }
 
   // // Returns a game Observable from game code
@@ -55,27 +57,31 @@ export class HostService {
   // }
 
   // Returns a game ListObservable from game code
-  getGame(roomCode: number) {
-    //let test: number = 77754;
+  getGameAndKey(roomCode: number) {
     return this.database.list(this.gameBasePath, {
       query: {
         orderByChild: 'id',
         equalTo: roomCode
       }
-    });
+    })
   }
 
-    // Returns a list of players ListObservable from a room code
-    getPlayersList(roomCode: number) {
-      //let test: number = 77754;
-      this.playersList = this.database.list(this.playerBasePath, {
-        query: {
-          orderByChild: 'gameId',
-          equalTo: roomCode
-        }
-      });
-      return this.playersList;
-    }
+  getGameByKey(key: string){
+    this.game = this.database.object(this.gameBasePath+'/'+ key);
+    return this.game;
+  }
+
+  // Returns a game ListObservable from game code
+  getPlayersList(roomCode: number) {
+    //let test: number = 77754;
+    this.playersList = this.database.list(this.playerBasePath, {
+      query: {
+        orderByChild: 'gameId',
+        equalTo: roomCode
+      }
+    });
+    return this.playersList;
+  }
 
   // Add a player to a specific game
   // STZ: TODO this currently does not have any error handling
@@ -119,9 +125,9 @@ export class HostService {
   //   }
   // }
 
-  getCurrentGamePlayerList(id: string){
-    return this.database.list('games/' + id + '/player_list')
-  }
+  // getCurrentGamePlayerList(id: string){
+  //   return this.database.list('games/' + id + '/player_list')
+  // }
 
   // Added by STZ
   randomId(){
@@ -221,6 +227,19 @@ export class HostService {
     this.game.update({player_list: players});
   }
 
+  // Delete a single player
+  deletePlayer(player:any){
+    this.database.list(this.playerBasePath).remove(player.$key)
+    .catch(error => this.handleError(error))
+    console.log(`Player ${player.name} deleted from the game` );
+  }
+
+   // Deletes a single item
+  // deleteItem(key: string): void {
+  //   this.items.remove(key)
+  //     .catch(error => this.handleError(error))
+  // }
+
   // updatePlayerChoice(questions, game){
   //   var currentGame = this.getGameFromCode(game.id);
   //   currentGame.update({question_list: questions});
@@ -228,6 +247,17 @@ export class HostService {
 
   updatePlayerChoice(questions){
     this.game.update({question_list: questions});
+  }
+
+  //Added by STZ
+  // per this: https://stackoverflow.com/questions/40795605/create-or-increment-a-value-with-angular2-angularfire2
+  submitPlayersAnswer(gameKey: string, questionNumber: number, answer: number){
+    let nodePath = `/games/${gameKey}/question_list/${questionNumber}/player_choices/${answer}`;
+    let ansObs = this.database.object(nodePath);
+    ansObs.$ref.transaction(count => {
+      return count ? count + 1 : 1;
+    });
+    // this.game.update({question_list:})
   }
 
   // Default error handling for all actions

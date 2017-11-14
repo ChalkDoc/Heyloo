@@ -33,17 +33,17 @@ export class RegisterComponent implements OnInit {
     // 4. Add player to game
     // 5. navigate to Student with correct credentials
 
-  register(username: string, codeString: string){
+  register(username: string, code: string){
     
-    let gameCode: number = parseInt(codeString); // have to convert to number, because NG only passes strings
+    let roomCode: number = parseInt(code); // have to convert to number, because NG only passes strings
 
     // Using First() because without it the subscription fires each time ANY 
     // user, including ourselves alters the game state
-    this.hostService.getGame(gameCode)
+    this.hostService.getGameAndKey(roomCode)
       .first()
       .finally(()=>{
         // route to the student view
-        //this.router.navigate(['student', this.game.id, this.currentPlayer.id]);     
+        this.router.navigate(['student', this.game.id, this.currentPlayer.id]);     
       })
       .subscribe(gameReturned => {
         if(gameReturned.length==1){

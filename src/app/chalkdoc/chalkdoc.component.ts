@@ -34,7 +34,7 @@ export class ChalkdocComponent implements OnInit {
     .then(result => {
       this.quiz = result;
       let roomCode = this.hostService.randomId();
-      var newGame: Game = new Game(roomCode, "starting", false, [], this.quiz, this.quiz.length);
+      var newGame: Game = new Game(roomCode, "starting", false, [], this.quiz, this.quiz.length-1,"0");
       console.log(result);
       this.hostService.createGame(newGame);
       this.router.navigate(['host', roomCode]);

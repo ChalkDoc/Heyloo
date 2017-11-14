@@ -16,7 +16,7 @@
     </div>
     <div class="col-md-12">
       <h3>Who's here:</h3>
-      <div class="player-list" *ngFor='let player of playerList | async'>
+      <div class="player-list" *ngFor='let player of playersList'>
         <span class='players' (click)='deleteStudent(player)'>{{player.name}}</span>
         <br>
         <br>
