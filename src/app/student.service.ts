@@ -5,6 +5,7 @@ import { Question } from './question.model';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { HostService } from './host.service';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class StudentService {
@@ -13,8 +14,9 @@ export class StudentService {
   subPlayers: Player[];
 
   // STZ added variables
-  private basePath: string = '/games';
-  player: FirebaseObjectObservable<Player>; 
+  private gameBasePath: string = '/games';
+  private playerBasePath: string = '/players';
+  player: Observable<Player>; 
   players: FirebaseListObservable<Player[]>; 
 
 
@@ -22,15 +24,19 @@ export class StudentService {
 
   //STZ additions
     // Returns a player FirebaseListObservable from game code and player id
-    getStudentFromRoomCodeAndId(gameKey: string, playerId: number): FirebaseListObservable<Player[]> {
-      this.players = this.database.list(this.basePath + '/' + gameKey + '/player_list' , {
+    getPlayerFromRoomCodeAndId(roomCode: number, playerId: number): Observable<Player> {
+      this.player = this.database.list(this.playerBasePath , {
         query: {
           orderByChild: 'id',
           equalTo: playerId,
           limitToFirst: 1
         }
-      });
-      return this.players;
+      }).filter(item => {
+          if(item.gameId == 666){
+            return true
+          } else { return false }
+        });
+      return this.player;
     }
 
     // STZ Added

@@ -38,7 +38,7 @@ export class StudentComponent implements OnInit {
   urlParamStudentId: number;
   currentGame: Game;
   currentQuestion: Question; 
-  currentStudent: Player;
+  player: Player;
   playersList: Player[];
 
   constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
@@ -57,12 +57,11 @@ export class StudentComponent implements OnInit {
       if(gameReturned.length==1){
         this.currentGame = gameReturned[0];
         this.currentGame.key = gameReturned[0].$key; // Get's the key for this game
-        this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
+        // this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
 
         // Now move to step 2
-        this.getPlayerList(gameReturned[0].$key);
-        // console.log(this.playersList);
-
+        this.getPlayer(this.urlParamRoomCode, this.urlParamStudentId);
+        
       } else {
         alert("Room Code is not valid");        
       }
@@ -76,12 +75,6 @@ export class StudentComponent implements OnInit {
     //   .subscribe(students => {
     //     console.log(students)
     // })
-  
-
-    
-
-
-
 
     // OLD - Subscribe a student
       // this.currentStudent = this.studentService
@@ -96,26 +89,38 @@ export class StudentComponent implements OnInit {
 
   }
 
+  getPlayer(roomCode: number, playerId: number){
+    this.studentService.getPlayerFromRoomCodeAndId(roomCode,playerId)
+    .subscribe(data => {
+      console.log(data);
+      this.player = data;
+    })
+  }
+
+
   // Step #2, get the list of players
-  getPlayerList(gameKey: string){
-    this.hostService.getPlayersList(gameKey)
-      .subscribe(playerlist => {
-        this.playersList = playerlist;
+  // getPlayerList(gameKey: string){
+  //   this.hostService.getPlayersList(gameKey)
+  //     .subscribe(playerlist => {
+  //       this.playersList = playerlist;
 
-        // On to Step 3
-        this.getPlayerSubscription();
+  //       // On to Step 3
+  //       this.getPlayerSubscription();
 
-      }, err => {
-        alert("Error getting the Player list");
-      } );
-  }
+  //     }, err => {
+  //       alert("Error getting the Player list");
+  //     } );
+  // }
 
-  //Step #3, subscribe to the specific user
-  getPlayerSubscription(){
-    this.playersList.forEach(player => {
-      console.log(player.name);
-    });
-  }
+  // //Step #3, subscribe to the specific user
+  // getPlayerSubscription(){
+  //   this.playersList.forEach(player => {
+  //     if(player.id==this.urlParamStudentId){
+  //       this.hostService
+  //     }
+  //   });
+  // }
+
 
   ngDoCheck(){
     if(this.currentGame.game_state == 'question'){
@@ -124,7 +129,7 @@ export class StudentComponent implements OnInit {
       this.updateGame();
     }else if(this.currentGame.game_state == 'leaderboard'){
 
-      this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
+      this.studentService.changeStudentsAnsweredToFalse(this.player);
       this.previousPosition = this.currentPosition;
       // Set to null as a method to set Start time only once per question
       this.startTime = null;
@@ -165,10 +170,10 @@ export class StudentComponent implements OnInit {
     this.setEndTime();
 
     if(answer == this.currentQuestion.answer){
-      this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
+      this.studentService.editStudentPoints(this.player, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{
-      this.studentService.editStudentPoints(this.currentStudent, false, 0);
+      this.studentService.editStudentPoints(this.player, false, 0);
     }
   }
 

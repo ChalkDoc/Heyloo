@@ -51,10 +51,10 @@ export class RegisterComponent implements OnInit {
           this.game.key = gameReturned[0].$key; // Get's the key for this game
     
           // create a new user
-          this.currentPlayer = new Player(username, 0, 0, this.hostService.randomId(), false, "0");
+          this.currentPlayer = new Player(username, 0, 0, this.hostService.randomId(), false, this.game.id, "0");
     
           // add user to game
-          this.hostService.addPlayer(this.game.key,this.currentPlayer);
+          this.hostService.addPlayer(this.currentPlayer);
         } else {
           alert("Room Code is not valid");        
         }

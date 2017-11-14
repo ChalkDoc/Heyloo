@@ -17,11 +17,13 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class HostService {
 
-  private basePath: string = '/games';
+  private gameBasePath: string = '/games';
+  private playerBasePath: string = '/players';
   gamesRef;
   games: FirebaseListObservable<Game[]> = null;  //A list of Games from Firebase
   game: FirebaseObjectObservable<Game> = null; // the current game
-  playersList: FirebaseListObservable<Player[]> = null; //Current
+  playersList: FirebaseListObservable<Player[]> = null; //Current list of players
+  player: FirebaseObjectObservable<Player> = null; // the player/student
 
   //subGames: Game[]; // our list of games
 
@@ -29,7 +31,7 @@ export class HostService {
     
     // A list of games as an observable
     // Database reference to the main Games list
-    //const gamesRef = database.list(this.basePath);
+    //const gamesRef = database.list(this.gameBasePath);
 
   }
 
@@ -49,13 +51,13 @@ export class HostService {
 
   // // Returns a game Observable from game code
   // getGame(roomCode: number) {
-  //   return this.database.list(this.basePath);
+  //   return this.database.list(this.gameBasePath);
   // }
 
   // Returns a game ListObservable from game code
   getGame(roomCode: number) {
     //let test: number = 77754;
-    return this.database.list(this.basePath, {
+    return this.database.list(this.gameBasePath, {
       query: {
         orderByChild: 'id',
         equalTo: roomCode
@@ -64,17 +66,19 @@ export class HostService {
   }
 
   getPlayersList(gameKey: string){
-    this.playersList = this.database.list(this.basePath + "/" + gameKey + "/player_list");
+    this.playersList = this.database.list(this.gameBasePath + "/" + gameKey + "/player_list");
     return this.playersList;
+  }
+
+  getPlayerFromPlayerKey(playerKey: string){
+
   }
 
   // Add a player to a specific game
   // STZ: TODO this currently does not have any error handling
   // such as if the player name is already taken
-  addPlayer(gameKey: string, player: Player){
-    const gamePath =  `${this.basePath}/${gameKey}/player_list`;
-    this.playersList = this.database.list(gamePath);
-    this.playersList.push(player);
+  addPlayer(player: Player){
+    this.database.list(this.playerBasePath).push(player);
   }
 
   // Added by STZ
