@@ -211,12 +211,12 @@
 
 
 		<!-- game over - contained within leaderboard phase -->
-		<div class="" *ngIf="currentGame?.game_over == true">
+		<div class="GameOver" *ngIf="currentGame?.game_over == true">
 			<h1>Final Scores:</h1>
 			<div class="col-md-12" *ngFor='let player of topPlayers'>
 				{{player.name}} - {{player.points}}
 			</div>
-			<a class="gameover-rtnhome-btn" href="/start">Return to Home</a>
+			<button class="gameover-rtnhome-btn" href="/start">Return to Home</button>
 		</div>
 	</div>
 </html>
