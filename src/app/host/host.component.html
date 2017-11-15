@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-12">
       <h3>Who's here:</h3>
-      <div class="player-list" *ngFor='let player of playerList'>
+      <div class="player-list" *ngFor='let player of playersList'>
         <span class='starting-players' (click)='deleteStudent(player)'>{{player.name}}</span>
         <br>
         <br>
@@ -42,7 +42,7 @@
       <h1 id=prequestion-question-number>{{currentQuestion?.title}}</h1>
     </div>
     <div class="col-md-2">
-      <button class="prequestion-skip-btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+      <button class="prequestion-skip-btn" type="button" (click)='endTimer()'>Skip question</button>
     </div>
     <div class="row">
     </div>
@@ -70,7 +70,7 @@
     <div class="col-md-8">
     </div>
     <div class="col-md-2">
-      <button class="question-skip-btn" type="button" (click)='editStudentPointsIfAnswered()'>Skip question</button>
+      <button class="question-skip-btn" type="button" (click)='endTimer()'>Skip question</button>
     </div>
     <div class="reduced-question">
       <div class="col-md-12">
