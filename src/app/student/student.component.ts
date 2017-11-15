@@ -158,18 +158,18 @@ export class StudentComponent implements OnInit {
   getLeaderboardChange() {
     var change;
     if (this.previousPosition == undefined) {
-      this.positionChange = 'N/A'
+      this.positionChange = ''
       this.positionChangeColor = ''
     } else {
       change = this.previousPosition - this.currentPosition;
       if ( change > 0) {
-        this.positionChange = 'You advanced ' + Math.abs(change) + ' position(s). Good job!';
+        this.positionChange = 'Ranking: You advanced ' + Math.abs(change) + ' position(s). Good job!';
         this.positionChangeColor = 'green-text'
       } else if ( change < 0 ){
-        this.positionChange = '--';
-        this.positionChangeColor = 'red-text'
+        this.positionChange = '';
+        // this.positionChangeColor = 'red-text'
       } else if ( change == 0 ){
-        this.positionChange = 'Your ranking hasn\'t changed.';
+        this.positionChange = 'Ranking: Your ranking hasn\'t changed.';
         this.positionChangeColor = ''
       }
     }

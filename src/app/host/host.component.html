@@ -173,21 +173,23 @@
 				<app-bar-graph [thisQuestion]="currentQuestion"></app-bar-graph>
 				<div class="AnswerRow">
 					<div class="col-md-3">
-
 						<div class="answer-answer1">
 							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[0]}}"></p>
 						</div>
 					</div>
+
 					<div class="col-md-3">
 						<div class="answer-answer2">
 							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[1]}}"></p>
 						</div>
 					</div>
+
 					<div class="col-md-3">
 						<div class="answer-answer3">
 							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[2]}}"></p>
 						</div>
 					</div>
+
 					<div class="col-md-3">
 						<div class="answer-answer4">
 							<p><img class="AnswerChartImg" src="{{currentQuestion?.choices[3]}}"></p>
@@ -216,7 +218,7 @@
 			<div class="col-md-12" *ngFor='let player of topPlayers'>
 				{{player.name}} - {{player.points}}
 			</div>
-			<button class="gameover-rtnhome-btn" href="/start">Return to Home</button>
+			<a class="gameover-rtnhome-btn" href="/start">Return to Home</a>
 		</div>
 	</div>
 </html>
