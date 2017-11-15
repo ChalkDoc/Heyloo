@@ -16,16 +16,7 @@ h1, h3 {
 }
 
 .green-text {
-  color: lime;
-}
-
-.red-text {
-  color: maroon;
-}
-
-.answer {
-  width: 100%;
-  height: auto;
+  color: teal;
 }
 
 #answer1 {
