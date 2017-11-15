@@ -1,16 +1,17 @@
 <div id="student">
 
   <!-- waiting room -->
-  <div class="container" *ngIf="subGame?.game_state == 'starting' " class="message-text">
+  <div class="container" *ngIf="currentGame?.game_state == 'starting' " class="message-text">
     <h1>You've joined Room {{subGame?.id}}!</h1>
     <h3>Please wait for the teacher to start the game.</h3>
   </div>
 
   <!-- question phase (students see answer choices and can select their answer) -->
-  <div class="qa" *ngIf="subGame?.game_state == 'question'">
-    <div *ngIf="subStudent?.answered == false">
+  <div class="qa" *ngIf="currentGame?.game_state == 'question'">
+    <div *ngIf="player?.answered == false">
       <div class="choice-row">
         <div class="col-xs-6">
+
           <div class="answer-choice" id="answer1" (click)='getStudentAnswer(inputPostion0.value)'>
             <input type="hidden" #inputPostion0 value="0">
             <i class="fa fa-paper-plane fa-5x" aria-hidden="true">
@@ -48,24 +49,26 @@
       </div>
     </div>
 
-    <div class='container' *ngIf="subStudent?.answered == true" class='message-text'>
+    <div class='container' *ngIf="player?.answered == true" class='message-text'>
       <h1>Your response has been recorded.</h1>
     </div>
   </div>
 
   <!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
-  <div class="container" *ngIf="subGame?.game_state == 'answer' || subGame?.game_state == 'leaderboard'">
+  <div class="container" *ngIf="currentGame?.game_state == 'answer' || currentGame?.game_state == 'leaderboard'">
     <div class="container">
-      <h1><u>{{subStudent?.name}}</u></h1>
-      <h3 *ngIf="subStudent?.questionPoints !== 0" class="green-text">Correct!</h3>
-      <h3 *ngIf="subStudent?.questionPoints == 0" class="red-text">Incorrect.</h3>
-      <h3>Points earned for this question: {{subStudent?.questionPoints}}</h3>
+      <h1><u>{{player?.name}}</u></h1>
+      <h3 *ngIf="player?.questionPoints !== 0" class="green-text">Correct!</h3>
+      <h3 *ngIf="player?.questionPoints == 0" class="red-text">Incorrect.</h3>
+      <h3>Points earned for this question: {{player?.questionPoints}}</h3>
       <hr>
       <h1>Overall Progress</h1>
-      <h3>Total points: {{subStudent?.points}}</h3>
+      <h3>Total points: {{player?.points}}</h3>
       <h3>Leaderboard Position: {{currentPosition}}/{{totalPositions}}</h3>
-      <h3 [class]="positionChangeColor">{{positionChange}}</h3>
-      <div *ngIf="subGame?.game_over == true">
+      <h3>Position Change:
+        <span [class]="positionChangeColor">{{positionChange}}</span>
+      </h3>
+      <div *ngIf="currentGame?.game_over == true">
         <hr>
         <h1>Game Over!</h1>
         <a class="btn btn-primary" href="/register">Return to Home</a>

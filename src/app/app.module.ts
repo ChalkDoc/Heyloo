@@ -16,6 +16,7 @@ import { StudentService } from './student.service';
 import { BarGraphComponent } from './bar-graph/bar-graph.component';
 import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from './home/home.component';
+import { ChalkdocComponent } from './chalkdoc/chalkdoc.component';
 
 export const firebaseConfig = {
   apiKey: masterFirebaseConfig.apiKey,
@@ -32,7 +33,8 @@ export const firebaseConfig = {
     RegisterComponent,
     StartComponent,
     BarGraphComponent,
-    HomeComponent
+    HomeComponent,
+    ChalkdocComponent
   ],
   imports: [
     BrowserModule,
