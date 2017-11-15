@@ -36,13 +36,15 @@ export class HostComponent {
   currentGame: Game;
   playersList: Player[]; 
   questions: Question[];
-  questionsRemaining: number;
+  // questionsRemaining: number;
   time: number = 0;  // Timer variable
 
   constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
   }
 
   ngOnInit() {
+
+    console.log('ngInit Fired');
 
     // Get the ID for the game we're about to host from the URL
     // Need to make sure to parseInt and numbers 
@@ -86,6 +88,7 @@ export class HostComponent {
       .subscribe(game => {
         this.currentGame = game;
         this.questions = game.question_list;
+        
         this.currentQuestion = game.question_list[game.current_question];
       });
   }
@@ -120,12 +123,12 @@ export class HostComponent {
   // Question is visible, voting opens
   gameStateQuestion(){
     this.hostService.editGameState('question');
-    this.thirtySeconds();
+    this.startTimer();
   }
 
   //  Answer Distrobution Chart visible
   gameStateAnswer(){
-    // this.hostService.editGameState('answer', this.currentGame);
+     this.hostService.editGameState('answer');
   }
 
   // Host shows current users ranks
@@ -134,7 +137,7 @@ export class HostComponent {
   }
 
   gameStateLeaderboard(){
-    this.hostService.nextQuestion(this.currentGame);
+    this.hostService.nextQuestion(this.currentGame.current_question);
     this.getLeaderboard();
     this.hostService.editGameState('leaderboard');
   }
@@ -188,7 +191,7 @@ export class HostComponent {
   }
 
   //If all students answer during question phase, gameStateAnswer() will run
-  thirtySeconds(){
+  startTimer(){
     this.time = this.currentQuestion.time;
     var interval = setInterval(data => {
       if(this.time != 0){
@@ -247,12 +250,14 @@ export class HostComponent {
   // }
 
   continueGame() {
+    let questionsRemaining = this.questions.length - (this.currentGame.current_question + 1); 
+    console.log("Questions remaining =" + questionsRemaining.toString())
+    
     // Add logic to see if the game is over
-    if(this.questionsRemaining == 0){
+    if(questionsRemaining == 0){
       this.endGame();
     }
-    console.log("Questions remaining =" + this.questionsRemaining.toString())
-    this.questionsRemaining--;
+  
     // This shows the leaderboard
     this.gameStateLeaderboard();
   }

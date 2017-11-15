@@ -26,16 +26,16 @@ export class StudentService {
 
   //STZ additions
     // Returns a player FirebaseListObservable from game code and player id
-    getPlayerFromId(playerId: number): FirebaseListObservable<Player[]> {
-      this.player = this.database.list(this.playerBasePath, {
-        query: {
-          orderByChild: 'id',
-          equalTo: playerId,
-          limitToFirst: 1
-        }
-      })
-      return this.player;
-    }
+    // getPlayerFromId(playerId: number): FirebaseListObservable<Player[]> {
+    //   this.player = this.database.list(this.playerBasePath, {
+    //     query: {
+    //       orderByChild: 'id',
+    //       equalTo: playerId,
+    //       limitToFirst: 1
+    //     }
+    //   })
+    //   return this.player;
+    // }
 
     // // Returns a player FirebaseListObservable from game code and player id
     // getPlayerFromRoomCodeAndId(roomCode: number, playerId: number): Observable<Player> {
@@ -84,30 +84,30 @@ export class StudentService {
   //   return retrievedStudent;
   // }
 
-  editStudentPoints(student, correct, score){
-    var totalPoints;
-    var totalCorrect;
-    var totalWrong;
-    student.subscribe(data => {
-      totalPoints = data.points;
-      totalCorrect = data.correct;
-      totalWrong = data.wrong;
-    })
-    if(correct == true){
-      student.update({points: (totalPoints + score), correct: (totalCorrect + 1), questionPoints: score, answered: true});
-    }
-    else if(correct == false){
-      student.update({wrong: (totalWrong + 1), questionPoints: 0, answered: true});
-    }
-  }
+  // editStudentPoints(student, correct, score){
+  //   var totalPoints;
+  //   var totalCorrect;
+  //   var totalWrong;
+  //   student.subscribe(data => {
+  //     totalPoints = data.points;
+  //     totalCorrect = data.correct;
+  //     totalWrong = data.wrong;
+  //   })
+  //   if(correct == true){
+  //     student.update({points: (totalPoints + score), correct: (totalCorrect + 1), questionPoints: score, answered: true});
+  //   }
+  //   else if(correct == false){
+  //     student.update({wrong: (totalWrong + 1), questionPoints: 0, answered: true});
+  //   }
+  // }
 
-  resetPlayerForNextQuestion(player){
-    this.database.object(this.playerBasePath + '/' + player.key).update({answered: false, questionPoints: 0})
-  }
+  // resetPlayerForNextQuestion(player){
+  //   this.database.object(this.playerBasePath + '/' + player.key).update({answered: false, questionPoints: 0})
+  // }
 
-  editSkipPoints(student,totalPoints,score){
-    student.update({points: (totalPoints - score), answered: false});
-    student.subscribe(data => {
-    })
-  }
+  // editSkipPoints(student,totalPoints,score){
+  //   student.update({points: (totalPoints - score), answered: false});
+  //   student.subscribe(data => {
+  //   })
+  // }
 }

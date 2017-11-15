@@ -12,16 +12,16 @@ import { Question } from '../question.model';
 })
 export class BarGraphComponent implements OnInit {
   @Input() thisQuestion;
-  studentChoices = [];
+  playerChoices = [];
   public barChartData:any[]
 
   constructor() { }
 
   ngOnInit() {
-    this.studentChoices = this.thisQuestion.student_choices;
+    this.playerChoices = this.thisQuestion.player_choices;
     this.barChartData = [
       {
-        data: this.studentChoices,
+        data: this.playerChoices,
         label: 'Answer Distribution'
       }
     ];

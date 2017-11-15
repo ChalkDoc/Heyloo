@@ -23,7 +23,10 @@ export class HostService {
   games: FirebaseListObservable<Game[]> = null;  //A list of Games from Firebase
   game: FirebaseObjectObservable<Game> = null; // the current game
   playersList: FirebaseListObservable<Player[]> = null; //Current list of players
-  player: FirebaseObjectObservable<Player> = null; // the player/student
+  //player: FirebaseObjectObservable<Player> = null; // the player/student
+  player: FirebaseListObservable<Player[]>; 
+  playerObs: FirebaseObjectObservable<Player>;
+  gameStateObs: FirebaseObjectObservable<any>;
 
   //subGames: Game[]; // our list of games
 
@@ -89,21 +92,6 @@ export class HostService {
   addPlayer(player: Player){
     this.database.list(this.playerBasePath).push(player);
   }
-
-  // Added by STZ
-  // Helper function that converts a snapshot to an array,
-  // including the key
-  snapshotToArray(snapshot) {
-    var returnArr = [];
-
-    snapshot.forEach(function(childSnapshot) {
-        var item = childSnapshot.val();
-        item.key = childSnapshot.key;
-        returnArr.push(item);
-    });
-
-    return returnArr;
-  };
 
   // getGame(chosenGameId: string){
   //   return this.database.object('games/' + chosenGameId);
@@ -202,11 +190,9 @@ export class HostService {
   //   currentGame.update({current_question: nextQuestion + 1});
   // }
 
-  nextQuestion(game) {
-    this.game.take(1).subscribe(gameData => {
-      let currentQuestion: number = gameData.current_question;
-      this.game.update({current_question: currentQuestion+1})
-    });
+  nextQuestion(questionNumber: number) {
+      this.game.update({current_question: questionNumber+1})
+
   }
 
   // gameOver(game){
@@ -265,11 +251,52 @@ export class HostService {
     console.log(error)
   }
 
-  // // Added by STZ
-  // addPlayer(player: Player){
-  //   this.playerList.push(player);
-  // }
+  // Returns a player FirebaseListObservable from game code and player id
+  getPlayerFromId(playerId: number): FirebaseListObservable<Player[]> {
+    this.player = this.database.list(this.playerBasePath, {
+      query: {
+        orderByChild: 'id',
+        equalTo: playerId,
+        limitToFirst: 1
+      }
+    })
+    return this.player;
+  }
 
+  editPlayerPoints(passedPlayer, correct, score){
+    this.playerObs = this.database.object(this.playerBasePath+'/'+passedPlayer.key);
 
+    //var totalPoints;
+    //var totalCorrect;
+    //var totalWrong;
+    // // student.subscribe(data => {
+    //   totalPoints = data.points;
+    //   totalCorrect = data.correct;
+    //   totalWrong = data.wrong;
+    // })
+    console.log(this.playerObs.$ref);
+    if(correct == true){
+      
+      this.playerObs.update({points: (passedPlayer.points + score), correct: (passedPlayer.correct + 1), questionPoints: score, answered: true});
+    }
+    else if(correct == false){
+      this.playerObs.update({wrong: (passedPlayer.wrong + 1), questionPoints: 0, answered: true});
+    }
+  }
+
+  resetPlayerForNextQuestion(player){
+    this.database.object(this.playerBasePath + '/' + player.key).update({answered: false, questionPoints: 0})
+  }
+
+  editSkipPoints(student,totalPoints,score){
+    student.update({points: (totalPoints - score), answered: false});
+    student.subscribe(data => {
+    })
+  }
+
+  getGameState(gameKey: string){
+    this.gameStateObs = this.database.object(this.gameBasePath+'/'+gameKey);
+    return this.gameStateObs;
+  }
 
 }

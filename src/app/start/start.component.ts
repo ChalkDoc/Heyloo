@@ -36,24 +36,8 @@ export class StartComponent implements OnInit {
     this.router.navigate(['host', clickedGame.id]);
   }
 
-  // randomId(){
-  //   return Math.floor(Math.random()*90000) + 10000;
-  // }
-
-  // id: number
-  // game_state: string
-  // game_over: boolean
-  // public player_list: Player[]
-  //  public question_list: Question[]
   createGame(game){
-    var newGame: Game = new Game(this.hostService.randomId(), 
-      "starting", 
-      false, 
-      [], 
-      this.questions, 
-      this.questions.length-1,
-      "0");
-    this.hostService.createGame(newGame);
+    this.router.navigate(['chalkdoc', '123456789']);
   }
 
   //runs on init and returns the 5 most recently created game ids

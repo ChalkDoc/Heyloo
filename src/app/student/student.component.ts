@@ -22,8 +22,7 @@ export class StudentComponent implements OnInit {
   // this is the data from our current game, as a json object
   subGame;
 
-  startTime;
-  endTime;
+
   // subStudent;
   // allPlayers;
   
@@ -36,15 +35,20 @@ export class StudentComponent implements OnInit {
   // STZ Variables
   urlParamRoomCode: number;
   urlParamStudentId: number;
-  currentGame: Game;
+  currentGame: Game = null;
   currentQuestion: Question; 
   player: Player;
   playersList: Player[];
+  startTime; // For each question the time started
+  endTime; // For each question the time ended
+  previousGameState: string;
+  gameState: string;
+  questionStarted: boolean = false; // Tracking needed to keep timer times correct
 
   //still needed?
   sortedPlayers = [];
 
-  constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private hostService: HostService) { }
 
   ngOnInit() {
     
@@ -87,11 +91,10 @@ export class StudentComponent implements OnInit {
 
   // Start the Player subscription
   getPlayer(playerId: number){
-    this.studentService.getPlayerFromId(playerId)
+    this.hostService.getPlayerFromId(playerId)
     .subscribe(data => {
-      console.log(data);
       this.player = data[0];
-      //this.player.$key = data['0'].$key;
+      this.player.key = data['0'].$key;
     })
   }
 
@@ -120,20 +123,39 @@ export class StudentComponent implements OnInit {
   // }
 
 
+  // we need to get rid of this, it's causing a lot of problems
   ngDoCheck(){
-    if(this.currentGame.game_state == 'question'){
-      this.setStartTime();
-    }else if(this.currentGame.game_state == "answer"){
-      this.updateGame();
-    }else if(this.currentGame.game_state == 'leaderboard'){
 
-      this.studentService.resetPlayerForNextQuestion(this.player);
-      this.previousPosition = this.currentPosition;
-      // Set to null as a method to set Start time only once per question
-      this.startTime = null;
-      console.log("Question timer was reset to ZERO");
-    }
-  }
+    // Only do something if the state has changed
+    if((this.currentGame!=null)&&(this.currentGame.game_state!=this.previousGameState)){
+
+      // Remember the previous state
+      this.previousGameState = this.currentGame.game_state
+
+      switch(this.currentGame.game_state){
+        
+        case 'starting':
+          console.log('In Starting state');
+          break;
+        case 'question':          
+          console.log('In Question state');
+          this.setStartTime()
+          break;
+        case 'answer':
+          console.log('In Answer state');
+          this.AnswerGameState();
+          
+          break;        
+        case 'leaderboard':
+          console.log('In leaderboard state');
+          this.startTime = null
+          this.hostService.resetPlayerForNextQuestion(this.player);
+          break;
+        default:
+      } // End of Switch
+    } // End of If
+  } // End of ngDoCheck
+
 
   // Old version
   // ngDoCheck(){
@@ -152,17 +174,6 @@ export class StudentComponent implements OnInit {
   // }
 
   getStudentAnswer(answer: number){
-    //var questionAnswer;
-
-    // storing users choice
-    //this.currentQuestion.student_choices[answer] ++;
-
-    // a local copy of the current question, stored in an array.
-    // not sure this line is needed
-    //this.questions[this.currentGame.current_question] = this.currentQuestion;
-
-    // Send answer to DB so we can see the histogram of answers (chart)
-    //this.hostService.updatePlayerChoice(this.questions);
 
     // Need to remember to parseInt form values.
     this.hostService.submitPlayersAnswer(this.currentGame.key, this.currentGame.current_question, answer);
@@ -172,15 +183,15 @@ export class StudentComponent implements OnInit {
 
     // determine score
     if(answer == this.currentQuestion.answer){
-      this.studentService.editStudentPoints(this.player, true, this.scoringAlgorithm(this.endTime, this.startTime));
+      this.hostService.editPlayerPoints(this.player, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{
-      this.studentService.editStudentPoints(this.player, false, 0);
+      this.hostService.editPlayerPoints(this.player, false, 0);
     }
   }
 
   // number of milliseconds
-  // This is hard-coded to 30 seconds responses
+  //
   // 1000 maximum score, 500 minimum score
   // End-start returns a number of milliseconds (eg 2472 ms)
   // Dividing by 1000 gives us a elapsed time for the question in seconds (eg 2 sec)
@@ -189,25 +200,34 @@ export class StudentComponent implements OnInit {
   // TODO: Add Unit tests here
 
   scoringAlgorithm(end, start){
-    return Math.round(1000 * (1 - ((((end - start) / 1000)/this.currentQuestion.time)/2)));
+    // See: https://stackoverflow.com/questions/16066388/why-new-date-gettime-returns-too-much-0-in-javascript
+    let step1 = (end - start); // Milliseconds to answer
+    console.log("response time is: " + step1 + " milliseconds");
+    let step2 = step1 / 1000; // Seconds to answer 
+    let step3 = step2 / this.currentQuestion.time; // Percentage of score to receive moving to 1 
+    let step4 = step3 / 2;
+    let step5 = 1 - step4;
+    let step6 = 1000 * step5;
+    console.log("score for this question is:" + step6);
+    this.resetTimers();
+    return step6;
+    // return Math.round(1000 * (1 - ((((end - start) / 1000)/this.currentQuestion.time)/2)));
   }
 
-  updateGame(){
-    // this.currentGame.subscribe(data => {
-    //   this.subGame = data;
-    // })
+  //reset the timers after each question
+  resetTimers(){
+    this.startTime = null;
+    this.endTime = null;
+  }
+
+  AnswerGameState(){
     this.getLeaderboard();
     this.getLeaderboardChange();
   }
 
-  setStartTime(){
-        
-    if (this.startTime==null){
+  setStartTime(){        
       this.startTime = new Date().getTime();
       console.log("Time started at = " + this.startTime.toString());
-    } else {
-      console.log("Attempt to restart clock...CHEATER. DENIED");
-    }
   }
 
   setEndTime(){
@@ -249,7 +269,6 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  ngOnDestroy() {
-    console.log("the player is gone");
-  }
+
+
 }
