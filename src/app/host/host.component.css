@@ -237,22 +237,16 @@
   background-color: rgb(224, 73, 81);
 }
 
-.answer-chart {
-  width: 100%;
-  height: auto;
-}
-
 .answer-bar-graph {
-  width: 100%;
+  width: 95%;
 }
 
 .answer-answer1, .answer-answer2, .answer-answer3, .answer-answer4 {
   display: block;
-  margin: 10px;
+  margin: 0 auto;
   padding: 15px;
-  border-radius: 25px;
+  border-radius: 20px;
 }
-
 
 /*Styling for leaderboard phase*/
 .leaderboard, .GameOver{
@@ -279,10 +273,6 @@
 .AnswerChartImg {
   width: 180px;
   height: 40px;
-}
-
-.bar-graph {
-  width: 100%;
 }
 
 /*Styling for game over phase*/

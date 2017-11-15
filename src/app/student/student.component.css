@@ -16,22 +16,11 @@ h1, h3 {
 }
 
 .green-text {
-  color: green;
-}
-
-.red-text {
-  color: maroon;
-}
-
-.answer {
-  width: 100%;
-  height: auto;
+  color: teal;
 }
 
 #answer1 {
   background-color: rgb(114, 49, 87);
-  height: 100%;
-  width:100%;
 }
 
 #answer2 {
@@ -54,4 +43,9 @@ h1, h3 {
 
 .answer-choice:hover {
   cursor: pointer;
+}
+
+.choice-row {
+  display: flex;
+  flex-direction: row;
 }

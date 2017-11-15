@@ -7,42 +7,42 @@
   </div>
 
   <!-- question phase (students see answer choices and can select their answer) -->
-  <div class="container" *ngIf="subGame?.game_state == 'question'">
+  <div class="qa" *ngIf="subGame?.game_state == 'question'">
     <div *ngIf="subStudent?.answered == false">
-      <div class="row">
-        <div class="col-md-6">
+      <div class="choice-row">
+        <div class="col-xs-6">
           <div class="answer-choice" id="answer1" (click)='getStudentAnswer(inputPostion0.value)'>
             <input type="hidden" #inputPostion0 value="0">
             <i class="fa fa-paper-plane fa-5x" aria-hidden="true">
               <br>
-              <img class="answer" src="{{currentQuestion?.choices[0]}}">
+              <img class="answer-img" src="{{currentQuestion?.choices[0]}}">
             </i>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-xs-6">
           <div class="answer-choice" id="answer2" (click)='getStudentAnswer(inputPostion1.value)'>
             <input type="hidden" #inputPostion1 value="1">
             <i class="fa fa-star fa-5x" aria-hidden="true">
               <br>
-              <img class="answer" src="{{currentQuestion?.choices[1]}}"></i>
+              <img class="answer-img" src="{{currentQuestion?.choices[1]}}"></i>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
+      <div class="choice-row">
+        <div class="col-xs-6">
           <div class="answer-choice" id="answer3" (click)='getStudentAnswer(inputPostion2.value)'>
             <input type="hidden" #inputPostion2 value="2">
             <i class="fa fa-heart fa-5x" aria-hidden="true">
               <br>
-              <img class="answer" src="{{currentQuestion?.choices[2]}}"></i>
+              <img class="answer-img" src="{{currentQuestion?.choices[2]}}"></i>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-xs-6">
           <div class="answer-choice" id="answer4" (click)='getStudentAnswer(inputPostion3.value)'>
             <input type="hidden" #inputPostion3 value="3">
             <i class="fa fa-rocket fa-5x" aria-hidden="true">
               <br>
-              <img class="answer" src="{{currentQuestion?.choices[3]}}"></i>
+              <img class="answer-img" src="{{currentQuestion?.choices[3]}}"></i>
           </div>
         </div>
       </div>
@@ -64,9 +64,7 @@
       <h1>Overall Progress</h1>
       <h3>Total points: {{subStudent?.points}}</h3>
       <h3>Leaderboard Position: {{currentPosition}}/{{totalPositions}}</h3>
-      <h3>Position Change:
-        <span [class]="positionChangeColor">{{positionChange}}</span>
-      </h3>
+      <h3 [class]="positionChangeColor">{{positionChange}}</h3>
       <div *ngIf="subGame?.game_over == true">
         <hr>
         <h1>Game Over!</h1>
