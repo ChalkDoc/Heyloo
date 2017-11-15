@@ -13,44 +13,42 @@ import { HostService } from '../host.service';
 })
 
 export class StartComponent implements OnInit {
-  games: FirebaseListObservable<any[]>;
+  //games: FirebaseListObservable<Game[]>;
   questions: Question[];
-  lastFiveGames;
+  lastFiveGames: Game[] ;
 
   constructor(private router: Router, private hostService: HostService) { }
 
   ngOnInit() {
+    // Load example questions
+    // TODO: Remove this button, as these are just test questions
     this.questions = this.hostService.getQuestions();
-    this.games = this.hostService.getGames();
-    this.returnLastFiveGames();
+    
+    // Get a list of the last 5 games
+    this.hostService.getGames()
+      .subscribe(games => {
+        this.lastFiveGames = games.slice(-5,);
+      })
+    //this.returnLastFiveGames();
   }
 
   startGame(clickedGame){
     this.router.navigate(['host', clickedGame.id]);
   }
 
-  randomId(){
-    return Math.floor(Math.random()*90000) + 10000;
-  }
-
-  // id: number
-  // game_state: string
-  // game_over: boolean
-  // public player_list: Player[]
-  //  public question_list: Question[]
   createGame(game){
-    var newGame: Game = new Game(this.randomId(), "starting", false, [], this.questions);
-    this.hostService.createGame(newGame);
+    this.router.navigate(['chalkdoc', '123456789']);
   }
 
   //runs on init and returns the 5 most recently created game ids
-  returnLastFiveGames(){
-    var fiveGames = [];
-    var gamesList;
-    this.games.subscribe(data => {
-      gamesList = data
-      fiveGames = gamesList.slice(-5,)
-      this.lastFiveGames = fiveGames
-    })
-  }
+  // returnLastFiveGames(){
+  //   var fiveGames = [];
+  //   var gamesList;
+  //   this.games.subscribe(data => {
+  //     gamesList = this.snapshotToArray(data)
+  //     fiveGames = gamesList.slice(-5,)
+  //     this.lastFiveGames = fiveGames
+  //   })
+  // }
+
 }

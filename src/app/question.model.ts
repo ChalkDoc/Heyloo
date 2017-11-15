@@ -1,5 +1,5 @@
 export class Question {
-  public student_choices: number[];
+  public player_choices: number[];
   public title: string;
   public instructions: string;
   public time: number;
@@ -14,6 +14,6 @@ export class Question {
       this.prompt = prompt;
       this.choices = choices;
       this.answer = answer;
-      this.student_choices =[0, 0, 0, 0];
+      this.player_choices =[0, 0, 0, 0];
     }
 }

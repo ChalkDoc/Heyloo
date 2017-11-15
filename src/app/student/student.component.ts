@@ -15,98 +15,183 @@ import { Observable } from 'rxjs/Observable'; //Added by STZ
   providers: [StudentService, HostService]
 })
 export class StudentComponent implements OnInit {
-  currentGame: FirebaseObjectObservable<any[]>;
-  currentStudent: FirebaseObjectObservable<any[]>;
+  
   questions: Question[];
-  currentQuestion: Question;
   currentGameKey: string;
 
   // this is the data from our current game, as a json object
   subGame;
 
-  startTime;
-  endTime;
-  subStudent;
-  studentId;
-  allPlayers;
-  sortedPlayers = [];
+
+  // subStudent;
+  // allPlayers;
+  
   currentPosition;
   totalPositions;
   previousPosition;
   positionChange;
   positionChangeColor;
 
-  gameState;
+  // STZ Variables
+  urlParamRoomCode: number;
+  urlParamStudentId: number;
+  currentGame: Game = null;
+  currentQuestion: Question; 
+  player: Player;
+  playersList: Player[];
+  startTime; // For each question the time started
+  endTime; // For each question the time ended
+  previousGameState: string;
+  gameState: string;
+  questionStarted: boolean = false; // Tracking needed to keep timer times correct
 
-  constructor(private route: ActivatedRoute, private studentService: StudentService, private router: Router, private hostService: HostService) { }
+  //still needed?
+  sortedPlayers = [];
+
+  constructor(private route: ActivatedRoute, private router: Router, private hostService: HostService) { }
 
   ngOnInit() {
-    var studentId;
+    
+    // Get the parameters from the URL
     this.route.params.forEach(urlParameters => {
-      this.currentGame = this.hostService.getGameFromCode(urlParameters['roomcode']);
-      this.studentId = urlParameters['studentid'];
+      this.urlParamRoomCode = parseInt(urlParameters['roomcode']);
+      this.urlParamStudentId = parseInt(urlParameters['studentid']);
     })
 
-    // This ensures the current question is up to date.
-    this.currentGame.subscribe(data => {
-      this.currentGameKey = data['$key'];
-      this.currentQuestion = data['question_list'][data['current_question']];
-      this.gameState = data['game_state'];
-    })
-    this.currentStudent = this.studentService.getStudentGameKeyAndId(this.currentGameKey, this.studentId);
-    this.questions = this.hostService.getQuestions();
-    this.currentGame.subscribe(data => {
-      this.subGame = data;
-    })
-    this.currentStudent.subscribe(data => {
-      this.subStudent = data;
-    })
+    //Subscribe to game from roomcode
+    this.hostService.getGameAndKey(this.urlParamRoomCode)
+    .subscribe(gameReturned => {
+      if(gameReturned.length==1){
+        this.currentGame = gameReturned[0];
+        this.currentGame.key = gameReturned[0].$key; // Get's the key for this game
+        
+        // Helper variable to track the current question
+        this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
 
-    // STZ test
-    this.gameState.subscribe().take
+        // Now move to step 2
+        this.getPlayer(this.urlParamStudentId);
+        
+      } else {
+        alert("Room Code is not valid");        
+      }
+    }, err => {
+      alert("Houston we have a problem");
+    });
+
+    // Subscribe to a Players list
+    // for the leaderboard view
+    this.hostService.getPlayersList(this.urlParamRoomCode)
+      .subscribe(players => {
+        this.playersList = players;
+      }, err => {
+        console.log("We got an error, getting the list of players")
+      })
+
+  } // end of onInit
+
+  // Start the Player subscription
+  getPlayer(playerId: number){
+    this.hostService.getPlayerFromId(playerId)
+    .subscribe(data => {
+      this.player = data[0];
+      this.player.key = data['0'].$key;
+    })
   }
 
+
+  // Step #2, get the list of players
+  // getPlayerList(gameKey: string){
+  //   this.hostService.getPlayersList(gameKey)
+  //     .subscribe(playerlist => {
+  //       this.playersList = playerlist;
+
+  //       // On to Step 3
+  //       this.getPlayerSubscription();
+
+  //     }, err => {
+  //       alert("Error getting the Player list");
+  //     } );
+  // }
+
+  // //Step #3, subscribe to the specific user
+  // getPlayerSubscription(){
+  //   this.playersList.forEach(player => {
+  //     if(player.id==this.urlParamStudentId){
+  //       this.hostService
+  //     }
+  //   });
+  // }
+
+
+  // we need to get rid of this, it's causing a lot of problems
   ngDoCheck(){
-    if(this.subGame['game_state'] == 'question'){
-      this.setStartTime();
-    }else if(this.subGame['game_state'] == "answer"){
-      this.updateGame();
-    }else if(this.subGame['game_state'] == 'leaderboard'){
 
-      this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
-      this.previousPosition = this.currentPosition;
-      // Set to null as a method to set Start time only once per question
-      this.startTime = null;
-      console.log("Question timer was reset to ZERO");
-    }
-  }
+    // Only do something if the state has changed
+    if((this.currentGame!=null)&&(this.currentGame.game_state!=this.previousGameState)){
+
+      // Remember the previous state
+      this.previousGameState = this.currentGame.game_state
+
+      switch(this.currentGame.game_state){
+        
+        case 'starting':
+          console.log('In Starting state');
+          break;
+        case 'question':          
+          console.log('In Question state');
+          this.setStartTime()
+          break;
+        case 'answer':
+          console.log('In Answer state');
+          this.AnswerGameState();
+          
+          break;        
+        case 'leaderboard':
+          console.log('In leaderboard state');
+          this.startTime = null
+          this.hostService.resetPlayerForNextQuestion(this.player);
+          break;
+        default:
+      } // End of Switch
+    } // End of If
+  } // End of ngDoCheck
+
+
+  // Old version
+  // ngDoCheck(){
+  //   if(this.subGame['game_state'] == 'question'){
+  //     this.setStartTime();
+  //   }else if(this.subGame['game_state'] == "answer"){
+  //     this.updateGame();
+  //   }else if(this.subGame['game_state'] == 'leaderboard'){
+
+  //     this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
+  //     this.previousPosition = this.currentPosition;
+  //     // Set to null as a method to set Start time only once per question
+  //     this.startTime = null;
+  //     console.log("Question timer was reset to ZERO");
+  //   }
+  // }
 
   getStudentAnswer(answer: number){
-    var questionAnswer;
 
-    //This is getting rid of the 0 index, and
-    // storing users choice as 1 - 4
-    this.currentQuestion.student_choices[answer] ++;
+    // Need to remember to parseInt form values.
+    this.hostService.submitPlayersAnswer(this.currentGame.key, this.currentGame.current_question, answer);
 
-    // a local copy of the current question, stored in an array.
-    // not sure this line is needed
-    this.questions[this.subGame.current_question] = this.currentQuestion;
-
-    // Send answer to DB
-    this.hostService.updatePlayerChoice(this.questions, this.subGame);
-
+    //Stop the timer
     this.setEndTime();
 
+    // determine score
     if(answer == this.currentQuestion.answer){
-      this.studentService.editStudentPoints(this.currentStudent, true, this.scoringAlgorithm(this.endTime, this.startTime));
+      this.hostService.editPlayerPoints(this.player, true, this.scoringAlgorithm(this.endTime, this.startTime));
     }
     else{
-      this.studentService.editStudentPoints(this.currentStudent, false, 0);
+      this.hostService.editPlayerPoints(this.player, false, 0);
     }
   }
 
   // number of milliseconds
-  // This is hard-coded to 30 seconds responses
+  //
   // 1000 maximum score, 500 minimum score
   // End-start returns a number of milliseconds (eg 2472 ms)
   // Dividing by 1000 gives us a elapsed time for the question in seconds (eg 2 sec)
@@ -115,25 +200,34 @@ export class StudentComponent implements OnInit {
   // TODO: Add Unit tests here
 
   scoringAlgorithm(end, start){
-    return Math.round(1000 * (1 - ((((end - start) / 1000)/this.currentQuestion.time)/2)));
+    // See: https://stackoverflow.com/questions/16066388/why-new-date-gettime-returns-too-much-0-in-javascript
+    let step1 = (end - start); // Milliseconds to answer
+    console.log("response time is: " + step1 + " milliseconds");
+    let step2 = step1 / 1000; // Seconds to answer 
+    let step3 = step2 / this.currentQuestion.time; // Percentage of score to receive moving to 1 
+    let step4 = step3 / 2;
+    let step5 = 1 - step4;
+    let step6 = 1000 * step5;
+    console.log("score for this question is:" + step6);
+    this.resetTimers();
+    return step6;
+    // return Math.round(1000 * (1 - ((((end - start) / 1000)/this.currentQuestion.time)/2)));
   }
 
-  updateGame(){
-    this.currentGame.subscribe(data => {
-      this.subGame = data;
-    })
+  //reset the timers after each question
+  resetTimers(){
+    this.startTime = null;
+    this.endTime = null;
+  }
+
+  AnswerGameState(){
     this.getLeaderboard();
     this.getLeaderboardChange();
   }
 
-  setStartTime(){
-
-    if (this.startTime==null){
+  setStartTime(){        
       this.startTime = new Date().getTime();
       console.log("Time started at = " + this.startTime.toString());
-    } else {
-      console.log("Attempt to restart clock...CHEATER. DENIED");
-    }
   }
 
   setEndTime(){
@@ -143,12 +237,12 @@ export class StudentComponent implements OnInit {
   }
 
   getLeaderboard() {
-    this.allPlayers = this.studentService.subPlayers;
-    this.sortedPlayers = this.allPlayers.slice().sort(function(a, b) {
+    // this.allPlayers = this.studentService.subPlayers;
+    this.sortedPlayers = this.playersList.slice().sort(function(a, b) {
       return b.points - a.points;
     });
     for (var i = 0; i < this.sortedPlayers.length; i++) {
-      if (this.sortedPlayers[i].id == this.subStudent.id) {
+      if (this.sortedPlayers[i].id == this.player.id) {
         this.currentPosition = i+1;
       }
     }
@@ -174,4 +268,7 @@ export class StudentComponent implements OnInit {
       }
     }
   }
+
+
+
 }

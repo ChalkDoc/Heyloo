@@ -5,6 +5,7 @@ import { StudentComponent } from './student/student.component';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
 import { HomeComponent } from './home/home.component';
+import { ChalkdocComponent } from './chalkdoc/chalkdoc.component';
 
 const appRoutes: Routes = [
 {
@@ -16,7 +17,7 @@ const appRoutes: Routes = [
   component: StartComponent
 },
 {
-  path: 'host/:id',
+  path: 'host/:roomCode',
   component: HostComponent
 },
 {
@@ -26,6 +27,10 @@ const appRoutes: Routes = [
 {
   path: 'register',
   component: RegisterComponent
+},
+{
+  path: 'chalkdoc/:id',
+  component: ChalkdocComponent
 }
 ];
 

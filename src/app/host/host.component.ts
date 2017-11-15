@@ -5,6 +5,7 @@ import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/d
 import { HostService} from '../host.service';
 import { Question } from '../question.model';
 import { Game } from '../game.model';
+import { Player } from '../player.model';
 import { StudentService } from '../student.service';
 
 @Component({
@@ -16,82 +17,104 @@ import { StudentService } from '../student.service';
 
 export class HostComponent {
 
-  games: FirebaseListObservable<any[]>;
-  subGame: FirebaseObjectObservable<any[]>;
-  playerList: FirebaseListObservable<any[]>;
-  gameId;
-  public currentGame;
-  questions: Question[];
+  //games: FirebaseListObservable<any[]>;
+  //currentGame: FirebaseObjectObservable<Game>;
+  //gameObserver;
+    
+  //public currentGame; //What type of variable is this?
   currentQuestion: Question;
-  time: number = 0;
+  
   topPlayers;
   private showQuestion = false;
   private hideBarGraph = true;
   currentQuestionSubstring;
 
-  questionsRemaining: number;
-
+  //STZ Variables
+  gameKey: string;
+  games: Game[];
+  urlParamRoomCode: number;
+  currentGame: Game;
+  playersList: Player[]; 
+  questions: Question[];
+  // questionsRemaining: number;
+  time: number = 0;  // Timer variable
 
   constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
   }
 
   ngOnInit() {
-    var gameKey;
-    this.questions = this.hostService.getQuestions();
 
-    // How many questions remain in the game
-    this.questionsRemaining = this.questions.length - 1;
+    console.log('ngInit Fired');
 
-    this.games = this.hostService.getGames();
+    // Get the ID for the game we're about to host from the URL
+    // Need to make sure to parseInt and numbers 
+    // as params are returned as strings 
     this.route.params.forEach((urlParameters) => {
-      this.gameId = urlParameters["id"];
+      this.urlParamRoomCode = parseInt(urlParameters["roomCode"]);
+      console.log("Room code is: " + this.urlParamRoomCode);      
     });
-    this.hostService.getGameFromCode(this.gameId).subscribe(data => {
-      this.currentGame = new Game
-      (data.id,
-      data.game_state,
-      data.game_over,
-      data.player_list,
-      data.question_list)
-      });
-      this.subGame = this.hostService.getGameFromCode(this.currentGame.id);
-      this.getPlayerList(this.currentGame.id);
 
-      // This ensures currentQuestion is always up to date.
-      this.subGame.subscribe(data => {
-        gameKey = data['$key'];
-        this.currentQuestion = data['question_list'][data['current_question']];
-      })
+    // All this just to get the gameKey
+    this.hostService.getGameAndKey(this.urlParamRoomCode)
+      .first()
+      .subscribe(gameReturned => {
+        if(gameReturned.length==1){
+          this.gameKey = gameReturned[0].$key; // Get's the key for this game   
+
+          // Step #2, retrieve full game
+          this.getGame(this.gameKey);
+          
+        } else {
+          alert("Room Code " + this.urlParamRoomCode + " is not valid");        
+        }
+      }, err => {
+        alert("Houston we have a problem");
+      });
+
+    // Subscribe to a Players list
+    this.hostService.getPlayersList(this.urlParamRoomCode)
+      .subscribe(players => {
+        this.playersList = players;
+        console.log("player joined the game");
+      }, err => {
+        console.log("We got an error, getting the list of players")
+      });
+
   }
 
-  getPlayerList(gameId: number){
-    this.subGame = this.hostService.getGameFromCode(gameId);
-    this.subGame.subscribe(data=>{
-      this.playerList = this.hostService.getCurrentGamePlayerList(data["$key"]);
-    })
-    return this.playerList;
+  // Get a subscription to the game Observable
+  getGame(key: string){
+    this.hostService.getGameByKey(key)
+      .subscribe(game => {
+        this.currentGame = game;
+        this.questions = game.question_list;
+        
+        this.currentQuestion = game.question_list[game.current_question];
+      });
+  }
+
+  getPlayerList(){
+    return this.playersList;
   }
 
   //switching between the 5 game phases (start)
 
   // countdown timer shows on screen
   gameStateCountdown(){
-    var players;
-    this.subGame.subscribe(data => {
-      players = data["player_list"]
-    })
-    if(players==undefined){
+    //var players;
+    if(this.playersList==undefined){
       alert("There are currently no students in this game")
     }else{
-    this.hostService.editGameState('countdown', this.currentGame);
+    this.hostService.editGameState('countdown');
     this.fiveSeconds();
     }
   }
 
+
   // Question is shown for certain amount of time without answers
   gameStatePreQuestion(){
     var substring;
-    this.hostService.editGameState('prequestion', this.currentGame);
+    this.hostService.editGameState('prequestion');
     substring = this.currentQuestion.prompt;
     this.currentQuestionSubstring = substring.substring(0, 5);
     this.preQuestionCountdown();
@@ -99,46 +122,47 @@ export class HostComponent {
 
   // Question is visible, voting opens
   gameStateQuestion(){
-    this.hostService.editGameState('question', this.currentGame);
-    this.thirtySeconds();
+    this.hostService.editGameState('question');
+    this.startTimer();
   }
 
   //  Answer Distrobution Chart visible
   gameStateAnswer(){
-    this.hostService.editGameState('answer', this.currentGame);
+     this.hostService.editGameState('answer');
   }
 
   // Host shows current users ranks
   gameStateCurrentRankings(){
-    this.hostService.editGameState('ranking', this.currentGame);
+    this.hostService.editGameState('ranking');
   }
 
   gameStateLeaderboard(){
-    this.hostService.nextQuestion(this.currentGame);
+    this.hostService.nextQuestion(this.currentGame.current_question);
     this.getLeaderboard();
-    this.hostService.editGameState('leaderboard', this.currentGame);
+    this.hostService.editGameState('leaderboard');
   }
   //switching between the 5 game phases (end)
 
   //Skip button. If students answer before teacher skips, it will reset their points.
-  editStudentPointsIfAnswered(){
-    var player
-    var gameKey
-    this.subGame.subscribe(data => {
-      player = data["player_list"]
-    })
-    for (let key of Object.keys(player)) {
-      let playerInfo = player[key]
-      if(playerInfo.answered){
-        this.subGame.subscribe(data => {
-          gameKey=data["$key"]
-        })
-        var student = this.studentService.getStudent(key,gameKey)
-        this.studentService.editSkipPoints(student,playerInfo.points,playerInfo.questionPoints)
-      }
-    }
-      this.gameStateLeaderboard()
-  }
+  // editStudentPointsIfAnswered(){
+  //   var player
+  //   var gameKey
+  //   // this.subGame.subscribe(data => {
+  //   //   player = data["player_list"]
+  //   // })
+  //   for (let key of Object.keys(player)) {
+  //     let playerInfo = player[key]
+  //     if(playerInfo.answered){
+  //       this.subGame.subscribe(data => {
+  //         gameKey=data["$key"]
+  //       })
+  //       var student = this.studentService.getStudent(key,gameKey)
+  //       this.studentService.editSkipPoints(student,playerInfo.points,playerInfo.questionPoints)
+  //     }
+  //   }
+  //     this.gameStateLeaderboard()
+  // }
+
 
   fiveSeconds(){
     this.time = 3;
@@ -167,19 +191,19 @@ export class HostComponent {
   }
 
   //If all students answer during question phase, gameStateAnswer() will run
-  thirtySeconds(){
+  startTimer(){
     this.time = this.currentQuestion.time;
     var interval = setInterval(data => {
       if(this.time != 0){
         let counter = 0; // Counting answers
-        for (let key of Object.keys(this.currentGame.player_list)) {
-          let playerInfo = this.currentGame.player_list[key]
+        for (let key of Object.keys(this.playersList)) {
+          let playerInfo = this.playersList[key]
           if(playerInfo.answered===true){
             counter += 1
           };
         }
         // If everyone has submitted an answer, finish countdown
-        if(counter === Object.keys(this.currentGame.player_list).length){
+        if(counter === Object.keys(this.playersList).length){
         clearInterval(interval);
         this.gameStateAnswer();
       }
@@ -193,32 +217,28 @@ export class HostComponent {
   }
 
   deleteStudent(player){
-    var players;
-    this.playerList.subscribe(data => {
-      players = data;
-    })
-    for(let i = 0; i < players.length; i++){
-      if(players[i].id == player.id){
-        players.splice(i, 1);
-      }
-    }
-    this.hostService.updatePlayerList(players, this.currentGame);
+    this.hostService.deletePlayer(player)
   }
 
+
+  // endGame(){
+  //   this.hostService.gameOver(this.currentGame);
+  //   this.hostService.editGameState('leaderboard', this.currentGame);
+  //   this.getLeaderboard();
+  // }
+
   endGame(){
-    this.hostService.gameOver(this.currentGame);
-    this.hostService.editGameState('leaderboard', this.currentGame);
-    this.getLeaderboard();
+  
   }
 
   getLeaderboard(){
     var leaderboard = [];
-    var players;
-    var current = this;
-    this.playerList.subscribe(data => {
-      players = data;
-    })
-    leaderboard = players.sort(function(a, b){
+    // var players;
+    //    var current = this;
+    // this.playersList.subscribe(data => {
+    //   players = data;
+    // })
+    leaderboard = this.playersList.sort(function(a, b){
       return b.points-a.points
     })
     this.topPlayers = leaderboard.slice(0, 5);
@@ -230,14 +250,15 @@ export class HostComponent {
   // }
 
   continueGame() {
+    let questionsRemaining = this.questions.length - (this.currentGame.current_question + 1); 
+    console.log("Questions remaining =" + questionsRemaining.toString())
+    
     // Add logic to see if the game is over
-    if(this.questionsRemaining == 0){
+    if(questionsRemaining == 0){
       this.endGame();
     }
-    console.log("Questions remaining =" + this.questionsRemaining.toString())
-    this.questionsRemaining--;
+  
     // This shows the leaderboard
     this.gameStateLeaderboard();
   }
-
 }
