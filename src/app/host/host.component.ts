@@ -127,7 +127,7 @@ export class HostComponent {
     console.log("PreGameTimer method called");
     this.time = this.PreQuestionCountdownLengthInSeconds;
     var interval = setInterval(data => {
-      if(this.time != 0){
+      if(this.time != 1){
         this.time --;
       }
       else {
@@ -150,7 +150,7 @@ export class HostComponent {
     substring = this.currentQuestion.prompt;
     this.currentQuestionSubstring = substring.substring(0, 5);
     var interval = setInterval(data => {
-      if(this.time != 0){
+      if(this.time != 1){
         this.time --;
       }
       else {
@@ -165,15 +165,9 @@ export class HostComponent {
   // Timer started
   gameStateQuestion(){
     this.hostService.editGameState('question');
-    this.startTimer();
-  }
-
-  // STEP #4.1: Question timer
-  //If all students answer during question phase, gameStateAnswer() will run
-  startTimer(){
     this.time = this.currentQuestion.time;
     this.interval = setInterval(data => {
-      if(this.time != 0){
+      if(this.time != 1){
         let counter = 0; // Counting answers
         for (let key of Object.keys(this.playersList)) {
           let playerInfo = this.playersList[key]
@@ -243,19 +237,9 @@ export class HostComponent {
   // }
 
 
-
-
-
-
-
-
-
-
-
   deleteStudent(player){
     this.hostService.deletePlayer(player)
   }
-
 
   endGame(){
     this.hostService.gameOver();
