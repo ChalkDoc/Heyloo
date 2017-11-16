@@ -20,12 +20,8 @@ export class StudentComponent implements OnInit {
   currentGameKey: string;
 
   // this is the data from our current game, as a json object
-  subGame;
+  //subGame;
 
-
-  // subStudent;
-  // allPlayers;
-  
   currentPosition;
   totalPositions;
   previousPosition;
@@ -98,31 +94,6 @@ export class StudentComponent implements OnInit {
     })
   }
 
-
-  // Step #2, get the list of players
-  // getPlayerList(gameKey: string){
-  //   this.hostService.getPlayersList(gameKey)
-  //     .subscribe(playerlist => {
-  //       this.playersList = playerlist;
-
-  //       // On to Step 3
-  //       this.getPlayerSubscription();
-
-  //     }, err => {
-  //       alert("Error getting the Player list");
-  //     } );
-  // }
-
-  // //Step #3, subscribe to the specific user
-  // getPlayerSubscription(){
-  //   this.playersList.forEach(player => {
-  //     if(player.id==this.urlParamStudentId){
-  //       this.hostService
-  //     }
-  //   });
-  // }
-
-
   // we need to get rid of this, it's causing a lot of problems
   ngDoCheck(){
 
@@ -156,23 +127,6 @@ export class StudentComponent implements OnInit {
     } // End of If
   } // End of ngDoCheck
 
-
-  // Old version
-  // ngDoCheck(){
-  //   if(this.subGame['game_state'] == 'question'){
-  //     this.setStartTime();
-  //   }else if(this.subGame['game_state'] == "answer"){
-  //     this.updateGame();
-  //   }else if(this.subGame['game_state'] == 'leaderboard'){
-
-  //     this.studentService.changeStudentsAnsweredToFalse(this.currentStudent);
-  //     this.previousPosition = this.currentPosition;
-  //     // Set to null as a method to set Start time only once per question
-  //     this.startTime = null;
-  //     console.log("Question timer was reset to ZERO");
-  //   }
-  // }
-
   getStudentAnswer(answer: number){
 
     // Need to remember to parseInt form values.
@@ -190,17 +144,11 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  // number of milliseconds
-  //
   // 1000 maximum score, 500 minimum score
   // End-start returns a number of milliseconds (eg 2472 ms)
-  // Dividing by 1000 gives us a elapsed time for the question in seconds (eg 2 sec)
-  // Divided by currentQuestion.time (20') gives us a percentage moving (eg .1)
-
   // TODO: Add Unit tests here
 
   scoringAlgorithm(end, start){
-    // See: https://stackoverflow.com/questions/16066388/why-new-date-gettime-returns-too-much-0-in-javascript
     let step1 = (end - start); // Milliseconds to answer
     console.log("response time is: " + step1 + " milliseconds");
     let step2 = step1 / 1000; // Seconds to answer 
@@ -210,7 +158,7 @@ export class StudentComponent implements OnInit {
     let step6 = 1000 * step5;
     console.log("score for this question is:" + step6);
     this.resetTimers();
-    return step6;
+    return Math.round(step6);
     // return Math.round(1000 * (1 - ((((end - start) / 1000)/this.currentQuestion.time)/2)));
   }
 

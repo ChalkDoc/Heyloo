@@ -36,8 +36,12 @@ export class HostComponent {
   currentGame: Game;
   playersList: Player[]; 
   questions: Question[];
-  // questionsRemaining: number;
-  time: number = 0;  // Timer variable
+  time: number = 0;  // Timer variable shown on screen, in mulitple places
+  interval; // Timer variable 
+
+  // Game Process Constants
+  PreQuestionCountdownLengthInSeconds = 10;
+  questionReviewCountdownLengthInSeconds = 5;
 
   constructor(private route: ActivatedRoute, private hostService: HostService, private studentService:StudentService, private router: Router, private location: Location) {
   }
@@ -90,43 +94,112 @@ export class HostComponent {
         this.questions = game.question_list;
         
         this.currentQuestion = game.question_list[game.current_question];
+        console.log("currentGame, questions and currentQuestion updated via subscription")
       });
   }
 
-  getPlayerList(){
-    return this.playersList;
-  }
+  // getPlayerList(){
+  //   return this.playersList;
+  // }
 
-  //switching between the 5 game phases (start)
 
-  // countdown timer shows on screen
+  //
+  // Switching between the 5 game phases (starting)
+  //
+  //
+
+  // STEP #1 
+  // Show countdown timer shows on screen
   gameStateCountdown(){
     //var players;
     if(this.playersList==undefined){
       alert("There are currently no students in this game")
     }else{
     this.hostService.editGameState('countdown');
-    this.fiveSeconds();
+    this.PreQuestionTimer();
     }
   }
 
+  // STEP #2
+  // Add's a delay of X seconds before showing the Pre-Question state.
+  //
+  PreQuestionTimer(){
+    console.log("PreGameTimer method called");
+    this.time = this.PreQuestionCountdownLengthInSeconds;
+    var interval = setInterval(data => {
+      if(this.time != 1){
+        this.time --;
+      }
+      else {
+        clearInterval(interval);
+        this.gameStatePreQuestion();
+      }
+    }, 1000);
+  }
 
-  // Question is shown for certain amount of time without answers
+  // STEP #3
+  // Set's game state to 'prequestion'
+  // Displays timer for X number of seconds
+  //
+  // TODO: STZ, Can we remove this substring code?  I don't believe it's needed
   gameStatePreQuestion(){
+    this.time = this.questionReviewCountdownLengthInSeconds;  
     var substring;
+
     this.hostService.editGameState('prequestion');
     substring = this.currentQuestion.prompt;
     this.currentQuestionSubstring = substring.substring(0, 5);
-    this.preQuestionCountdown();
+    var interval = setInterval(data => {
+      if(this.time != 1){
+        this.time --;
+      }
+      else {
+        clearInterval(interval);
+        this.gameStateQuestion();
+      }
+    }, 1000);
   }
 
-  // Question is visible, voting opens
+  // STEP #4: Question 
+  // game_state set to 'question'
+  // Timer started
   gameStateQuestion(){
     this.hostService.editGameState('question');
-    this.startTimer();
+    this.time = this.currentQuestion.time;
+    this.interval = setInterval(data => {
+      if(this.time != 1){
+        let counter = 0; // Counting answers
+        for (let key of Object.keys(this.playersList)) {
+          let playerInfo = this.playersList[key]
+          if(playerInfo.answered===true){
+            counter += 1
+          };
+        }
+        // If everyone has submitted an answer, finish countdown
+        if(counter === Object.keys(this.playersList).length){
+        this.endTimer();
+      }
+        this.time --;
+      }
+      else {
+        this.endTimer();
+      }
+    }, 1000);
   }
 
-  //  Answer Distrobution Chart visible
+  // STEP #4.2: Stop timer
+  // Clears the timer
+  endTimer(){
+    clearInterval(this.interval);
+    this.gameStateAnswer();
+  }
+
+  // STEP #5: Answer
+  //  Set's game_state to 'answer'
+  // Answer distribution chart visible
+  //
+  // TODO: We need to make the answer more visible
+  //
   gameStateAnswer(){
      this.hostService.editGameState('answer');
   }
@@ -164,74 +237,17 @@ export class HostComponent {
   // }
 
 
-  fiveSeconds(){
-    this.time = 3;
-    var interval = setInterval(data => {
-      if(this.time != 0){
-        this.time --;
-      }
-      else {
-        clearInterval(interval);
-        this.gameStatePreQuestion();
-      }
-    }, 1000);
-  }
-
-  preQuestionCountdown(){
-    this.time = 2;
-    var interval = setInterval(data => {
-      if(this.time != 0){
-        this.time --;
-      }
-      else {
-        clearInterval(interval);
-        this.gameStateQuestion();
-      }
-    }, 1000);
-  }
-
-  //If all students answer during question phase, gameStateAnswer() will run
-  startTimer(){
-    this.time = this.currentQuestion.time;
-    var interval = setInterval(data => {
-      if(this.time != 0){
-        let counter = 0; // Counting answers
-        for (let key of Object.keys(this.playersList)) {
-          let playerInfo = this.playersList[key]
-          if(playerInfo.answered===true){
-            counter += 1
-          };
-        }
-        // If everyone has submitted an answer, finish countdown
-        if(counter === Object.keys(this.playersList).length){
-        clearInterval(interval);
-        this.gameStateAnswer();
-      }
-        this.time --;
-      }
-      else {
-        clearInterval(interval);
-        this.gameStateAnswer();
-      }
-    }, 1000);
-  }
-
   deleteStudent(player){
     this.hostService.deletePlayer(player)
   }
 
-
-  // endGame(){
-  //   this.hostService.gameOver(this.currentGame);
-  //   this.hostService.editGameState('leaderboard', this.currentGame);
-  //   this.getLeaderboard();
-  // }
-
   endGame(){
-  
+    this.hostService.gameOver();
+    this.hostService.editGameState('leaderboard');
+    this.getLeaderboard();
   }
 
-  getLeaderboard(){
+    getLeaderboard(){
     var leaderboard = [];
     // var players;
     //    var current = this;
@@ -251,13 +267,14 @@ export class HostComponent {
 
   continueGame() {
     let questionsRemaining = this.questions.length - (this.currentGame.current_question + 1); 
-    console.log("Questions remaining =" + questionsRemaining.toString())
-    
+        
     // Add logic to see if the game is over
     if(questionsRemaining == 0){
       this.endGame();
     }
   
+    console.log("Questions remaining =" + questionsRemaining.toString())
+
     // This shows the leaderboard
     this.gameStateLeaderboard();
   }
