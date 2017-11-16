@@ -1,10 +1,11 @@
 # Heyloo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.0. It was created by Kory Skarbek and Melvin Gruschow for Steve Walker as part of our internship from Epicodus.  This application was designed to run parallel and integrate with the ChalkDoc website, taking in math assignment plans and turning it into a game similar to that of the quiz game Kahoot.  
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.0. It was created by Kory Skarbek, Melvin Gruschow, Steve Zaske, Witty Chang, and Laura Hamilton for Steve Walker as part of our internship from Epicodus.  This application was designed to run parallel and integrate with the ChalkDoc website, taking in math assignment plans and turning it into a game similar to that of the quiz game Kahoot.  
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+When running for the first time, you may need to run `npm install`
 
 ## Code scaffolding
 
@@ -14,7 +15,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-Go into the environment files and set the credentials to match with your own firebase account.  Dont forget to add this file to the gitignore to maintain security.  
+Go into the environment files and set the credentials to match with your own firebase account.  Don't forget to add this file to the gitignore to maintain security.  
 
 ## Running unit tests
 
@@ -29,40 +30,29 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Things to polish
-The music that is used comes from bensound.com/royalty-free-music and should be noted somewhere on the website of its use.  
+<!-- ## Things to polish
+The music that is used comes from bensound.com/royalty-free-music and should be noted somewhere on the website of its use.   -->
 
 ## Minimum Viable Product Requirements
 
-1.	Teacher logs in on the Login Page (Email log in supported)
-2.	On login success, teach taken to HIS Admin Page. Page should show status of previous rooms, some finished (scores recorded), some live.
-3.	Teacher selects Create New Quiz button which redirects to the First Quiz Creator Page.
-4.	On the First Quiz Creator Page, the teacher fills out the form with the quiz name before continuing to the Second Quiz Creator Page by clicking the “ok, go” button.
-a.	Description text also required – ignored for now
-b.	Audience drop down also required – ignored for now
-5.	On the Second Quiz Creator Page, the teacher clicks the “Add Question” button to be redirected to a Question Content Form Page.
-6.	On the Question Content Form Page, the teacher adds the text for the question, and adds the text for at least 2 answer options with the correct answer identified with a check button. The user clicks the “next” button once completing the question which returns them to the Second Quiz Creator Page where they have the option to edit or delete any questions added, or create another question.
-7.	Once the teacher has finished making questions, they click on the “save” button on the Second Quiz Creator Page which redirects them to the Quiz Summary Page.
-8.	On the Quiz Summary Page the teacher is shown the title of the quiz and a count of the number of questions it contains. The teacher also has 3 button options: “edit it” takes the teacher back to the Second Quiz Creator Page; “I’m done” takes the teacher back to their Admin Page where they can see the newly created quiz listed; “play it” opens a new tab with the Play Quiz Landing Page and takes the teacher there.
-9.	Teacher presses the “play it” button on the Quiz Summary Page or from the Admin Page.
-10.	Student goes to the Student Register Page and enters name and room code from teacher's projector view.
-11.	Student is placed in Joined Confirmation Page, teacher is notified that student has joined on the Play Quiz Landing Page.
-12.	Teacher starts game by pressing “Start game” button.
+1.	Teacher presses Heyloo button on ChalkDoc worksheet and the application opens as a new browser window or tab.
+2.	On the start page, the teacher selects the Create Room button which creates a new room code number and redirects to the host waiting room for the quiz.
+3.	Teacher: The host waiting room displays the newly created room code number for the students to join and lists out the students' names as they join.
+Students: Students see the registration page to input their name and room code, and after the student presses the Register button before displaying a confirmation telling the student they have joined, and gives instructions to wait.
 
+## Question Cycle
 
-# QUESTION LOOP
-* Counted of 5 seconds to start of question, students screen is blank.
-
-* Question is displayed alone for 10 seconds.  Students screen is blank
-* Teacher's display shows question and 4 possible answers.  A countdown of 30 seconds shows how long students can vote. During this time students view shows 4 buttons and can vote for an answer once.  Once the vote is registered, the page notifies the student that their vote was cast.   After 30 seconds, If no vote is given the screen notifies student no vote was recorded.
-* Screen changes to results page for that question.  Student Results page shows total points for the user for that question, or if no vote was given and current ranking (3rd out of 7 students) in total.  At same time, teachers view shows a histogram of student votes for the question among the 4 possible answers.  Options here: Start Next question, or end game.
-
-Repeat these steps for each question
-
-END OF GAME
-
-Teacher screen taken to the final scoreboard showing the winner.
-
+1.	Teacher: Teacher presses the Let's begin! button within the host waiting room as is directed to the first countdown phase which begins counting down to the first question.
+Students: Screen display's nothing.
+2.  Teacher: After the countdown is complete, the pre-question phase starts with only the question and prompt displayed and the pre-question countdown begins.
+Students: Screen display's nothing.
+3.  Teacher: After the pre-question countdown is completed, the teacher enters the question phase which also has a countdown and displays answer choices below the question and prompt.
+Students: Screen display's the answer choice buttons, and if pressed, they are redirected to a confirmation page confirming their answer was received.
+4.  Teacher: Once the question countdown completes or all of the registered students have answered, the page enters the answer phase which displays a chart showing the distribution of the answers as well as highlighting the correct one.
+5.  Students: If the student answered correctly, they are taken to a progress page notifying them that they selected the right answer, the points earned from the question, their total points, and their position relative to the class. If they answered incorrectly, they are taken to the same progress page, but they are told they chose an incorrect answer and are awarded no points.
+6.  Teacher: Within the answer page, the teacher is given the option to continue to show the question and possible answers again, move on to the next question, view the current leaderboard of students, or end the quiz.
+Students: Their current progress page is displayed after any button option, except end game button which changes their progress page to show their overall score for the game up to that point and notifies the student that the game is over. The student is also given a return to home button to return to the registration page.
+7.  The next question begins with a countdown and continues through the question cycle until all the questions are covered, or is ended early by the teacher. Upon completion of the game the teacher is taken to a final leaderboard showing the top student.
 
 ## How to Deploy Heyloo to Firebase Hosting
 
