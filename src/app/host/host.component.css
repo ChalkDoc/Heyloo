@@ -6,6 +6,10 @@
   -o-background-size: cover;
 }
 
+.sz-container{
+  height: 90%;
+}
+
 .heyloo {
   font-family: 'Frijole', cursive;
 }
@@ -156,16 +160,14 @@
 }
 
 .question-answer {
-  width: 100px;
+  /*width: 100px;*/
   height: auto;
   display: block;
   margin: 0 auto;
 }
 
 /*Styling for answer phase*/
-.answer {
-  text-align: center;
-}
+
 
 .answer-showqs-btn {
   background-color: rgb(95, 255, 167);
@@ -287,4 +289,65 @@
 .AnswerRow {
   display: flex;
   flex-direction: row;
+}
+
+/*
+X
+X
+      THIS IS THE NEW CSS LAYOUT
+X
+X
+*/
+
+.toolbar {
+  min-height: 130px;
+  max-height: 150px;
+  background: red;
+  color:white;
+}
+
+.prompt {
+  min-height: 130px;
+  max-height: 260px;
+  background: purple;
+}
+
+.answersDiv {
+  background: blue;
+  color:white;
+  text-transform: uppercase;
+  min-height: 150px;
+}
+
+.answerGrid {
+  background: yellow;
+}
+
+.answer {
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.answer img {
+  height: 80%;
+  width: 80%;
+  object-fit: contain;
+
+}
+
+.A{
+  background-color: teal;
+}
+
+.B{
+  background-color: yellow;
+}
+
+.C{
+  background-color: purple;
+}
+
+.D{
+  background-color: orange;
 }
