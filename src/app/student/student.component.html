@@ -2,7 +2,7 @@
 
   <!-- waiting room -->
   <div class="container" *ngIf="currentGame?.game_state == 'starting' " class="message-text">
-    <h1>You've joined Room {{subGame?.id}}!</h1>
+    <h1>You've joined Room {{currentGame?.id}}!</h1>
     <h3>Please wait for the teacher to start the game.</h3>
   </div>
 
