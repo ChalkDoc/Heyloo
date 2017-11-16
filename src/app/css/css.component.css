@@ -1,0 +1,40 @@
+
+.toolbar {
+  min-height: 130px;
+  max-height: 150px;
+  background: red;
+  color:white;
+}
+
+.prompt {
+  min-height: 130px;
+  max-height: 200px;
+  background: purple;
+}
+
+.answersDiv {
+  background: blue;
+  color:white;
+  text-transform: uppercase;
+  min-height: 150px;
+}
+
+.answerGrid {
+  background: yellow;
+}
+
+.A{
+  background-color: teal;
+}
+
+.B{
+  background-color: yellow;
+}
+
+.C{
+  background-color: purple;
+}
+
+.D{
+  background-color: orange;
+}

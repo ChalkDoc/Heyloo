@@ -17,6 +17,8 @@ import { BarGraphComponent } from './bar-graph/bar-graph.component';
 import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from './home/home.component';
 import { ChalkdocComponent } from './chalkdoc/chalkdoc.component';
+import { CssComponent } from './css/css.component';
+import { FlexLayoutModule } from "@angular/flex-layout/";
 
 export const firebaseConfig = {
   apiKey: masterFirebaseConfig.apiKey,
@@ -34,7 +36,8 @@ export const firebaseConfig = {
     StartComponent,
     BarGraphComponent,
     HomeComponent,
-    ChalkdocComponent
+    ChalkdocComponent,
+    CssComponent
   ],
   imports: [
     BrowserModule,
@@ -44,8 +47,9 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     routing,
-    ChartsModule
-  ],
+    ChartsModule,
+    FlexLayoutModule
+    ],
   providers: [StudentService, HostService],
   bootstrap: [AppComponent]
 })
