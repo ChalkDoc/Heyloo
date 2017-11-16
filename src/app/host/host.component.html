@@ -4,7 +4,7 @@
   <!-- persistent room code -->
   <div class="col-md-12">
     <div class='room-code' *ngIf='currentGame'>
-      <h3>Room Code: {{currentGame?.id}}</h3>
+      <h3>Room Code:  {{currentGame?.id}}</h3>
     </div>
   </div>
 
@@ -12,8 +12,8 @@
   <div class="starting" *ngIf="currentGame?.game_state == 'starting' ">
     <div class="jumbotron">
       <h1><span class="heyloo">Heyloo!</span></h1>
-      <h2>Go to https://Heyloo-ced60.firebaseapp.com on your smartphone</h2>
-      <h2>Our PIN code is {{currentGame?.id}}</h2>
+      <h2>Go to https://heyloo-ced60.firebaseapp.com on your mobile device</h2>
+      <h2>Our Room Code is {{currentGame?.id}}</h2>
       <p><button class="starting-btn" (click)='gameStateCountdown()'>Let's begin!</button></p>
     </div>
     <div class="col-md-12">
@@ -28,7 +28,7 @@
 
   <!-- countdown phase -->
   <div class="countdown" *ngIf="currentGame?.game_state == 'countdown' ">
-    <h1>New question in {{time}}....</h1>
+    <h1>New question in {{time}} . . .</h1>
   </div>
 
   <!-- prequestion phase (answers don't show yet) -->
@@ -210,7 +210,6 @@
       </div>
     </div>
   </div>
-
 
   <!-- game over - contained within leaderboard phase -->
   <div class="GameOver" *ngIf="currentGame?.game_over == true">

@@ -39,6 +39,7 @@ h1, h3 {
   display: block;
   margin: 10px;
   padding: 25px;
+  border-radius: 20px;
 }
 
 .answer-choice:hover {
@@ -48,4 +49,12 @@ h1, h3 {
 .choice-row {
   display: flex;
   flex-direction: row;
+}
+
+/* iPhone6 (portrait) ----------- */
+@media only screen
+and (max-width : 750px) {
+  .container {
+    width: 100%;
+  }
 }
