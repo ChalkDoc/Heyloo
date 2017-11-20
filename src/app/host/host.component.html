@@ -1,10 +1,10 @@
 <html id='host'>
-<div class="container">
+<div class="sz-container">
 
   <!-- persistent room code -->
   <div class="col-md-12">
     <div class='room-code' *ngIf='currentGame'>
-      <h3>Room Code: {{currentGame?.id}}</h3>
+      <h3>Room Code:  {{currentGame?.id}}</h3>
     </div>
   </div>
 
@@ -28,7 +28,7 @@
 
   <!-- countdown phase -->
   <div class="countdown" *ngIf="currentGame?.game_state == 'countdown' ">
-    <h1>New question in {{time}}....</h1>
+    <h1>New question in {{time}} . . .</h1>
   </div>
 
   <!-- prequestion phase (answers don't show yet) -->
@@ -61,18 +61,26 @@
   </div>
 
   <!-- question phase (students see answer choices and can select their answer) -->
-  <div class="question" *ngIf="currentGame?.game_state == 'question' ">
-    <div class="col-md-1">
-      <span class='question-timer'>{{time}}</span>
+
+  <div class="wholePageBounds"
+    *ngIf="currentGame?.game_state == 'question'"
+    fxLayout="column"
+    fxFlexFill >
+    <!-- toolbar row -->
+    <div fxFlex="1 auto" class="toolbar">
+      <div class="col-md-1">
+        <span class='question-timer'>{{time}}</span>
+      </div>
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-8">
+      </div>
+      <div class="col-md-2">
+        <button class="question-skip-btn" type="button" (click)='endTimer()'>Skip question</button>
+      </div>
     </div>
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-8">
-    </div>
-    <div class="col-md-2">
-      <button class="question-skip-btn" type="button" (click)='endTimer()'>Skip question</button>
-    </div>
-    <div class="reduced-question">
+    <!-- prompt row -->
+    <div fxFlex="1 auto" class="prompt">
       <div class="col-md-12">
         <div class="question-question" *ngIf="currentQuestionSubstring == 'https'">
           {{currentQuestion?.instructions}}
@@ -86,36 +94,29 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="question-answer1">
-          <i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer0"><img class="question-answer" src="{{currentQuestion?.choices[0]}}"></p>
+    <!-- answer section -->
+    <div fxFlex="4 auto" class="answersDiv"
+    fxLayout="column"
+    fxFlexFill >
+        <div fxFlex="1 auto" class="AnswerRow"
+          fxLayout="row">
+            <div fxFlex="50" class="answer A">
+              <img fxFlex="80" class="question-answer" src="{{currentQuestion?.choices[0]}}">
+            </div>
+            <div fxFlex="50" class="answer B">
+              <img fxFlex="80" class="question-answer" src="{{currentQuestion?.choices[1]}}">
+            </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="question-answer2">
-          <i class="fa fa-star fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer1"><img class="question-answer" src="{{currentQuestion?.choices[1]}}"></p>
+        <div fxFlex="1 auto" class="AnswerRow"
+          fxLayout="row">
+            <div fxFlex="50" class="answer C">
+              <img fxFlex="80" class="question-answer" src="{{currentQuestion?.choices[2]}}">
+            </div>
+            <div fxFlex="50" class="answer D">
+              <img fxFlex="80" class="question-answer" src="{{currentQuestion?.choices[3]}}">
+            </div>
         </div>
-      </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="question-answer3">
-          <i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer2"><img class="question-answer" src="{{currentQuestion?.choices[2]}}"></p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="question-answer4">
-          <i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer3"><img class="question-answer" src="{{currentQuestion?.choices[3]}}"></p>
-        </div>
-      </div>
-    </div>
-    <br>
-    <br>
   </div>
 
   <!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
@@ -210,7 +211,6 @@
       </div>
     </div>
   </div>
-
 
   <!-- game over - contained within leaderboard phase -->
   <div class="GameOver" *ngIf="currentGame?.game_over == true">
