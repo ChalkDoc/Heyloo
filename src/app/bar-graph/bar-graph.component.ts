@@ -30,11 +30,14 @@ export class BarGraphComponent implements OnInit {
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:true,
+                    fontSize: 24
                 }
+                
             }]
         }
   };
@@ -44,7 +47,11 @@ export class BarGraphComponent implements OnInit {
   public barChartLegend:boolean = true;
   public barChartColor:Array<any> = [
     {
-      backgroundColor: 'rgb(151, 195, 162)'
+      backgroundColor: ['rgba(255, 99, 132, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(255, 206, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+    ]
     }
   ]
 
