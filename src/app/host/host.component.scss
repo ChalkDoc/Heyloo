@@ -1,7 +1,7 @@
 // SCSS Variables
 $tabHighlightColor: #428BFF;
 #host {
-  background-color: rgb(255, 167, 95);
+  background-color: rgb(230, 180, 98);
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -9,7 +9,7 @@ $tabHighlightColor: #428BFF;
 }
 
 .sz-container {
-  background: purple;
+  background: rgb(230, 180, 98);
   height: 100%;
 }
 
@@ -39,12 +39,17 @@ $tabHighlightColor: #428BFF;
 }
 
 .jumbotron {
-  background-color: rgb(167, 95, 255);
+  background-color: rgb(131, 98, 230);
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
 }
 
 .starting-btn {
-  background-color: rgb(95, 255, 167);
+  background-color: rgb(98, 230, 162);
   font-family: 'Acme', sans-serif;
+  border: 2px solid black;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
 }
 
 .starting-players {
@@ -65,7 +70,6 @@ $tabHighlightColor: #428BFF;
   font-family: 'Acme', sans-serif;
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
-  /*font-size: 100px; Couldn't get font size to respond*/
 }
 
 
@@ -75,6 +79,8 @@ $tabHighlightColor: #428BFF;
   text-align: center;
   font-family: 'Acme', sans-serif;
   font-size: 45px;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
+  color: white;
 }
 
 .prequestion-timer {
@@ -94,8 +100,10 @@ $tabHighlightColor: #428BFF;
 }
 
 .prequestion-skip-btn {
-  background-color: rgb(95, 255, 167);
-  color: black;
+  background-color: rgb(98, 230, 162);
+  border: 2px solid black;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
   font-size: 20px;
   font-family: 'Acme', sans-serif;
 }
@@ -125,8 +133,10 @@ $tabHighlightColor: #428BFF;
 }
 
 .question-skip-btn {
-  background-color: rgb(95, 255, 167);
-  color: black;
+  background-color: rgb(98, 230, 162);
+  border: 2px solid black;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
   font-size: 20px;
   font-family: 'Acme', sans-serif;
 }
@@ -135,7 +145,7 @@ $tabHighlightColor: #428BFF;
 /* Edited by STZ */
 
 .question-prompt-instructions {
-  background-color: blue;
+  background-color: rgb(131, 98, 230);
   font-family: 'Patrick Hand SC', cursive;
   font-size: 6vh;
   line-height: 5vh;
@@ -149,7 +159,7 @@ $tabHighlightColor: #428BFF;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: green;
+  background: rgb(131, 98, 230);
 }
 
 .question-prompt-image img {
@@ -258,21 +268,21 @@ $tabHighlightColor: #428BFF;
   margin: 0 auto;
 }
 
-.answer-answer1 {
-  background-color: rgb(114, 49, 87);
-}
-
-.answer-answer2 {
-  background-color: rgb(91, 121, 97);
-}
-
-.answer-answer3 {
-  background-color: rgb(46, 77, 167);
-}
-
-.answer-answer4 {
-  background-color: rgb(224, 73, 81);
-}
+// .answer-answer1 {
+//   background-color: rgb(114, 49, 87);
+// }
+//
+// .answer-answer2 {
+//   background-color: rgb(91, 121, 97);
+// }
+//
+// .answer-answer3 {
+//   background-color: rgb(46, 77, 167);
+// }
+//
+// .answer-answer4 {
+//   background-color: rgb(224, 73, 81);
+// }
 
 .answer-answer1,
 .answer-answer2,
@@ -295,15 +305,19 @@ $tabHighlightColor: #428BFF;
 }
 
 .leaderboard-nextqs-btn {
-  background-color: rgb(95, 255, 167);
-  color: black;
+  background-color: rgb(98, 230, 162);
+  border: 2px solid black;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
   font-size: 20px;
   font-family: 'Acme', sans-serif;
 }
 
 .leaderboard-endgame-btn {
   background-color: rgb(220, 20, 60);
-  color: black;
+  border: 2px solid black;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
   font-size: 20px;
   font-family: 'Acme', sans-serif;
 }
@@ -320,8 +334,10 @@ $tabHighlightColor: #428BFF;
 /*Styling for game over phase*/
 
 .gameover-rtnhome-btn {
-  background-color: rgb(95, 255, 167);
-  color: black;
+  background-color: rgb(98, 230, 162);
+  border: 2px solid black;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
   font-size: 20px;
   font-family: 'Acme', sans-serif;
   padding: 10px;
@@ -351,25 +367,25 @@ X
 .toolbar {
   min-height: 130px;
   max-height: 150px;
-  background: green;
+  background: rgb(230, 114, 98);
   color: white;
 }
 
 .prompt {
   min-height: 130px;
   max-height: 230px;
-  background: purple;
+  background: rgb(230, 180, 98);
 }
 
 .answersDiv {
-  background: blue;
+  background: rgb(230, 180, 98);
   color: white;
   text-transform: uppercase;
   min-height: 150px;
 }
 
 
-/* 
+/*
 .answerGrid {
   background: yellow;
 } */
@@ -387,7 +403,7 @@ X
 .answer-tabsBar {
   min-height: 100px;
   max-height: 170px;
-  background: rgb(119, 12, 12);
+  background: white;
   color: white;
 }
 
@@ -398,14 +414,13 @@ X
 .answer-tab-question-content {
   font-family: 'Acme', sans-serif;
   font-size: 2vw;
-  background: green;
+  background: rgb(131, 98, 230);
 }
 
 .answer-tab-chart-content {
   font-family: 'Acme', sans-serif;
   font-size: 2vw;
-  background: black;
-  padding: 30px;
+  padding: 15px;
 }
 
 .answer-bar-graph {
@@ -414,11 +429,11 @@ X
 
 .answer-graph-tab-graph-row {
   min-height: 300px;
-  background: green;
+  background: rgb(98, 230, 162);
 }
 
 .answer-graph-tab-xAxis-row {
-  background: yellowgreen;
+  background: rgb(98, 230, 162);
 }
 
 // .answer-question-Tab-content {
@@ -428,7 +443,7 @@ X
 .answer-tab-leaderboard-content {
   font-family: 'Acme', sans-serif;
   font-size: 2vw;
-  background: yellowgreen;
+  background: rgb(131, 98, 230);
 }
 
 div.fontawesomebg {
@@ -448,6 +463,7 @@ div.fontawesomebg:before {
 
 .answer {
   border-radius: 1vw;
+  border: 5px solid black;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -460,23 +476,23 @@ div.fontawesomebg:before {
 }
 
 .A {
-  background-color: teal;
+  background-color: rgb(255, 171, 160);
 }
 
 .B {
-  background-color: yellow;
+  background-color: rgb(160, 255, 204);
 }
 
 .C {
-  background-color: purple;
+  background-color: rgb(182, 160, 255);
 }
 
 .D {
-  background-color: orange;
+  background-color: rgb(255, 219, 160);
 }
 
 
-/* 
+/*
 
 
 This is the tab CSS content
@@ -549,7 +565,7 @@ This is the tab CSS content
 .tabs ul li label {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  color: #929daf;
+  color: black;
   padding: 5px auto;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -570,7 +586,7 @@ This is the tab CSS content
 }
 
 .tabs ul li label svg {
-  fill: #929daf;
+  fill: black;
   height: 1.2em;
   vertical-align: bottom;
   margin-right: 0.2em;
@@ -723,7 +739,7 @@ This is the tab CSS content
 } */
 
 
-/* 
+/*
 @media (max-width: 600px) {
   .tabs input[name="tab-control"]:nth-of-type(4):checked~ul>li:nth-child(4)>label {
     background: rgba(0, 0, 0, 0.08);
