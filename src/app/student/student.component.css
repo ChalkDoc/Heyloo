@@ -1,5 +1,5 @@
 #student {
-  background-color: rgb(255, 167, 95);
+  background-color: rgb(230, 180, 98);
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -15,8 +15,9 @@ h1, h3 {
   text-align: center;
 }
 
-.green-text {
-  color: teal;
+.correct-text {
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 3px 0 black, 0 -1px black;
 }
 
 .red-text {
@@ -24,19 +25,19 @@ h1, h3 {
 }
 
 #answer1 {
-  background-color: rgb(114, 49, 87);
+  background-color: rgb(255, 171, 160);
 }
 
 #answer2 {
-  background-color: rgb(91, 121, 97);
+  background-color: rgb(160, 255, 204);
 }
 
 #answer3 {
-  background-color: rgb(46, 77, 167);
+  background-color: rgb(182, 160, 255);
 }
 
 #answer4 {
-  background-color: rgb(224, 73, 81);
+  background-color: rgb(255, 219, 160);
 }
 
 .answer-choice {

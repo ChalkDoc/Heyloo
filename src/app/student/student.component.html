@@ -58,7 +58,7 @@
   <div class="container" *ngIf="currentGame?.game_state == 'answer' || currentGame?.game_state == 'leaderboard'">
     <div class="container">
       <h1><u>{{player?.name}}</u></h1>
-      <h3 *ngIf="player?.questionPoints !== 0" class="green-text">Correct!</h3>
+      <h3 *ngIf="player?.questionPoints !== 0" class="correct-text">Correct!</h3>
       <h3 *ngIf="player?.questionPoints == 0" class="red-text">Incorrect.</h3>
       <h3>Points earned for this question: {{player?.questionPoints}}</h3>
       <hr>
