@@ -9,7 +9,7 @@ $tabHighlightColor: #428BFF;
 }
 
 .sz-container {
-  background: purple;
+  background: rgb(157, 114, 6);
   height: 100%;
 }
 
@@ -112,16 +112,19 @@ $tabHighlightColor: #428BFF;
   font-size: "111";
 }
 
+.question-timer-holder {
+  padding-top: 20px;
+  padding-left: 10px;
+  max-width: 100%;
+}
+
 .question-timer {
   font-family: 'Bowlby One', cursive;
   font-size: 40px;
   color: black;
-  border-radius: 50px;
   background: white;
+  margin-top: 40px;
   padding: 10px;
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
 }
 
 .question-skip-btn {
@@ -141,11 +144,10 @@ $tabHighlightColor: #428BFF;
   line-height: 5vh;
   padding: 1vh;
   color: white;
-  text-align: center;
+  text-align: right;
 }
 
 .question-prompt-image {
-  padding: 5vh;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -153,9 +155,7 @@ $tabHighlightColor: #428BFF;
 }
 
 .question-prompt-image img {
-  height: 50%;
-  width: 50%;
-  object-fit: contain;
+  max-height: 100%;
 }
 
 
@@ -260,6 +260,7 @@ $tabHighlightColor: #428BFF;
 
 .answer-answer1 {
   background-color: rgb(114, 49, 87);
+  margin-left: 20px;
 }
 
 .answer-answer2 {
@@ -281,7 +282,7 @@ $tabHighlightColor: #428BFF;
   display: block;
   margin: 0 auto;
   padding: 15px;
-  border-radius: 20px;
+  border-radius: .6vw;
 }
 
 
@@ -366,6 +367,7 @@ X
   color: white;
   text-transform: uppercase;
   min-height: 150px;
+  max-height: 300px;
 }
 
 
@@ -387,13 +389,10 @@ X
 .answer-tabsBar {
   min-height: 100px;
   max-height: 170px;
-  background: rgb(119, 12, 12);
   color: white;
 }
 
-.answer-tab-content-row {
-  background: blue;
-}
+.answer-tab-content-row {}
 
 .answer-tab-question-content {
   font-family: 'Acme', sans-serif;
@@ -404,17 +403,19 @@ X
 .answer-tab-chart-content {
   font-family: 'Acme', sans-serif;
   font-size: 2vw;
-  background: black;
   padding: 30px;
 }
 
-.answer-bar-graph {
-  background: red;
+.roomCode-row {
+  text-align: right;
+  margin-right: 2em;
+  margin-top: 1em;
 }
+
+.answer-bar-graph {}
 
 .answer-graph-tab-graph-row {
   min-height: 300px;
-  background: green;
 }
 
 .answer-graph-tab-xAxis-row {
@@ -431,6 +432,7 @@ X
   background: yellowgreen;
 }
 
+// Font awesome background images in the question HTML view
 div.fontawesomebg {
   position: relative;
 }
@@ -438,12 +440,27 @@ div.fontawesomebg {
 div.fontawesomebg:before {
   position: absolute;
   font-family: FontAwesome;
-  font-size: 48px;
-  color: #563d7c;
-  top: -145px;
+  font-size: 80px;
+  color: rgba(0, 0, 0, 0.624);
+  top: -60px;
   left: 40px;
   margin-right: 5px;
-  content: "\f10b";
+}
+
+div.ques-button-a:before {
+  content: "\f1d8";
+}
+
+div.ques-button-b:before {
+  content: "\f005";
+}
+
+div.ques-button-c:before {
+  content: "\f004";
+}
+
+div.ques-button-d:before {
+  content: "\f135";
 }
 
 .answer {
@@ -572,7 +589,7 @@ This is the tab CSS content
 .tabs ul li label svg {
   fill: #929daf;
   height: 1.2em;
-  vertical-align: bottom;
+  vertical-align: -15%;
   margin-right: 0.2em;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;

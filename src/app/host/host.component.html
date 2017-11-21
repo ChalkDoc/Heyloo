@@ -63,50 +63,57 @@
 
   <!-- question phase (students see answer choices and can select their answer) -->
 
-  <div class="wholePageBounds" fxLayoutGap=".6vw" *ngIf="currentGame?.game_state == 'question'" fxLayout="column" fxFlexFill>
+  <div class="wholePageBounds" fxLayoutGap="1vw" *ngIf="currentGame?.game_state == 'question'" fxLayout="column" fxFlexFill>
     <!-- toolbar row -->
-    <div fxFlex="1 auto" class="toolbar">
-      <div class="col-md-1">
+    <div fxLayout="row" fxFlexFill fxFlex="20" class="toolbar">
+      <div class="question-timer-holder" fxFlex="10">
         <span class='question-timer'>{{time}}</span>
       </div>
-      <div class="col-md-1">
+      <div class="question-prompt-instructions" fxFlex="60">
+        Question #{{this.currentGame.current_question+1}}. {{currentQuestion?.instructions}}
+
       </div>
-      <div class="col-md-8">
+
+      <div class="tabs" fxFlex="20">
+        <p>Room Code</p>
+        <ul>
+          <li (click)='endTimer()' title="Skip Question"><label for="tab5" role="button">
+                  <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                </svg>
+                  <br><span>Skip Question</span></label></li>
+        </ul>
       </div>
-      <div class="col-md-2">
-        <button class="question-skip-btn" type="button" (click)='endTimer()'>Skip question</button>
-      </div>
+
     </div>
     <!-- prompt row -->
-    <div fxFlex="1 auto" fxLayout="column" class="prompt">
-      <!-- <div class="q-p-instructions" *ngIf="currentQuestionSubstring == 'https'">
-        {{currentQuestion?.instructions}}
-        <br>
-        <img class="question-reduced-prompt" src="{{currentQuestion?.prompt}}">
-      </div> -->
-      <div class="question-prompt-instructions" *ngIf="currentQuestionSubstring != 'https'">
-        {{currentQuestion?.instructions}}
+    <div fxFlex="60" fxLayoutGap="1vw" fxLayout="row" class="prompt">
+      <div fxFlex="20"></div>
+      <div fxFlex="60" class="question-prompt-image">
+        <img src="{{currentQuestion?.prompt}}">
       </div>
-      <div class="question-prompt-image" *ngIf="currentQuestionSubstring != 'https'">
-        <img fxFlex="40" src="{{currentQuestion?.prompt}}">
-      </div>
+      <div fxFlex="20"></div>
     </div>
     <!-- answer section -->
-    <div fxFlex="4 auto" class="answersDiv" fxLayoutGap=".6vw" fxLayout="column" fxFlexFill>
-      <div fxFlex="1 auto" fxLayoutGap=".6vw" class="AnswerRow" fxLayout="row">
+    <div fxFlex="50" class="answersDiv" fxLayoutGap="1vw" fxLayout="column" fxFlexFill>
+      <div fxFlex="1 auto" fxLayoutGap="1vw" class="AnswerRow" fxLayout="row">
         <div fxFlex="50" class="answer A">
-          <div class="fontawesomebg"></div>
+          <div class="fontawesomebg ques-button-a"></div>
           <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[0]}}">
         </div>
         <div fxFlex="50" class="answer B">
+          <div class="fontawesomebg ques-button-b"></div>
           <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[1]}}">
         </div>
       </div>
-      <div fxFlex="1 auto" fxLayoutGap=".6vw" class="AnswerRow" fxLayout="row">
+      <div fxFlex="1 auto" fxLayoutGap="1vw" class="AnswerRow" fxLayout="row">
         <div fxFlex="50" class="answer C">
+          <div class="fontawesomebg ques-button-c"></div>
           <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[2]}}">
         </div>
         <div fxFlex="50" class="answer D">
+          <div class="fontawesomebg ques-button-d"></div>
           <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[3]}}">
         </div>
       </div>
@@ -114,10 +121,10 @@
   </div>
 
   <!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
-  <div class="wholePageBounds-answers" fxLayoutGap=".6vw" *ngIf="currentGame?.game_state == 'answer'" fxLayout="column" fxFlexFill>
+  <div class="wholePageBounds-answers" fxLayoutGap="1vw" *ngIf="currentGame?.game_state == 'answer'" fxLayout="column" fxFlexFill>
 
     <div class="roomCode-row">
-      Room code goes here
+      Room code: {{currentGame.id}}
     </div>
 
     <!-- tabsBar row -->
@@ -131,16 +138,33 @@
         <input type="radio" id="tab5" name="tab-control">
 
         <ul>
-          <li (click)="this.setTab('question');" title="Question"><label for="tab1" role="button"><svg viewBox="0 0 24 24"><path d="M14,2A8,8 0 0,0 6,10A8,8 0 0,0 14,18A8,8 0 0,0 22,10H20C20,13.32 17.32,16 14,16A6,6 0 0,1 8,10A6,6 0 0,1 14,4C14.43,4 14.86,4.05 15.27,4.14L16.88,2.54C15.96,2.18 15,2 14,2M20.59,3.58L14,10.17L11.62,7.79L10.21,9.21L14,13L22,5M4.93,5.82C3.08,7.34 2,9.61 2,12A8,8 0 0,0 10,20C10.64,20 11.27,19.92 11.88,19.77C10.12,19.38 8.5,18.5 7.17,17.29C5.22,16.25 4,14.21 4,12C4,11.7 4.03,11.41 4.07,11.11C4.03,10.74 4,10.37 4,10C4,8.56 4.32,7.13 4.93,5.82Z"/>
+          <li (click)="this.setTab('question');" title="Question"><label for="tab1" role="button">
+              <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
             </svg><br><span>Question</span></label></li>
-          <li (click)="this.setTab('chart');" title="Chart"><label for="tab2" role="button"><svg viewBox="0 0 24 24"><path d="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,12.35L13.85,13.36Z" />
+          <li (click)="this.setTab('chart');" title="Chart"><label for="tab2" role="button">
+              <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                <path d="M0 0h24v24H0z" fill="none"/>
             </svg><br><span>Chart</span></label></li>
-          <li (click)="this.setTab('leaderboard');" title="Leaderboard"><label for="tab3" role="button"><svg viewBox="0 0 24 24"><path d="M3,4A2,2 0 0,0 1,6V17H3A3,3 0 0,0 6,20A3,3 0 0,0 9,17H15A3,3 0 0,0 18,20A3,3 0 0,0 21,17H23V12L20,8H17V4M10,6L14,10L10,14V11H4V9H10M17,9.5H19.5L21.47,12H17M6,15.5A1.5,1.5 0 0,1 7.5,17A1.5,1.5 0 0,1 6,18.5A1.5,1.5 0 0,1 4.5,17A1.5,1.5 0 0,1 6,15.5M18,15.5A1.5,1.5 0 0,1 19.5,17A1.5,1.5 0 0,1 18,18.5A1.5,1.5 0 0,1 16.5,17A1.5,1.5 0 0,1 18,15.5Z" />
-            </svg><br><span>Leaderboard</span></label></li>
-          <li (click)='continueGame()' title="Next Question"><label for="tab4" role="button"><svg viewBox="0 0 24 24"><path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+          <li (click)="this.setTab('leaderboard');" title="Leaderboard"><label for="tab3" role="button">
+              <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/>
+            </svg>
+            <br><span>Leaderboard</span></label></li>
+          <li (click)='continueGame()' title="Next Question"><label for="tab4" role="button">
+              <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                <path d="M0 0h24v24H0z" fill="none"/>
             </svg><br><span>Next Question</span></label></li>
-          <li (click)='endGame()' title="End Game"><label for="tab5" role="button"><svg viewBox="0 0 24 24"><path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
-            </svg><br><span>End Game</span></label></li>
+          <li (click)='endGame()' title="End Game"><label for="tab5" role="button">
+              <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+            <br><span>End Game</span></label></li>
         </ul>
 
         <div class="slider">
@@ -173,35 +197,25 @@
     <!-- Chart Tab content -->
     <div fxFlex="100" fxLayout="column" fxFlexFill *ngIf="currentTab=='chart'" class="answer-tab-chart-content">
       <!-- Bar graph section (should be added as another phase)-->
-      <div fxFlex="100" fxFlexFill class="answer-bar-graph">
+      <div class="answer-bar-graph">
         <div class="answer-graph-tab-graph-row">
           <app-bar-graph [thisQuestion]="currentQuestion"></app-bar-graph>
         </div>
 
       </div>
-      <div fxFlexAlign="bottom" class="answer-graph-tab-xAxis-row">
-        <div class="col-md-3">
-          <div class="answer-answer1">
-            <p><img class="AnswerChartImg" src="{{currentQuestion?.choices[0]}}"></p>
-          </div>
+      <div fxLayout="row" fxLayoutGap="1vw" class="answer-graph-tab-xAxis-row">
+        <div fxFlex="2"></div>
+        <div fxFlex="24.5" class="answer-answer1">
+          <img class="AnswerChartImg" src="{{currentQuestion?.choices[0]}}">
         </div>
-
-        <div class="col-md-3">
-          <div class="answer-answer2">
-            <p><img class="AnswerChartImg" src="{{currentQuestion?.choices[1]}}"></p>
-          </div>
+        <div fxFlex="24.5" class="answer-answer2">
+          <img class="AnswerChartImg" src="{{currentQuestion?.choices[1]}}">
         </div>
-
-        <div class="col-md-3">
-          <div class="answer-answer3">
-            <p><img class="AnswerChartImg" src="{{currentQuestion?.choices[2]}}"></p>
-          </div>
+        <div fxFlex="24.5" class="answer-answer3">
+          <img class="AnswerChartImg" src="{{currentQuestion?.choices[2]}}">
         </div>
-
-        <div class="col-md-3">
-          <div class="answer-answer4">
-            <p><img class="AnswerChartImg" src="{{currentQuestion?.choices[3]}}"></p>
-          </div>
+        <div fxFlex="24.5" class="answer-answer4">
+          <img class="AnswerChartImg" src="{{currentQuestion?.choices[3]}}">
         </div>
       </div>
       <!-- end of graph section -->
