@@ -13,7 +13,7 @@
   <div class="starting" *ngIf="currentGame?.game_state == 'starting' ">
     <div class="jumbotron">
       <h1><span class="heyloo">Heyloo!</span></h1>
-      <h2>Go to https://Heyloo-ced60.firebaseapp.com on your smartphone</h2>
+      <h2>Go to http://heyloo101.chalkdoc.com on your smartphone</h2>
       <h2>Our Room code is {{currentGame?.id}}</h2>
       <p><button class="starting-btn" (click)='gameStateCountdown()'>Let's begin!</button></p>
     </div>
@@ -29,7 +29,7 @@
 
   <!-- countdown phase -->
   <div class="countdown" *ngIf="currentGame?.game_state == 'countdown' ">
-    <h1>New question in {{time}} . . .</h1>
+    <h1>New question in ... {{time}}</h1>
   </div>
 
   <!-- prequestion phase (answers don't show yet) -->
@@ -65,17 +65,15 @@
 
   <div class="wholePageBounds" fxLayoutGap="1vw" *ngIf="currentGame?.game_state == 'question'" fxLayout="column" fxFlexFill>
     <!-- toolbar row -->
-    <div fxLayout="row" fxFlexFill fxFlex="20" class="toolbar">
+    <div fxLayout="row" fxFlexFill fxFlex="10" class="toolbar">
       <div class="question-timer-holder" fxFlex="10">
         <span class='question-timer'>{{time}}</span>
       </div>
-      <div class="question-prompt-instructions" fxFlex="60">
-        Question #{{this.currentGame.current_question+1}}. {{currentQuestion?.instructions}}
-
+      <div class="question-prompt-instructions" fxFlex="70">
       </div>
 
-      <div class="tabs" fxFlex="20">
-        <p>Room Code</p>
+      <div class="tabs align-right" fxFlex="20">
+        <p class="room-code">Room Code: {{currentGame.id}}</p>
         <ul>
           <li (click)='endTimer()' title="Skip Question"><label for="tab5" role="button">
                   <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
@@ -88,15 +86,17 @@
 
     </div>
     <!-- prompt row -->
-    <div fxFlex="60" fxLayoutGap="1vw" fxLayout="row" class="prompt">
-      <div fxFlex="20"></div>
-      <div fxFlex="60" class="question-prompt-image">
+    <div fxFlex="10" fxLayoutGap="1vw" fxLayout="column" class="question-prompt-instructions">
+      <div fxFlex="100">Question #{{this.currentGame.current_question+1}}. {{currentQuestion?.instructions}}</div>
+    </div>
+
+    <div fxFlex="40" fxLayoutGap="1vw" fxLayout="column" class="question-prompt-image">
+      <div fxFlex="100" class="question-prompt-image">
         <img src="{{currentQuestion?.prompt}}">
       </div>
-      <div fxFlex="20"></div>
     </div>
     <!-- answer section -->
-    <div fxFlex="50" class="answersDiv" fxLayoutGap="1vw" fxLayout="column" fxFlexFill>
+    <div fxFlex="40" class="answersDiv" fxLayoutGap="1vw" fxLayout="column" fxFlexFill>
       <div fxFlex="1 auto" fxLayoutGap="1vw" class="AnswerRow" fxLayout="row">
         <div fxFlex="50" class="answer A">
           <div class="fontawesomebg ques-button-a"></div>

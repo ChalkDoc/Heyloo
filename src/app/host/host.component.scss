@@ -26,8 +26,13 @@ $tabHighlightColor: #428BFF;
 }
 
 .room-code {
+  font-size: 2vh;
   font-family: 'Acme', sans-serif;
   text-align: right;
+}
+
+.align-right {
+  align-content: right;
 }
 
 
@@ -149,11 +154,11 @@ $tabHighlightColor: #428BFF;
 
 .question-prompt-instructions {
   font-family: 'Patrick Hand SC', cursive;
-  font-size: 5vh;
-  line-height: 5vh;
+  font-size: 6vh;
+  line-height: 4.5vh;
   padding: 1vh;
   color: black;
-  text-align: right;
+  text-align: center;
 }
 
 .question-prompt-image {
@@ -163,7 +168,7 @@ $tabHighlightColor: #428BFF;
 }
 
 .question-prompt-image img {
-  max-height: 100%;
+  max-height: 90%;
 }
 
 
