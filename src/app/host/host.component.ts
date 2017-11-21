@@ -130,6 +130,7 @@ export class HostComponent {
   // Add's a delay of X seconds before showing the Pre-Question state.
   //
   PreQuestionTimer(){
+    this.setTab("chart");
     console.log("PreGameTimer method called");
     this.time = this.PreQuestionCountdownLengthInSeconds;
     var interval = setInterval(data => {
@@ -254,6 +255,7 @@ export class HostComponent {
   }
 
     getLeaderboard(){
+    this.setTab('leaderboard');
     var leaderboard = [];
     // var players;
     //    var current = this;
@@ -281,7 +283,9 @@ export class HostComponent {
   
     console.log("Questions remaining =" + questionsRemaining.toString())
 
-    // This shows the leaderboard
-    this.gameStateLeaderboard();
+    this.hostService.nextQuestion(this.currentGame.current_question);
+    // STZ: Not sure this is still needed.
+    this.hostService.editGameState('leaderboard');
+    this.gameStateCountdown();
   }
 }

@@ -148,12 +148,11 @@ $tabHighlightColor: #428BFF;
 /* Edited by STZ */
 
 .question-prompt-instructions {
-  background-color: rgb(131, 98, 230);
   font-family: 'Patrick Hand SC', cursive;
-  font-size: 6vh;
+  font-size: 5vh;
   line-height: 5vh;
   padding: 1vh;
-  color: white;
+  color: black;
   text-align: right;
 }
 
@@ -161,7 +160,6 @@ $tabHighlightColor: #428BFF;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: rgb(131, 98, 230);
 }
 
 .question-prompt-image img {
@@ -368,18 +366,15 @@ X
 .toolbar {
   min-height: 130px;
   max-height: 150px;
-  background: rgb(230, 114, 98);
   color: white;
 }
 
 .prompt {
   min-height: 130px;
   max-height: 230px;
-  background: rgb(230, 180, 98);
 }
 
 .answersDiv {
-  background: rgb(230, 180, 98);
   color: white;
   text-transform: uppercase;
   min-height: 150px;
@@ -405,7 +400,7 @@ X
 .answer-tabsBar {
   min-height: 100px;
   max-height: 170px;
-  background: white;
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .answer-tab-content-row {}
@@ -413,7 +408,7 @@ X
 .answer-tab-question-content {
   font-family: 'Acme', sans-serif;
   font-size: 2vw;
-  background: rgb(131, 98, 230);
+  padding: 100px;
 }
 
 .answer-tab-chart-content {
@@ -432,12 +427,9 @@ X
 
 .answer-graph-tab-graph-row {
   min-height: 300px;
-  background: rgb(98, 230, 162);
 }
 
-.answer-graph-tab-xAxis-row {
-  background: rgb(98, 230, 162);
-}
+.answer-graph-tab-xAxis-row {}
 
 // .answer-question-Tab-content {
 //   background: blue;
@@ -446,7 +438,6 @@ X
 .answer-tab-leaderboard-content {
   font-family: 'Acme', sans-serif;
   font-size: 2vw;
-  background: rgb(131, 98, 230);
 }
 
 // Font awesome background images in the question HTML view

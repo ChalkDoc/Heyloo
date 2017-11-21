@@ -22,7 +22,12 @@ export class BarGraphComponent implements OnInit {
     this.barChartData = [
       {
         data: this.playerChoices,
-        label: 'Answer Distribution'
+        label: 'Answer Distribution',
+        borderWidth: ["3","3","3","3"],
+        borderColor: ['rgba(114,49,87,1)',
+        'rgba(91,121,97,1)',
+        'rgba(46,77,167,1)',
+        'rgba(224,73,81,1)']
       }
     ];
   }
@@ -30,27 +35,46 @@ export class BarGraphComponent implements OnInit {
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
     responsive: true,
+    tooltips: { bodyFontSize: 20 },
     maintainAspectRatio: false,
+    layout: {
+      padding: {
+          left: 25,
+          right: 25,
+          top: 0,
+          bottom: 15
+      }
+    },
     scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true,
-                    fontSize: 24
-                }
-                
-            }]
-        }
+      yAxes: [{
+          ticks: {
+              beginAtZero:true,
+              fontSize: 32,
+              fontStyle: 'bold',
+              fontFamily: "'Acme', 'sans-serif'"
+          },
+          gridLines: {
+            color: 'rgba(100,100,100,.2)',
+            lineWidth: '1'
+          },
+          
+      }],
+      xAxes: [{
+          display: false
+      }]
+    }
+    
   };
 
   public barChartLabels:string[] = ['A', 'B', 'C', 'D'];
   public barChartType:string = 'bar';
-  public barChartLegend:boolean = true;
+  public barChartLegend:boolean = false;
   public barChartColor:Array<any> = [
     {
-      backgroundColor: ['rgba(255, 99, 132, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(255, 206, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
+      backgroundColor: ['rgba(114,49,87,.6)',
+      'rgba(91,121,97,.6)',
+      'rgba(46,77,167,.6)',
+      'rgba(224,73,81,.6)'
     ]
     }
   ]
