@@ -1,206 +1,264 @@
 <html id='host'>
-<div class="container">
+<div class="sz-container">
 
-  <!-- persistent room code -->
-  <div class="col-md-12">
+    <!-- Currently removed and needs to be placed somewhere else on the screen -->
+    <!-- persistent room code -->
+    <!-- <div class="col-md-12">
     <div class='room-code' *ngIf='currentGame'>
       <h3>Room Code: {{currentGame?.id}}</h3>
     </div>
-  </div>
+  </div> -->
 
-  <!-- waiting room -->
-  <div class="starting" *ngIf="currentGame?.game_state == 'starting' ">
-    <div class="jumbotron">
-      <h1><span class="heyloo">Heyloo!</span></h1>
-      <h2>Go to https://Heyloo-ced60.firebaseapp.com on your smartphone</h2>
-      <h2>Our PIN code is {{currentGame?.id}}</h2>
-      <p><button class="starting-btn" (click)='gameStateCountdown()'>Let's begin!</button></p>
-    </div>
-    <div class="col-md-12">
-      <h3>Who's here:</h3>
-      <div class="player-list" *ngFor='let player of playersList'>
-        <span class='starting-players' (click)='deleteStudent(player)'>{{player.name}}</span>
-        <br>
-        <br>
-      </div>
-    </div>
-  </div>
-
-  <!-- countdown phase -->
-  <div class="countdown" *ngIf="currentGame?.game_state == 'countdown' ">
-    <h1>New question in {{time}}....</h1>
-  </div>
-
-  <!-- prequestion phase (answers don't show yet) -->
-  <div class="prequestion" *ngIf="currentGame?.game_state == 'prequestion' ">
-    <div class="col-md-1">
-      <span class='prequestion-timer'>{{time}}</span>
-    </div>
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-8">
-      <h1 id=prequestion-question-number>{{currentQuestion?.title}}</h1>
-    </div>
-    <div class="col-md-2">
-      <button class="prequestion-skip-btn" type="button" (click)='endTimer()'>Skip question</button>
-    </div>
-    <div class="row">
-    </div>
-    <div class="jumbotron">
-      <div class="current-question" *ngIf="currentQuestionSubstring == 'https'">
-        {{currentQuestion?.instructions}}
-        <br>
-        <img class="prequestion-prompt" src="{{currentQuestion?.prompt}}">
-      </div>
-      <div class="current-question" *ngIf="currentQuestionSubstring != 'https'">
-        {{currentQuestion?.instructions}}
-        <br>
-        <img class="prequestion-prompt" src="{{currentQuestion?.prompt}}">
-      </div>
-    </div>
-  </div>
-
-  <!-- question phase (students see answer choices and can select their answer) -->
-  <div class="question" *ngIf="currentGame?.game_state == 'question' ">
-    <div class="col-md-1">
-      <span class='question-timer'>{{time}}</span>
-    </div>
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-8">
-    </div>
-    <div class="col-md-2">
-      <button class="question-skip-btn" type="button" (click)='endTimer()'>Skip question</button>
-    </div>
-    <div class="reduced-question">
-      <div class="col-md-12">
-        <div class="question-question" *ngIf="currentQuestionSubstring == 'https'">
-          {{currentQuestion?.instructions}}
-          <br>
-          <img class="question-reduced-prompt" src="{{currentQuestion?.prompt}}">
+    <!-- waiting room -->
+    <div class="starting" *ngIf="currentGame?.game_state == 'starting' ">
+        <div class="jumbotron">
+            <h1><span class="heyloo">Heyloo!</span></h1>
+            <h2>Go to http://heyloo101.chalkdoc.com on your smartphone</h2>
+            <h2>Our Room code is {{currentGame?.id}}</h2>
+            <p><button class="starting-btn" (click)='gameStateCountdown()'>Let's begin!</button></p>
         </div>
-        <div class="question-question" *ngIf="currentQuestionSubstring != 'https'">
-          {{currentQuestion?.instructions}}
-          <br>
-          <img class="question-reduced-prompt" src="{{currentQuestion?.prompt}}">
+        <div class="col-md-12">
+            <h3>Who's here:</h3>
+            <div class="player-list" *ngFor='let player of playersList'>
+                <span class='starting-players' (click)='deleteStudent(player)'>{{player.name}}</span>
+                <br>
+                <br>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="question-answer1">
-          <i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer0"><img class="question-answer" src="{{currentQuestion?.choices[0]}}"></p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="question-answer2">
-          <i class="fa fa-star fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer1"><img class="question-answer" src="{{currentQuestion?.choices[1]}}"></p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="question-answer3">
-          <i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer2"><img class="question-answer" src="{{currentQuestion?.choices[2]}}"></p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="question-answer4">
-          <i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-          <p id="txtanswer3"><img class="question-answer" src="{{currentQuestion?.choices[3]}}"></p>
-        </div>
-      </div>
-    </div>
-    <br>
-    <br>
-  </div>
-
-  <!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
-  <div class="answer" *ngIf="currentGame?.game_state == 'answer' ">
-    <button class="answer-showqs-btn" (click)="showQuestion=!showQuestion" (click)="hideBarGraph=!hideBarGraph">{{showQuestion ? 'Show Distribution' : 'Show Question'}}</button>
-    <button class="answer-leaderboard-btn" type="button" (click)='gameStateLeaderboard()'>Go to Leaderboard</button>
-    <button class="answer-nextqs-btn" type="button" (click)='continueGame()'>Next question</button>
-    <button class="answer-endgame-btn" type="button" (click)='endGame()'>End Game</button>
-    <br><br>
-    <img class="answer-correctansw-image" src="{{currentGame?.question_list[currentGame?.current_question].choices[currentGame?.question_list[currentGame?.current_question].answer]}}" alt="">
-    <br>
-    <div class="row" *ngIf='showQuestion'>
-      <div class="answer-question" *ngIf="currentQuestionSubstring == 'https'">
-        {{currentQuestion?.instructions}}
-        <br><br>
-        <img src="{{currentQuestion?.prompt}}">
-      </div>
-      <div class="answer-question" *ngIf="currentQuestionSubstring != 'https'">
-        {{currentQuestion?.instructions}}
-        <br>
-        <img class="answer-reduced-prompt" src="{{currentQuestion?.prompt}}">
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="answer-answer1">
-            <i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
-            <p><img class="answer-multchoice-answer" src="{{currentQuestion?.choices[0]}}"></p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="answer-answer2">
-            <i class="fa fa-star fa-5x" aria-hidden="true"></i>
-            <p><img class="answer-multchoice-answer" src="{{currentQuestion?.choices[1]}}"></p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="answer-answer3">
-            <i class="fa fa-heart fa-5x" aria-hidden="true"></i>
-            <p><img class="answer-multchoice-answer" src="{{currentQuestion?.choices[2]}}"></p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="answer-answer4">
-            <i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
-            <p><img class="answer-multchoice-answer" src="{{currentQuestion?.choices[3]}}"></p>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Bar graph section (should be added as another phase)-->
-    <div class="answer-bar-graph" *ngIf='hideBarGraph'>
-      <app-bar-graph [thisQuestion]="currentQuestion"></app-bar-graph>
-      <div class="AnswerRow">
-        <div class="col-md-3">
-          <div class="answer-answer1">
-            <p><img class="AnswerChartImg" src="{{currentQuestion?.choices[0]}}"></p>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="answer-answer2">
-            <p><img class="AnswerChartImg" src="{{currentQuestion?.choices[1]}}"></p>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="answer-answer3">
-            <p><img class="AnswerChartImg" src="{{currentQuestion?.choices[2]}}"></p>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="answer-answer4">
-            <p><img class="AnswerChartImg" src="{{currentQuestion?.choices[3]}}"></p>
-          </div>
-        </div>
-      </div>
+    <!-- countdown phase -->
+    <div class="countdown" *ngIf="currentGame?.game_state == 'countdown' ">
+        <h1>New question in ... {{time}}</h1>
     </div>
-  </div>
 
-  <!-- leaderboard phase -->
-  <div class="container-fluid leaderboard" *ngIf="currentGame?.game_state == 'leaderboard' ">
+    <!-- prequestion phase (answers don't show yet) -->
+    <div class="prequestion" *ngIf="currentGame?.game_state == 'prequestion' ">
+        <div class="col-md-1">
+            <span class='prequestion-timer'>{{time}}</span>
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-8">
+            <h1 id=prequestion-question-number>{{currentQuestion?.title}}</h1>
+        </div>
+        <div class="col-md-2">
+            <button class="prequestion-skip-btn" type="button" (click)='endTimer()'>Skip question</button>
+        </div>
+        <div class="row">
+        </div>
+        <div class="jumbotron">
+            <div class="current-question" *ngIf="currentQuestionSubstring == 'https'">
+                {{currentQuestion?.instructions}}
+                <br>
+                <img class="prequestion-prompt" src="{{currentQuestion?.prompt}}">
+            </div>
+            <div class="current-question" *ngIf="currentQuestionSubstring != 'https'">
+                {{currentQuestion?.instructions}}
+                <br>
+                <img class="prequestion-prompt" src="{{currentQuestion?.prompt}}">
+            </div>
+        </div>
+    </div>
+
+    <!-- question phase (students see answer choices and can select their answer) -->
+
+    <div class="wholePageBounds" fxLayoutGap="1vw" *ngIf="currentGame?.game_state == 'question'" fxLayout="column" fxFlexFill>
+        <!-- toolbar row -->
+        <div fxLayout="row" fxFlexFill fxFlex="10" class="toolbar">
+            <div class="question-timer-holder" fxFlex="10">
+                <span class='question-timer'>{{time}}</span>
+            </div>
+            <div class="question-prompt-instructions" fxFlex="70">
+            </div>
+
+            <div class="tabs align-right" fxFlex="20">
+                <p class="room-code">Room Code: {{currentGame.id}}</p>
+                <ul>
+                    <li (click)='endTimer()' title="Skip Question"><label for="tab5" role="button">
+                  <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                </svg>
+                  <br><span>Skip Question</span></label></li>
+                </ul>
+            </div>
+
+        </div>
+        <!-- prompt row -->
+        <div fxFlex="10" fxLayoutGap="1vw" fxLayout="column" class="question-prompt-instructions">
+            <div fxFlex="100">Question #{{this.currentGame.current_question+1}}. {{currentQuestion?.instructions}}</div>
+        </div>
+
+        <div fxFlex="40" fxLayoutGap="1vw" fxLayout="column" class="question-prompt-image">
+            <div fxFlex="100" class="question-prompt-image">
+                <img src="{{currentQuestion?.prompt}}">
+            </div>
+        </div>
+        <!-- answer section -->
+        <div fxFlex="40" class="answersDiv" fxLayoutGap="1vw" fxLayout="column" fxFlexFill>
+            <div fxFlex="1 auto" fxLayoutGap="1vw" class="AnswerRow" fxLayout="row">
+                <div fxFlex="50" class="answer A">
+                    <div class="fontawesomebg ques-button-a"></div>
+                    <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[0]}}">
+                </div>
+                <div fxFlex="50" class="answer B">
+                    <div class="fontawesomebg ques-button-b"></div>
+                    <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[1]}}">
+                </div>
+            </div>
+            <div fxFlex="1 auto" fxLayoutGap="1vw" class="AnswerRow" fxLayout="row">
+                <div fxFlex="50" class="answer C">
+                    <div class="fontawesomebg ques-button-c"></div>
+                    <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[2]}}">
+                </div>
+                <div fxFlex="50" class="answer D">
+                    <div class="fontawesomebg ques-button-d"></div>
+                    <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[3]}}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
+    <div class="wholePageBounds-answers" fxLayoutGap="1vw" *ngIf="currentGame?.game_state == 'answer'" fxLayout="column" fxFlexFill>
+
+        <div class="roomCode-row">
+            Room code: {{currentGame.id}}
+        </div>
+
+        <!-- tabsBar row -->
+        <div class="answer-tabsBar">
+            <div class="tabs">
+
+                <input type="radio" id="tab1" name="tab-control">
+                <input type="radio" id="tab2" name="tab-control" checked>
+                <input type="radio" id="tab3" name="tab-control">
+                <input type="radio" id="tab4" name="tab-control">
+                <input type="radio" id="tab5" name="tab-control">
+
+                <ul>
+                    <li (click)="this.setTab('question');" title="Question"><label for="tab1" role="button">
+                    <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                    </svg><br><span>Question</span></label>
+                    </li>
+                    <li (click)="this.setTab('chart');" title="Chart"><label for="tab2" role="button">
+                    <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                      <path d="M0 0h24v24H0z" fill="none"/>
+                    </svg><br><span>Chart</span></label>
+                    </li>
+                    <li (click)="getLeaderboard();" title="Leaderboard"><label for="tab3" role="button">
+                    <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/>
+                    </svg><br><span>Leaderboard</span></label>
+                    </li>
+                    <li (click)='continueGame()' title="Continue"><label for="tab4" role="button">
+                    <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                      <path d="M0 0h24v24H0z" fill="none"/>
+                    </svg><br><span>Continue</span></label>
+                    </li>
+                    <li (click)='endGame()' title="End Game"><label for="tab5" role="button">
+                    <svg fill="#000000" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+                      <path d="M0 0h24v24H0z" fill="none"/>
+                    </svg><br><span>End Game</span></label>
+                    </li>
+                </ul>
+                <div class="slider">
+                    <div class="indicator"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Tab content -->
+        <div fxFlex="100" fxLayoutGap="1vw" fxLayout="column" fxFlexFill *ngIf="currentTab=='question'" class="answer-tab-question-content">
+            <!-- toolbar row -->
+            <div fxLayout="row" fxFlexFill fxFlex="20" class="answer-tab-question-toolbar">
+                <div class="question-prompt-instructions">
+                    #{{this.currentGame.current_question+1}}. {{currentQuestion?.instructions}}
+                </div>
+            </div>
+            <!-- prompt row -->
+            <div fxFlex="20" fxLayoutGap="1vw" fxLayout="row" class="answer-tab-question-prompt">
+                <div fxFlex="20"></div>
+                <div fxFlex="60" class="question-prompt-image">
+                    <img src="{{currentQuestion?.prompt}}">
+                </div>
+                <div fxFlex="20"></div>
+            </div>
+            <!-- answer section -->
+            <div fxFlex="60" class="answersDiv" fxLayoutGap="1vw" fxLayout="column" fxFlexFill>
+                <div fxFlex="1 auto" fxLayoutGap="1vw" class="AnswerRow" fxLayout="row">
+                    <div fxFlex="50" class="answer A">
+                        <div class="fontawesomebg ques-button-a"></div>
+                        <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[0]}}">
+                    </div>
+                    <div fxFlex="50" class="answer B">
+                        <div class="fontawesomebg ques-button-b"></div>
+                        <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[1]}}">
+                    </div>
+                </div>
+                <div fxFlex="1 auto" fxLayoutGap="1vw" class="AnswerRow" fxLayout="row">
+                    <div fxFlex="50" class="answer C">
+                        <div class="fontawesomebg ques-button-c"></div>
+                        <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[2]}}">
+                    </div>
+                    <div fxFlex="50" class="answer D">
+                        <div class="fontawesomebg ques-button-d"></div>
+                        <img fxFlex="70" class="question-answer" src="{{currentQuestion?.choices[3]}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Tab content -->
+        <div fxFlex="100" fxLayout="column" fxFlexFill *ngIf="currentTab=='chart'" class="answer-tab-chart-content">
+            <!-- Bar graph section (should be added as another phase)-->
+            <div class="answer-bar-graph">
+                <div class="answer-graph-tab-graph-row">
+                    <app-bar-graph [thisQuestion]="currentQuestion"></app-bar-graph>
+                </div>
+
+            </div>
+            <div fxLayout="row" fxLayoutGap="2vw" class="answer-graph-tab-xAxis-row">
+                <div fxFlex="3"></div>
+                <div fxFlex="24" class="answer-answer1">
+                    <img class="AnswerChartImg" src="{{currentQuestion?.choices[0]}}">
+                </div>
+                <div fxFlex="24" class="answer-answer2">
+                    <img class="AnswerChartImg" src="{{currentQuestion?.choices[1]}}">
+                </div>
+                <div fxFlex="24" class="answer-answer3">
+                    <img class="AnswerChartImg" src="{{currentQuestion?.choices[2]}}">
+                </div>
+                <div fxFlex="24" class="answer-answer4">
+                    <img class="AnswerChartImg" src="{{currentQuestion?.choices[3]}}">
+                </div>
+                <div fxFlex="1"></div>
+            </div>
+            <!-- end of graph section -->
+        </div>
+
+        <!-- Leaderboard Tab content -->
+        <div fxFlex="100" *ngIf="currentTab=='leaderboard'" class="answer-tab-leaderboard-content">
+            <div class="container-fluid leaderboard">
+                <div class="" *ngIf="currentGame?.game_over == false">
+                    <h1>Leaderboard:</h1>
+                    <div class="col-md-12" *ngFor='let player of topPlayers'>
+                        {{player.name}} - {{player.points}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- leaderboard phase -->
+    <!-- <div class="container-fluid leaderboard" *ngIf="currentGame?.game_state == 'leaderboard' ">
     <div class="" *ngIf="currentGame?.game_over == false">
       <button class="leaderboard-nextqs-btn" type="button" (click)='gameStateCountdown()'>Next Question</button>
       <button class="leaderboard-endgame-btn" type="button" (click)='endGame()'>End Game</button>
@@ -209,17 +267,16 @@
         {{player.name}} - {{player.points}}
       </div>
     </div>
-  </div>
+  </div> -->
 
-
-  <!-- game over - contained within leaderboard phase -->
-  <div class="GameOver" *ngIf="currentGame?.game_over == true">
-    <h1>Final Scores:</h1>
-    <div class="col-md-12" *ngFor='let player of topPlayers'>
-      {{player.name}} - {{player.points}}
+    <!-- game over - contained within leaderboard phase -->
+    <div class="GameOver" *ngIf="currentGame?.game_over == true">
+        <h1>Final Scores:</h1>
+        <div class="col-md-12" *ngFor='let player of topPlayers'>
+            {{player.name}} - {{player.points}}
+        </div>
+        <a class="gameover-rtnhome-btn" href="/start">Return to Home</a>
     </div>
-    <a class="gameover-rtnhome-btn" href="/start">Return to Home</a>
-  </div>
 </div>
 
 </html>

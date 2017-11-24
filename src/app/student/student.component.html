@@ -1,78 +1,69 @@
 <div id="student">
 
-  <!-- waiting room -->
-  <div class="container" *ngIf="currentGame?.game_state == 'starting' " class="message-text">
-    <h1>You've joined Room {{subGame?.id}}!</h1>
-    <h3>Please wait for the teacher to start the game.</h3>
-  </div>
-
-  <!-- question phase (students see answer choices and can select their answer) -->
-  <div class="qa" *ngIf="currentGame?.game_state == 'question'">
-    <div *ngIf="player?.answered == false">
-      <div class="choice-row">
-        <div class="col-xs-6">
-
-          <div class="answer-choice" id="answer1" (click)='getStudentAnswer(inputPostion0.value)'>
-            <input type="hidden" #inputPostion0 value="0">
-            <i class="fa fa-paper-plane fa-5x" aria-hidden="true">
-              <br>
-              <img class="answer-img" src="{{currentQuestion?.choices[0]}}">
-            </i>
-          </div>
-        </div>
-        <div class="col-xs-6">
-          <div class="answer-choice" id="answer2" (click)='getStudentAnswer(inputPostion1.value)'>
-            <input type="hidden" #inputPostion1 value="1">
-            <i class="fa fa-star fa-5x" aria-hidden="true">
-              <br>
-              <img class="answer-img" src="{{currentQuestion?.choices[1]}}"></i>
-          </div>
-        </div>
-      </div>
-      <div class="choice-row">
-        <div class="col-xs-6">
-          <div class="answer-choice" id="answer3" (click)='getStudentAnswer(inputPostion2.value)'>
-            <input type="hidden" #inputPostion2 value="2">
-            <i class="fa fa-heart fa-5x" aria-hidden="true">
-              <br>
-              <img class="answer-img" src="{{currentQuestion?.choices[2]}}"></i>
-          </div>
-        </div>
-        <div class="col-xs-6">
-          <div class="answer-choice" id="answer4" (click)='getStudentAnswer(inputPostion3.value)'>
-            <input type="hidden" #inputPostion3 value="3">
-            <i class="fa fa-rocket fa-5x" aria-hidden="true">
-              <br>
-              <img class="answer-img" src="{{currentQuestion?.choices[3]}}"></i>
-          </div>
-        </div>
-      </div>
+    <!-- waiting room -->
+    <div class="container" *ngIf="currentGame?.game_state == 'starting' " class="message-text">
+        <h1>You've joined Room {{currentGame?.id}}!</h1>
+        <h3>Please wait for the teacher to start the game.</h3>
     </div>
 
-    <div class='container' *ngIf="player?.answered == true" class='message-text'>
-      <h1>Your response has been recorded.</h1>
-    </div>
-  </div>
+    <!-- question phase (students see answer choices and can select their answer) -->
+    <div class="qa" *ngIf="currentGame?.game_state == 'question'">
+        <div *ngIf="player?.answered == false">
+            <div class="choice-row">
+                <div class="col-xs-6">
 
-  <!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
-  <div class="container" *ngIf="currentGame?.game_state == 'answer' || currentGame?.game_state == 'leaderboard'">
-    <div class="container">
-      <h1><u>{{player?.name}}</u></h1>
-      <h3 *ngIf="player?.questionPoints !== 0" class="green-text">Correct!</h3>
-      <h3 *ngIf="player?.questionPoints == 0" class="red-text">Incorrect.</h3>
-      <h3>Points earned for this question: {{player?.questionPoints}}</h3>
-      <hr>
-      <h1>Overall Progress</h1>
-      <h3>Total points: {{player?.points}}</h3>
-      <h3>Leaderboard Position: {{currentPosition}}/{{totalPositions}}</h3>
-      <h3>Position Change:
-        <span [class]="positionChangeColor">{{positionChange}}</span>
-      </h3>
-      <div *ngIf="currentGame?.game_over == true">
-        <hr>
-        <h1>Game Over!</h1>
-        <a class="btn btn-primary" href="/register">Return to Home</a>
-      </div>
+                    <div class="answer-choice" id="answer1" (click)='getStudentAnswer(inputPostion0.value)'>
+                        <input type="hidden" #inputPostion0 value="0">
+                        <i class="fa fa-paper-plane fa-5x" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="answer-choice" id="answer2" (click)='getStudentAnswer(inputPostion1.value)'>
+                        <input type="hidden" #inputPostion1 value="1">
+                        <i class="fa fa-star fa-5x" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="choice-row">
+                <div class="col-xs-6">
+                    <div class="answer-choice" id="answer3" (click)='getStudentAnswer(inputPostion2.value)'>
+                        <input type="hidden" #inputPostion2 value="2">
+                        <i class="fa fa-heart fa-5x" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="answer-choice" id="answer4" (click)='getStudentAnswer(inputPostion3.value)'>
+                        <input type="hidden" #inputPostion3 value="3">
+                        <i class="fa fa-rocket fa-5x" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='container' *ngIf="player?.answered == true" class='message-text'>
+            <h1>Your response has been recorded.</h1>
+        </div>
     </div>
-  </div>
+
+    <!-- answer phase (host component shows the answer distribution chart, student component shows individual results page) -->
+    <div class="container" *ngIf="currentGame?.game_state == 'answer' || currentGame?.game_state == 'leaderboard'">
+        <div class="container">
+            <h1><u>{{player?.name}}</u></h1>
+            <h3 *ngIf="player?.questionPoints !== 0" class="correct-text">Correct!</h3>
+            <h3 *ngIf="player?.questionPoints == 0" class="red-text">Incorrect.</h3>
+            <h3>Points earned for this question: {{player?.questionPoints}}</h3>
+            <hr>
+            <h1>Overall Progress</h1>
+            <h3>Total points: {{player?.points}}</h3>
+            <h3>Leaderboard Position: {{currentPosition}}/{{totalPositions}}</h3>
+            <h3>Position Change:
+                <span [class]="positionChangeColor">{{positionChange}}</span>
+            </h3>
+            <div *ngIf="currentGame?.game_over == true">
+                <hr>
+                <h1>Game Over!</h1>
+                <a class="btn btn-primary" href="/register">Return to Home</a>
+            </div>
+        </div>
+    </div>
 </div>

@@ -15,7 +15,7 @@ import { Observable } from 'rxjs/Observable'; //Added by STZ
   providers: [StudentService, HostService]
 })
 export class StudentComponent implements OnInit {
-  
+
   questions: Question[];
   currentGameKey: string;
 
@@ -32,7 +32,7 @@ export class StudentComponent implements OnInit {
   urlParamRoomCode: number;
   urlParamStudentId: number;
   currentGame: Game = null;
-  currentQuestion: Question; 
+  currentQuestion: Question;
   player: Player;
   playersList: Player[];
   startTime; // For each question the time started
@@ -47,7 +47,7 @@ export class StudentComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private hostService: HostService) { }
 
   ngOnInit() {
-    
+
     // Get the parameters from the URL
     this.route.params.forEach(urlParameters => {
       this.urlParamRoomCode = parseInt(urlParameters['roomcode']);
@@ -60,15 +60,15 @@ export class StudentComponent implements OnInit {
       if(gameReturned.length==1){
         this.currentGame = gameReturned[0];
         this.currentGame.key = gameReturned[0].$key; // Get's the key for this game
-        
+
         // Helper variable to track the current question
         this.currentQuestion = this.currentGame.question_list[this.currentGame.current_question];
 
         // Now move to step 2
         this.getPlayer(this.urlParamStudentId);
-        
+
       } else {
-        alert("Room Code is not valid");        
+        alert("Room Code is not valid");
       }
     }, err => {
       alert("Houston we have a problem");
@@ -104,19 +104,19 @@ export class StudentComponent implements OnInit {
       this.previousGameState = this.currentGame.game_state
 
       switch(this.currentGame.game_state){
-        
+
         case 'starting':
           console.log('In Starting state');
           break;
-        case 'question':          
+        case 'question':
           console.log('In Question state');
           this.setStartTime()
           break;
         case 'answer':
           console.log('In Answer state');
           this.AnswerGameState();
-          
-          break;        
+
+          break;
         case 'leaderboard':
           console.log('In leaderboard state');
           this.startTime = null
@@ -151,8 +151,8 @@ export class StudentComponent implements OnInit {
   scoringAlgorithm(end, start){
     let step1 = (end - start); // Milliseconds to answer
     console.log("response time is: " + step1 + " milliseconds");
-    let step2 = step1 / 1000; // Seconds to answer 
-    let step3 = step2 / this.currentQuestion.time; // Percentage of score to receive moving to 1 
+    let step2 = step1 / 1000; // Seconds to answer
+    let step3 = step2 / this.currentQuestion.time; // Percentage of score to receive moving to 1
     let step4 = step3 / 2;
     let step5 = 1 - step4;
     let step6 = 1000 * step5;
@@ -173,7 +173,7 @@ export class StudentComponent implements OnInit {
     this.getLeaderboardChange();
   }
 
-  setStartTime(){        
+  setStartTime(){
       this.startTime = new Date().getTime();
       console.log("Time started at = " + this.startTime.toString());
   }
@@ -207,10 +207,10 @@ export class StudentComponent implements OnInit {
       if ( change > 0) {
         this.positionChange = 'Ranking: You advanced ' + Math.abs(change) + ' position(s). Good job!';
         this.positionChangeColor = 'green-text'
-      } else if ( change < 0 ){
+      } else if ( change < 0 ) {
         this.positionChange = '';
         // this.positionChangeColor = 'red-text'
-      } else if ( change == 0 ){
+      } else if ( change == 0 ) {
         this.positionChange = 'Ranking: Your ranking hasn\'t changed.';
         this.positionChangeColor = ''
       }

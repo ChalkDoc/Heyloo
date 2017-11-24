@@ -1,7 +1,6 @@
-html {
-  background-color: rgb(255, 167, 95);
-  /*background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;*/
+html,
+body {
+  background-color: rgb(230, 180, 98);
+  height: 100%;
+  margin: 0;
 }

@@ -5,6 +5,7 @@ import { StudentComponent } from './student/student.component';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start.component';
 import { HomeComponent } from './home/home.component';
+import { CssComponent } from './css/css.component';
 import { ChalkdocComponent } from './chalkdoc/chalkdoc.component';
 
 const appRoutes: Routes = [
@@ -15,6 +16,10 @@ const appRoutes: Routes = [
 {
   path: 'start',
   component: StartComponent
+},
+{
+  path: 'css',
+  component: CssComponent
 },
 {
   path: 'host/:roomCode',

@@ -1,0 +1,36 @@
+<div class="AnswerRow"
+fxLayout="row" >
+  <div class="answer A">
+    A<!-- stuff -->
+  </div>
+  <div class="answer B">
+    B<!-- stuff -->
+  </div>
+</div>
+<div class="AnswerRow">
+  <div class="answer C">
+    C<!-- stuff -->
+  </div>
+  <div class="answer D">
+    D<!-- stuff -->
+  </div>
+</div>
+
+
+<div class="header">
+  header: sized to content
+    <br/>(but is it really?)
+</div>
+<div class="prompt">
+  prompt goes here
+</div>
+<!-- <div class="answersSection"
+fxLayout="column" > -->
+  <div class="fill-height-or-more"
+  fxLayout="column"
+  fxFlexFill >
+  <div fxFlex="15" class="sec1">
+        first-section
+    </div>
+  </div>
+<!-- </div> -->

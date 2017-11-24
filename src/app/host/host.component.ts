@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { NgSwitch } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { HostService} from '../host.service';
@@ -11,7 +12,7 @@ import { StudentService } from '../student.service';
 @Component({
   selector: 'host-component',
   templateUrl: './host.component.html',
-  styleUrls: ['./host.component.css'],
+  styleUrls: ['./host.component.scss'],
   providers: [HostService,StudentService]
 })
 
@@ -28,6 +29,7 @@ export class HostComponent {
   private showQuestion = false;
   private hideBarGraph = true;
   currentQuestionSubstring;
+  currentTab: string = "chart";
 
   //STZ Variables
   gameKey: string;
@@ -86,6 +88,10 @@ export class HostComponent {
 
   }
 
+  setTab(tab:string){
+    this.currentTab=tab;
+  }
+
   // Get a subscription to the game Observable
   getGame(key: string){
     this.hostService.getGameByKey(key)
@@ -124,6 +130,7 @@ export class HostComponent {
   // Add's a delay of X seconds before showing the Pre-Question state.
   //
   PreQuestionTimer(){
+    this.setTab("chart");
     console.log("PreGameTimer method called");
     this.time = this.PreQuestionCountdownLengthInSeconds;
     var interval = setInterval(data => {
@@ -248,6 +255,7 @@ export class HostComponent {
   }
 
     getLeaderboard(){
+    this.setTab('leaderboard');
     var leaderboard = [];
     // var players;
     //    var current = this;
@@ -275,7 +283,9 @@ export class HostComponent {
   
     console.log("Questions remaining =" + questionsRemaining.toString())
 
-    // This shows the leaderboard
-    this.gameStateLeaderboard();
+    this.hostService.nextQuestion(this.currentGame.current_question);
+    // STZ: Not sure this is still needed.
+    this.hostService.editGameState('leaderboard');
+    this.gameStateCountdown();
   }
 }
